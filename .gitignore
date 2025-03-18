@@ -72,3 +72,10 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+BattlePirates/Library/Artifacts/
+BattlePirates/Library/Bee/artifacts/1900b0aEDbg.dag/Unity.VisualScripting.Shared.Editor.dll
+BattlePirates/Library/
+BattlePirates/Logs/shadercompiler-AssetImportWorker0-0.log
+BattlePirates/Logs/
+BattlePirates/UserSettings/EditorUserSettings.asset
+BattlePirates/UserSettings/
