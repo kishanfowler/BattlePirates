@@ -1,16 +1,30 @@
+using UnityEditor;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public bool CanBePlaced;
+    public bool CanBeHit;
+    [SerializeField] private GameObject Highlight;
+
+    void OnPlace()
     {
-        
+        CanBePlaced = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnHit()
     {
-        
+        CanBeHit = false;
+
+    }
+
+    private void OnMouseEnter()
+    {
+        Highlight.SetActive(true);
+    }
+
+    private void OnMouseExit()
+    {
+        Highlight.SetActive(false);
     }
 }
