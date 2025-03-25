@@ -5,9 +5,9 @@
             <ui:VisualElement style="flex-grow: 0; width: 80%; height: 80%; align-items: flex-start; justify-content: center; align-self: center; align-content: auto; flex-direction: column; flex-wrap: nowrap; flex-basis: 75%; flex-shrink: 1; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=8228938214290033325&amp;guid=fd7bb84a7f5db8744b6fc09ba82ed871&amp;type=3#console.erroricon&quot;);" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 0; background-color: rgba(245, 6, 1, 0); width: 100%; height: 50%; align-items: center; flex-direction: column; justify-content: space-evenly; align-self: center; align-content: center;">
-            <ui:Button text="Button" />
-            <ui:Button text="Button" />
-            <ui:Button text="Button" />
+            <ui:Button text="Start" />
+            <ui:Button text="Settings" />
+            <ui:Button text="Quit" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
