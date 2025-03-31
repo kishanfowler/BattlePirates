@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlacementManager : MonoBehaviour
 {
     private GridManager _gridManager;
     private GameManager _gameManager;
     private GameStates _gameState;
+    private Tile _oldTile;
 
     private void Start()
     {
@@ -14,7 +16,10 @@ public class PlacementManager : MonoBehaviour
 
     private void OnMouseDown()
     {
-        //transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, (Mathf.Sign(-transform.rotation.z) * (-transform.rotation.z + 90)), transform.rotation.w);
+        if (_oldTile)
+        {
+            _oldTile.OnDeoccupy();
+        }
     }
 
     private void OnMouseDrag()
@@ -25,17 +30,9 @@ public class PlacementManager : MonoBehaviour
     private void OnMouseUp()
     {
         _gameState = _gameManager.gameState;
+        Tile tile = _gridManager.GetTileAtPosition(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x*1.05f, Input.mousePosition.y*1.05f, -1)));
 
-        RaycastHit hit;
-        //layermask 3 is a custom layermask for hittable tiles
-        LayerMask layerMask = 3;
-        Physics.Raycast(transform.position, transform.TransformDirection(-Vector3.forward), out hit, Mathf.Infinity, layerMask);
-
-        Debug.Log(hit.point);
-
-        Tile tile = _gridManager.GetTileAtPosition(hit.point);
-
-        Debug.Log(tile.transform.position);
+        Debug.Log(tile);
 
         if (tile != null)
         {
@@ -44,9 +41,12 @@ public class PlacementManager : MonoBehaviour
 
             }
 
-            if (_gameState == GameStates.PreparationPhase && tile.CanBePlaced)
+            if (_gameState == GameStates.PreparationPhase && tile.IsOccupied == false)
             {
-                transform.position = tile.transform.position;
+                transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
+                tile.OnOccupy();
+                _oldTile = tile;
+                _oldTile.OnDeoccupy();
             }
         }
     }

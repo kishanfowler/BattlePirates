@@ -3,13 +3,18 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public bool CanBePlaced;
+    public bool IsOccupied;
     public bool CanBeHit;
     [SerializeField] private GameObject Highlight;
 
-    void OnPlace()
+    public void OnOccupy()
     {
-        CanBePlaced = false;
+        IsOccupied = true;
+    }
+
+    public void OnDeoccupy()
+    {
+        IsOccupied = false;
     }
 
     void OnHit()

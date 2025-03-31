@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6ea0e0abbeda1b43acff29b97b880b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanBePlaced: 0
+  IsOccupied: 0
   CanBeHit: 0
   Highlight: {fileID: 931030560965410486}
 --- !u!61 &901114907533009894

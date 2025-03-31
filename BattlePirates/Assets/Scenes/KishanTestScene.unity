@@ -485,7 +485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanPlayerAttack: 0
-  gameState: 2
+  gameState: 0
 --- !u!4 &2058169152
 Transform:
   m_ObjectHideFlags: 0

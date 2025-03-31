@@ -36,6 +36,7 @@ public class GridManager : MonoBehaviour
 
     public Tile GetTileAtPosition(Vector2 position)
     {
+        position = new Vector2(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y));
         if(Tiles.TryGetValue(position, out var Tile))
         {
             return Tile;
