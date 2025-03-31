@@ -32,8 +32,6 @@ public class PlacementManager : MonoBehaviour
         _gameState = _gameManager.gameState;
         Tile tile = _gridManager.GetTileAtPosition(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x*1.05f, Input.mousePosition.y*1.05f, -1)));
 
-        Debug.Log(tile);
-
         if (tile != null)
         {
             if (_gameState == GameStates.PlayerTurn && _gameManager.CanPlayerAttack && tile.CanBeHit)
