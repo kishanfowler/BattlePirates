@@ -34,11 +34,6 @@ public class PlacementManager : MonoBehaviour
 
         if (tile != null)
         {
-            if (_gameState == GameStates.PlayerTurn && _gameManager.CanPlayerAttack && tile.CanBeHit)
-            {
-
-            }
-
             if (_gameState == GameStates.PreparationPhase && tile.IsOccupied == false)
             {
                 transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
