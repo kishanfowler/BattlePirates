@@ -1,14 +1,13 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Main%20Menu%20UI.uss?fileID=7433441132597879392&amp;guid=cb2c2d4af6531fa4492407b7f42d39ef&amp;type=3#Main Menu UI" />
-    <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; flex-direction: row-reverse; background-image: url(&quot;project://database/Assets/Art/backgroundPlaceholder.png?fileID=2800000&amp;guid=4d4b0e343bf40d14d95948ce33d1eef2&amp;type=3#backgroundPlaceholder&quot;);">
+    <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; flex-direction: row-reverse; background-image: none;">
         <engine:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.43); justify-content: flex-start; height: 100%; width: 75%;">
             <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%;">
                 <engine:VisualElement style="flex-grow: 0; width: 100%; height: auto; align-self: auto; align-items: flex-end; align-content: auto;">
                     <engine:Button text="Button" name="Quit" style="width: 50px; height: 50px; color: rgba(27, 27, 27, 0); background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=8228938214290033325&amp;guid=fd7bb84a7f5db8744b6fc09ba82ed871&amp;type=3#console.erroricon&quot;); background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-right: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; flex-shrink: 0;" />
                 </engine:VisualElement>
                 <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; margin-top: 20px; margin-bottom: 20px; align-items: center; justify-content: center;">
-                    <engine:Label text="Label" style="flex-shrink: 0; flex-grow: 0; width: 80%; height: auto; font-size: 50%; -unity-text-align: upper-center;" />
-                    <engine:VisualElement style="flex-grow: 0; justify-content: center; align-self: center; width: 80%; height: 80%; background-color: rgba(255, 255, 255, 0); margin-top: 0; background-image: url(&quot;project://database/Assets/Art/grid_01.png?fileID=2800000&amp;guid=017674c9df4a20449b6bf96b00d48763&amp;type=3#grid_01&quot;);" />
+                    <engine:Label text="Label" style="flex-shrink: 0; flex-grow: 0; width: 80%; height: auto; font-size: 50%; -unity-text-align: upper-center; padding-bottom: 702px;" />
                 </engine:VisualElement>
             </engine:VisualElement>
         </engine:VisualElement>
