@@ -2,14 +2,12 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine.InputSystem.HID;
 using UnityEngine.SceneManagement;
 
 public class ButtonHandler : MonoBehaviour
 {
     public UIDocument uiDocument;
-    private Dictionary<string, System.Action> m_ButtonActions;
+    private Dictionary<string, Action> m_ButtonActions;
     private VisualElement m_Help;
     private VisualElement m_HelpScreen;
     private VisualElement m_SettingsPanel;
@@ -48,6 +46,13 @@ public class ButtonHandler : MonoBehaviour
         }
     }
 
+    private void OnButtonClicked(string buttonName)
+    {
+        if (m_ButtonActions.TryGetValue(buttonName, out var action))
+        {
+            action.Invoke();
+        }
+    }
     private void MainMenu()
     {
         Debug.Log("Main Menu Button clicked, returning to main menu");
@@ -74,15 +79,6 @@ public class ButtonHandler : MonoBehaviour
         else
             m_HelpScreen.style.display = DisplayStyle.None;
     }
-
-    private void OnButtonClicked(string buttonName)
-    {
-        if (m_ButtonActions.TryGetValue(buttonName, out var action))
-        {
-            action.Invoke();
-        }
-    }
-
     private void QuitGame()
     {
         Debug.Log("Quit button clicked. Closing Game");
@@ -91,7 +87,6 @@ public class ButtonHandler : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
     }
-
     private void Play()
     {
         Debug.Log("Play button clicked. Going to next scene");
@@ -106,7 +101,6 @@ public class ButtonHandler : MonoBehaviour
             Debug.Log("Geen volgende scene beschikbaar. Controleer of alle scenes in de Build Settings zijn toegevoegd.");
         }
     }
-
     private void ToggleSettings()
     {
         if (m_SettingsPanel == null)
@@ -114,7 +108,7 @@ public class ButtonHandler : MonoBehaviour
             Debug.LogError("SettingsPanel niet Beschikbaar");
             return;
         }
-
+    
         if (m_SettingsPanel.style.display == DisplayStyle.None)
         {
             m_SettingsPanel.style.display = DisplayStyle.Flex;
