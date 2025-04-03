@@ -28,7 +28,8 @@ public class PlacementManager : MonoBehaviour
 
     private void OnMouseUp()
     {
-        _gameState = _gameManager.gameState;
+        _gameState = _gameManager.GameState;
+        //position * 1.05 because of the orthographic projection, otherwise the last row and line of the grid get skipped.
         Tile tile = _gridManager.GetTileAtPosition(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x*1.05f, Input.mousePosition.y*1.05f, -1)));
 
         if (tile != null)
@@ -38,7 +39,6 @@ public class PlacementManager : MonoBehaviour
                 transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, -1);
                 tile.OnOccupy();
                 _oldTile = tile;
-                _oldTile.OnDeoccupy();
             }
         }
     }

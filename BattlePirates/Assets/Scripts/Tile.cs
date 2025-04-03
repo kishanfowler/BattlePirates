@@ -28,6 +28,7 @@ public class Tile : MonoBehaviour
     public void OnHit()
     {
         CanBeHit = false;
+        Highlight.SetActive(false);
         Highlight = null;
         ChangeSprite();
     }
