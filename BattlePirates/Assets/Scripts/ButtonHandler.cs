@@ -12,6 +12,12 @@ public class ButtonHandler : MonoBehaviour
     private VisualElement m_HelpScreen;
     private VisualElement m_SettingsPanel;
     private Button m_SettingsButton;
+    private VisualElement m_SplashScreen;
+    private VisualElement m_ConfirmationScreen;
+    private Button m_ActualQuitButton;
+    private Button m_CancelButton;
+    private VisualElement m_ConfirmationScreenForfeit;
+    private Button m_ActualForfeitButton;
     void Start()
     {
         var root = uiDocument.rootVisualElement;
@@ -23,15 +29,27 @@ public class ButtonHandler : MonoBehaviour
             { "HelpButton", Help},
             { "Forfeit", Forfeit},
             { "Again", Again},
-            { "MainMenu", MainMenu}
+            { "MainMenu", MainMenu},
+            { "SplashScreen", SplashScreen},
+            { "ActualQuitButton", ActualQuit},
+            { "Cancel", Cancel},{ "CancelForfeit", CancelForfeit},
+            { "ActualForfeitButton", ActualForfeit}
         };
+        m_ConfirmationScreen = root.Q<VisualElement>("ConfirmationScreen");
+        m_ConfirmationScreenForfeit = root.Q<VisualElement>("ConfirmationScreenForfeit");
         m_SettingsPanel = root.Q<VisualElement>("SettingsPanel");
         m_HelpScreen = root.Q<VisualElement>("HelpScreen");
+        m_SplashScreen = root.Q<VisualElement>("SplashScreen");
         foreach (var kvp in m_ButtonActions)
         {
             Button button = root.Q<Button>(kvp.Key);
+            if (m_ActualForfeitButton != null)
+            {
+                m_ConfirmationScreenForfeit.style.display = DisplayStyle.None;
+            }
             if (m_HelpScreen != null)
             {
+                m_ConfirmationScreen.style.display = DisplayStyle.None;
                 m_HelpScreen.style.display = DisplayStyle.None;
             }
             if (button != null)
@@ -44,6 +62,38 @@ public class ButtonHandler : MonoBehaviour
                 Debug.Log($"Button met naam '{kvp.Key}' niet gevonden!");
             }
         }
+
+        root.RegisterCallback<ClickEvent>(evt => SplashScreen() );
+    }
+
+    private void CancelForfeit()
+    {
+        m_ConfirmationScreenForfeit.style.display = DisplayStyle.None;
+    }
+
+    private void ActualForfeit()
+    {
+        Debug.Log("Forfeit button clicked. Checking for confirmation");
+        SceneManager.LoadScene("DefeatScreen");
+    }
+
+    private void Cancel()
+    {
+        m_ConfirmationScreen.style.display = DisplayStyle.None;
+    }
+
+    private void ActualQuit()
+    {
+        Debug.Log("Quit button clicked. Closing Game");
+        Application.Quit();
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+    }
+
+    private void SplashScreen()
+    {
+        m_SplashScreen.style.display = DisplayStyle.None;
     }
 
     private void OnButtonClicked(string buttonName)
@@ -67,8 +117,7 @@ public class ButtonHandler : MonoBehaviour
 
     private void Forfeit()
     {
-        Debug.Log("Forfeit button clicked. Checking for confirmation");
-        SceneManager.LoadScene("DefeatScreen");
+        m_ConfirmationScreenForfeit.style.display = DisplayStyle.Flex;
     }
 
     private void Help()
@@ -81,11 +130,10 @@ public class ButtonHandler : MonoBehaviour
     }
     private void QuitGame()
     {
-        Debug.Log("Quit button clicked. Closing Game");
-        Application.Quit();
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+        if (m_ConfirmationScreen.style.display == DisplayStyle.None)
+        {
+            m_ConfirmationScreen.style.display = DisplayStyle.Flex;
+        }
     }
     private void Play()
     {

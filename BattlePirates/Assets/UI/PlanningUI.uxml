@@ -19,5 +19,12 @@
                 </engine:VisualElement>
             </engine:VisualElement>
         </engine:VisualElement>
+        <engine:VisualElement name="ConfirmationScreen" style="flex-grow: 0; width: 30%; height: 40%; flex-shrink: 0; display: flex; align-items: center; align-self: center; position: absolute; top: auto; left: 30%; right: 30%; bottom: auto; background-image: url(&quot;project://database/Assets/Art/grid_01.png?fileID=2800000&amp;guid=017674c9df4a20449b6bf96b00d48763&amp;type=3#grid_01&quot;);">
+            <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; justify-content: center;">
+                <engine:Label text="Quit?" style="align-self: center; justify-content: flex-start; align-items: auto; font-size: 37px; color: rgb(255, 0, 0); text-shadow: 5px 5px 0 rgb(0, 0, 0);" />
+                <engine:Button text="Cancel" name="Cancel" style="width: 30%; height: 15%; align-self: center;" />
+                <engine:Button text="Quit" name="ActualQuitButton" style="width: 30%; height: 15%; align-self: center;" />
+            </engine:VisualElement>
+        </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>
