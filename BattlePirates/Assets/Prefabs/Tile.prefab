@@ -190,8 +190,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOccupied: 0
-  CanBeHit: 0
+  CanBeHit: 1
   Highlight: {fileID: 931030560965410486}
+  HitSprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  MissSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!61 &901114907533009894
 BoxCollider2D:
   m_ObjectHideFlags: 0

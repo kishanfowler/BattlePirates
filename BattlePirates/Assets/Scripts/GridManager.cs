@@ -9,7 +9,7 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private Transform Camera;
 
-    private Dictionary<Vector2, Tile> Tiles;
+    private Dictionary<Vector2, Tile> _tiles;
 
     [SerializeField] private float XOffset, YOffset;
 
@@ -20,7 +20,7 @@ public class GridManager : MonoBehaviour
 
     void GenerateGrid()
     {
-        Tiles = new Dictionary<Vector2, Tile>();
+        _tiles = new Dictionary<Vector2, Tile>();
         for (int i = 0; i < Width; i++)
         {
             for(int j = 0; j < Height; j++)
@@ -28,7 +28,7 @@ public class GridManager : MonoBehaviour
                 var spawnedTile = Instantiate(TilePrefab, new Vector3(((i + i) / 2.2f)+XOffset,((j+j)/2.2f)+YOffset), Quaternion.identity);
                 spawnedTile.name = $"Tile {i} {j}";
 
-                Tiles[new Vector2(i + XOffset,j + YOffset)] = spawnedTile;
+                _tiles[new Vector2(i + XOffset,j + YOffset)] = spawnedTile;
             }
         }
 
@@ -39,7 +39,7 @@ public class GridManager : MonoBehaviour
     public Tile GetTileAtPosition(Vector2 position)
     {
         position = new Vector2(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y));
-        if(Tiles.TryGetValue(position, out var Tile))
+        if(_tiles.TryGetValue(position, out var Tile))
         {
             return Tile;
         }
