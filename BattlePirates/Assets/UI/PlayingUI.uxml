@@ -6,8 +6,8 @@
                 <engine:VisualElement style="flex-grow: 0; width: 100%; height: auto; align-self: auto; align-items: flex-end; align-content: auto;">
                     <engine:Button text="Button" name="Quit" style="width: 50px; height: 50px; color: rgba(27, 27, 27, 0); background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=8228938214290033325&amp;guid=fd7bb84a7f5db8744b6fc09ba82ed871&amp;type=3#console.erroricon&quot;); background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-right: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; flex-shrink: 0;" />
                 </engine:VisualElement>
-                <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; margin-top: 20px; margin-bottom: 20px; align-items: center; justify-content: center;">
-                    <engine:Label text="Label" style="flex-shrink: 0; flex-grow: 0; width: 80%; height: auto; font-size: 50%; -unity-text-align: upper-center; padding-bottom: 617px;" />
+                <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; margin-top: 0; margin-bottom: 0; align-items: center; justify-content: flex-start;">
+                    <engine:Label text="Label" style="flex-shrink: 0; flex-grow: 0; width: 80%; height: auto; font-size: 50%; -unity-text-align: upper-center; padding-bottom: 4px;" />
                 </engine:VisualElement>
             </engine:VisualElement>
         </engine:VisualElement>
@@ -28,6 +28,20 @@
                     <engine:VisualElement style="flex-grow: 0; background-color: rgba(36, 162, 176, 0.43); width: 50%; height: 50%; justify-content: flex-start; margin-top: 0; margin-bottom: 0; background-image: url(&quot;project://database/Assets/Art/grid_02.png?fileID=2800000&amp;guid=53d4e0115ce65214c84ef9b46a68fe02&amp;type=3#grid_02&quot;); margin-right: 30px;" />
                     <engine:Button text="Forfeit" name="Forfeit" />
                 </engine:VisualElement>
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement name="ConfirmationScreen" style="flex-grow: 0; width: 30%; height: 40%; flex-shrink: 0; display: flex; align-items: center; align-self: center; position: absolute; top: auto; left: 30%; right: 30%; bottom: auto; background-image: url(&quot;project://database/Assets/Art/grid_01.png?fileID=2800000&amp;guid=017674c9df4a20449b6bf96b00d48763&amp;type=3#grid_01&quot;);">
+            <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; justify-content: center;">
+                <engine:Label text="Quit?" style="align-self: center; justify-content: flex-start; align-items: auto; font-size: 37px; color: rgb(255, 0, 0); text-shadow: 5px 5px 0 rgb(0, 0, 0);" />
+                <engine:Button text="Cancel" name="Cancel" style="width: 30%; height: 15%; align-self: center;" />
+                <engine:Button text="Quit" name="ActualQuitButton" style="width: 30%; height: 15%; align-self: center;" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement name="ConfirmationScreenForfeit" style="flex-grow: 0; width: 30%; height: 40%; flex-shrink: 0; display: none; align-items: center; align-self: center; position: absolute; top: auto; left: 30%; right: 30%; bottom: auto; background-image: url(&quot;project://database/Assets/Art/grid_01.png?fileID=2800000&amp;guid=017674c9df4a20449b6bf96b00d48763&amp;type=3#grid_01&quot;);">
+            <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; justify-content: center;">
+                <engine:Label text="Forfeit?" style="align-self: center; justify-content: flex-start; align-items: auto; font-size: 37px; color: rgb(255, 0, 0); text-shadow: 5px 5px 0 rgb(0, 0, 0);" />
+                <engine:Button text="Cancel" name="CancelForfeit" style="width: 30%; height: 15%; align-self: center;" />
+                <engine:Button text="Forfeit" name="ActualForfeitButton" style="width: 30%; height: 15%; align-self: center;" />
             </engine:VisualElement>
         </engine:VisualElement>
     </engine:VisualElement>
