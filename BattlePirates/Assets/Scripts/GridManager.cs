@@ -11,6 +11,8 @@ public class GridManager : MonoBehaviour
 
     private Dictionary<Vector2, Tile> Tiles;
 
+    [SerializeField] private float XOffset, YOffset;
+
     private void Start()
     {
         GenerateGrid();
@@ -23,10 +25,10 @@ public class GridManager : MonoBehaviour
         {
             for(int j = 0; j < Height; j++)
             {
-                var spawnedTile = Instantiate(TilePrefab, new Vector3((i+i)/2.2f,(j+j)/2.2f), Quaternion.identity);
+                var spawnedTile = Instantiate(TilePrefab, new Vector3(((i + i) / 2.2f)+XOffset,((j+j)/2.2f)+YOffset), Quaternion.identity);
                 spawnedTile.name = $"Tile {i} {j}";
 
-                Tiles[new Vector2(i,j)] = spawnedTile;
+                Tiles[new Vector2(i + XOffset,j + YOffset)] = spawnedTile;
             }
         }
 
