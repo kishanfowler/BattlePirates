@@ -35,12 +35,18 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        Highlight.SetActive(true);
+        if (Highlight)
+        {
+            Highlight.SetActive(true);
+        }
     }
 
     private void OnMouseExit()
     {
-        Highlight.SetActive(false);
+        if (Highlight)
+        {
+            Highlight.SetActive(false);
+        }
     }
 
     private void ChangeSprite()

@@ -24,7 +24,7 @@ public class AttackManager : MonoBehaviour
     void Attack()
     {
         //position * 1.05 because of the orthographic projection, otherwise the last row and line of the grid get skipped.
-        Tile tile = _gridManager.GetTileAtPosition(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x * 1.05f, Input.mousePosition.y * 1.05f, -1)));
+        Tile tile = _gridManager.GetTileAtPosition(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1)));
         _gameState = _gameManager.GameState;
         if (_gameState == GameStates.PlayerTurn && _gameManager.CanPlayerAttack && tile.CanBeHit)
         {

@@ -93,7 +93,10 @@ public class ButtonHandler : MonoBehaviour
 
     private void SplashScreen()
     {
-        _SplashScreen.style.display = DisplayStyle.None;
+        if (_SplashScreen != null)
+        {
+            _SplashScreen.style.display = DisplayStyle.None;
+        }
     }
 
     private void OnButtonClicked(string buttonName)
