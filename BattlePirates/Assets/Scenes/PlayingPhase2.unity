@@ -207,6 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GridPositions: {fileID: 1989245823}
   GameManager: {fileID: 511101213}
+  ShipPrefabs: []
 --- !u!4 &459954808
 Transform:
   m_ObjectHideFlags: 0
