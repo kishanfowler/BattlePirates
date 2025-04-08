@@ -176,6 +176,57 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b9b395983c97744595bfa844343e7c9, type: 3}
+--- !u!1 &459954806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 459954808}
+  - component: {fileID: 459954807}
+  m_Layer: 0
+  m_Name: AIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &459954807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459954806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 472a1461da99c8340b4015a6a9e4a636, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GridPositions: {fileID: 1989245823}
+  GameManager: {fileID: 511101213}
+--- !u!4 &459954808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459954806}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.2139943, y: 5.5950303, z: -11.902438}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &511101213 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4706500568000942851, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
+  m_PrefabInstance: {fileID: 2904814388640316772}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &545696402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -605,6 +656,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3eb682095f89a643a4219973d6c26ab, type: 3}
+--- !u!1 &1989245823 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8590732592021379033, guid: 54f527a9c907de14dbf8a1a00ca421c4, type: 3}
+  m_PrefabInstance: {fileID: 5674461756513230062}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2904814388640316772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -747,3 +803,4 @@ SceneRoots:
   - {fileID: 1247554845}
   - {fileID: 545696402}
   - {fileID: 1542567594}
+  - {fileID: 459954808}

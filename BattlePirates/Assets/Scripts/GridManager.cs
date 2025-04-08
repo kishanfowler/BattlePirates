@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -12,8 +14,15 @@ public class GridManager : MonoBehaviour
     private Dictionary<Vector2, Tile> _tiles;
 
     [SerializeField] private float XOffset, YOffset;
+    private bool _gridGenDone;
+    public bool GridGenDone => _gridGenDone;
+    public Dictionary<Vector2, Tile> Tiles => _tiles;
 
-    private void Start()
+    public int width => Width;
+
+    public int height => Height;
+
+    private void Awake()
     {
         GenerateGrid();
     }
@@ -33,7 +42,6 @@ public class GridManager : MonoBehaviour
         }
 
         Camera.transform.position = new Vector3(Width/2, Height/2, -10);
-
     }
 
     public Tile GetTileAtPosition(Vector2 position)
@@ -44,5 +52,10 @@ public class GridManager : MonoBehaviour
             return Tile;
         }
         return null;
+    }
+
+    public List<Vector2> GetAllTilePositions()
+    {
+        return _tiles.Keys.ToList();
     }
 }
