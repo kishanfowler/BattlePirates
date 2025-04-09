@@ -32,7 +32,20 @@ public class GameManager : MonoBehaviour
         }
         gameObject.SetActive(false);
     }
+    public static int BetterClamp(int Amount, int Min, int Max)
+    {
+        if(Amount < Min)
+        {
+            return Min;
+        }
 
+        if(Amount > Max) 
+        { 
+        return Max;
+        }
+
+        return Amount;
+    }
 }
 
 
