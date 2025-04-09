@@ -16,41 +16,47 @@ public class AIManager : MonoBehaviour
     private GridManager _gridManager;
     private GameManager _gameManager;
     [SerializeField] private ShipBase[] ShipPrefabs;
-    private List<ShipBase> _aiShipsToPlace = new ();
+    private List<ShipBase> _aiShipsToPlace = new();
     private ShipManager _shipManager;
 
     private void InitializeAIShips()
     {
-        _shipManager = gameObject.GetComponent<ShipManager>();
-        ShipPrefabs = _shipManager._ships;
         foreach (var shipPrefab in ShipPrefabs)
         {
             ShipBase aiShip = Instantiate(shipPrefab);
-            aiShip.gameObject.SetActive(false);
+            // aiShip.gameObject.SetActive(false);
             _aiShipsToPlace.Add(aiShip);
         }
+        AIPlaceShips();
     }
     private bool CanPlaceShipVertically(Vector2 StartPos, int Length)
     {
+        
         for (int i = 0; i < Length; i++)
         {
             Vector2 pos = new Vector2(StartPos.x, StartPos.y + i);
-
+            Tile tile = _gridManager.GetTileAtPosition(pos);
+            if (tile == null)
+            {
+                return false;
+            }
             if (_gridManager.GetAllTilePositions().Contains(pos)) return false; // buiten de grid
-            if (_gridManager.GetTileAtPosition(pos).IsOccupied) return false; // overlapping
+            if (tile.IsOccupied) return false; // overlapping
         }
-
         return true;
     }
 
     private void Awake()
     {
+        _gridManager = GridPositions.GetComponent<GridManager>();
+        _gameManager = GameManager.GetComponent<GameManager>();
         InitializeAIShips();
+        InitShots();
     }
 
     private void AIPlaceShips()
     {
-        GridManager grid = GridPositions.GetComponent<GridManager>();
+        GridManager grid = _gridManager;
         foreach (var ship in _aiShipsToPlace)
         {
             bool placed = false;
@@ -120,12 +126,12 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        _gridManager = GridPositions.GetComponent<GridManager>();
-        _gameManager = GameManager.GetComponent<GameManager>();
-        InitShots();
-    }
+    // void Start()
+    // {
+    //     _gridManager = GridPositions.GetComponent<GridManager>();
+    //     _gameManager = GameManager.GetComponent<GameManager>();
+    //     InitShots();
+    // }
     void Update()
     {
         if (_gameManager.GameState == GameStates.AITurn)

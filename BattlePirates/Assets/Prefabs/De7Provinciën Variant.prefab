@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "De7Provinci\xEBn Variant"
       objectReference: {fileID: 0}
+    - target: {fileID: 4329738768702476943, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
+      propertyPath: ShipLength
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7120169426108331734, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_Sprite
       value: 

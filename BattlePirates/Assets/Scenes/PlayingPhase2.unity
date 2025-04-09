@@ -207,7 +207,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GridPositions: {fileID: 1989245823}
   GameManager: {fileID: 511101213}
-  ShipPrefabs: []
+  ShipPrefabs:
+  - {fileID: 5892430735984906873, guid: 6a077455207630b418dbe432bd187e49, type: 3}
+  - {fileID: 7662655176840426533, guid: 94c787fc537b1dd4b826d8f65119cf8e, type: 3}
+  - {fileID: 4696336507693562106, guid: 8627e11066d210a45af82a4d11e1f585, type: 3}
+  - {fileID: 238047051152723021, guid: f0d56ea9e2ad80f4bb5b43f104e69628, type: 3}
+  - {fileID: 7751907812490936290, guid: 3f052164dfe10b347b9061487d7915d0, type: 3}
 --- !u!4 &459954808
 Transform:
   m_ObjectHideFlags: 0
