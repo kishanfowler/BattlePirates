@@ -167,6 +167,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7751907812490936290, guid: 3f052164dfe10b347b9061487d7915d0, type: 3}
+      propertyPath: ShipLength
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8064197244267598312, guid: 3f052164dfe10b347b9061487d7915d0, type: 3}
       propertyPath: m_Name
       value: Mercuur Variant
