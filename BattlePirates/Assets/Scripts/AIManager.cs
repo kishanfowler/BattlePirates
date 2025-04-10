@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class AIManager : MonoBehaviour
@@ -23,6 +21,7 @@ public class AIManager : MonoBehaviour
     {
         foreach (var shipPrefab in ShipPrefabs)
         {
+            shipPrefab.GetComponent<PlacementManager>().enabled = false;
             ShipBase aiShip = Instantiate(shipPrefab);
             // aiShip.gameObject.SetActive(false);
             _aiShipsToPlace.Add(aiShip);
@@ -46,7 +45,7 @@ public class AIManager : MonoBehaviour
         return true;
     }
 
-    private void Awake()
+    private void Start()
     {
         _gridManager = GridPositions.GetComponent<GridManager>();
         _gameManager = GameManager.GetComponent<GameManager>();
@@ -71,8 +70,12 @@ public class AIManager : MonoBehaviour
                 {
                     PlaceShipVertically(startPos, ship.ShipLength);
                     placed = true;
+                    
                 }
-
+                else
+                {
+                    return;
+                }
 
 
             }
@@ -91,9 +94,6 @@ public class AIManager : MonoBehaviour
 
     private void InitShots()
     {
-        GridManager grid = GridPositions.GetComponent<GridManager>();
-        int gridWidth = grid.width;
-        int gridHeight = grid.height;
         _shootableTargets.Clear();
         _shootableTargets = _gridManager.GetAllTilePositions();
     }
