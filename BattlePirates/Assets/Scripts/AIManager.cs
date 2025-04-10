@@ -21,8 +21,8 @@ public class AIManager : MonoBehaviour
     {
         foreach (var shipPrefab in ShipPrefabs)
         {
-            shipPrefab.GetComponent<PlacementManager>().enabled = false;
             ShipBase aiShip = Instantiate(shipPrefab);
+            aiShip.GetComponent<PlacementManager>().enabled = false;
             // aiShip.gameObject.SetActive(false);
             _aiShipsToPlace.Add(aiShip);
         }
