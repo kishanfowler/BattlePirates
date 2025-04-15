@@ -11,7 +11,7 @@ public class GridManager : MonoBehaviour
 
     private Dictionary<Vector2, Tile> _tiles;
 
-    [SerializeField] private float XOffset, YOffset;
+    public float XOffset, YOffset;
 
     private void Start()
     {
