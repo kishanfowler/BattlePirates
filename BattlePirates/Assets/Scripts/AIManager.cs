@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,6 +7,7 @@ public class AIManager : MonoBehaviour
 {
     public GameObject GridPositions;
     public GameObject GameManager;
+    private PlacementManager _placementManager;
     private int _shotsAvailable;
     private bool _canShoot;
     private List<Vector2> _shootableTargets = new();
@@ -22,7 +24,7 @@ public class AIManager : MonoBehaviour
         foreach (var shipPrefab in ShipPrefabs)
         {
             ShipBase aiShip = Instantiate(shipPrefab);
-            aiShip.GetComponent<PlacementManager>().enabled = false;
+            
             // aiShip.gameObject.SetActive(false);
             _aiShipsToPlace.Add(aiShip);
         }
@@ -58,27 +60,54 @@ public class AIManager : MonoBehaviour
         GridManager grid = _gridManager;
         foreach (var ship in _aiShipsToPlace)
         {
+            var placementManager = ship.GetComponent<PlacementManager>();
             bool placed = false;
             while (!placed)
             {
-                int x = Random.Range(0, grid.width);
-                int y = Random.Range(0, grid.height - ship.ShipLength + 1);
+                TurnShip(ship);
+                
+                int xMax = (ship.IsHorizontal ? grid.width - ship.ShipLength + 1 : grid.width) ;
+                int yMax = ship.IsHorizontal ? grid.height : grid.height - ship.ShipLength + 1;
+
+                int x = Random.Range(0, xMax);
+                int y = Random.Range(0, yMax);
 
                 Vector2 startPos = new Vector2(x, y);
-
-                if (CanPlaceShipVertically(startPos, ship.ShipLength))
+                ship.transform.position = new Vector3(startPos.x + grid.XOffset, startPos.y, -1);
+                if (ship.IsHorizontal && ship.ShipLength + transform.position.x >= grid.width)
                 {
-                    PlaceShipVertically(startPos, ship.ShipLength);
-                    placed = true;
-                    
+                    var position = ship.transform.position;
+                    position = new Vector3(position.x - ship.ShipLength,
+                        position.y, -1);
+                    ship.transform.position = position;
                 }
-                else
-                {
-                    return;
-                }
-
+                
+                placed = true;
 
             }
+            placementManager.CheckForOccupy(ship);
+
+            ship.GetComponent<BoxCollider2D>().enabled = false;
+            // ship.GetComponent<SpriteRenderer>().enabled = false;
+        }
+
+        _gameManager.GameState = GameStates.PlayerTurn;
+    }
+
+    private void TurnShip(ShipBase Ship)
+    {
+        int[] angles = { 0, 270/*, 180, 270*/ };
+        int randomIndex = Random.Range(0, angles.Length);
+        float randomAngle = angles[randomIndex];
+        
+        Ship.transform.rotation = Quaternion.Euler(0f, 0f,randomAngle);
+        if (Ship.transform.rotation.z != 0)
+        {
+            Ship.IsHorizontal = true;
+        }
+        else
+        {
+            Ship.IsHorizontal = false;
         }
     }
 

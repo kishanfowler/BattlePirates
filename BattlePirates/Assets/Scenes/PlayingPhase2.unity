@@ -677,7 +677,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 893375672600196148, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
       propertyPath: GameState
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 893375672600196148, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
       propertyPath: CanPlayerAttack

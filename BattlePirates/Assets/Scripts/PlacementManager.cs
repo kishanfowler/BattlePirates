@@ -5,14 +5,16 @@ public class PlacementManager : MonoBehaviour
 {
     private GameManager _gameManager;
     private GameStates _gameState;
+    private GridManager _gridManager;
     private List<Tile> _oldTiles = new List<Tile>();
     private List<Tile> _placementTiles = new List<Tile>();
     private Tile _tile;
     private int _index = 0;
     private ShipBase _ship;
 
-    private void Start()
+    private void Awake()
     {
+        _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
         _ship = gameObject.GetComponent<ShipBase>();
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
@@ -55,7 +57,7 @@ public class PlacementManager : MonoBehaviour
         }
     }
 
-    private void PlaceShip()
+    public void PlaceShip()
     {
         if (_gameState == GameStates.PreparationPhase && _tile.IsOccupied == false)
         {
@@ -70,6 +72,34 @@ public class PlacementManager : MonoBehaviour
         _index = 0;
     }
 
-     
+    public void CheckForOccupy(ShipBase Ship)
+    {
+        var tile = _gridManager.GetAllTilePositions();
+        Vector2 direction = Ship.IsHorizontal? Vector2.right: Vector2.up;
+        var position = Ship.transform.position;
+        var shipStartPos = new Vector2(position.x, position.y);
+        bool overlap = false;
+        List<Vector2> tilesToOccupy = new List<Vector2>();
+        for (int i = 0; i < Ship.ShipLength; i++)
+        {
+            Vector2 shipTilePos = shipStartPos + direction * i;
+            if (!tile.Contains(shipTilePos))
+            {
+                overlap = true;
+                break;
+            }
+            tilesToOccupy.Add(shipTilePos);
+        }
+
+        if (!overlap)
+        {
+            foreach (var pos in tilesToOccupy)
+            {
+                _gridManager.SetTileOccupied(pos,true);
+            }
+        }
+    }
+
+
 }
     

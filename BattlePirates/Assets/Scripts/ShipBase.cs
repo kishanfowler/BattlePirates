@@ -5,6 +5,7 @@ public class ShipBase : MonoBehaviour
     public int ShipLength;
 
     [SerializeField] private Sprite SunkenShipSprite;
+    public bool IsHorizontal { get; set; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
