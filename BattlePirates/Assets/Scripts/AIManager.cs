@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,6 +6,7 @@ public class AIManager : MonoBehaviour
 {
     public GameObject GridPositions;
     public GameObject GameManager;
+    public GameObject AIShootingGrid;
     private PlacementManager _placementManager;
     private int _shotsAvailable;
     private bool _canShoot;
@@ -14,18 +14,19 @@ public class AIManager : MonoBehaviour
     private Tile _tile;
     private Tile _targetTile;
     private GridManager _gridManager;
+    private GridManager _aiGridManager;
     private GameManager _gameManager;
     [SerializeField] private ShipBase[] ShipPrefabs;
     private List<ShipBase> _aiShipsToPlace = new();
     private ShipManager _shipManager;
+    [SerializeField] private float WaitTime;
+    private float _timeWaiting;
 
     private void InitializeAIShips()
     {
         foreach (var shipPrefab in ShipPrefabs)
         {
             ShipBase aiShip = Instantiate(shipPrefab);
-            
-            // aiShip.gameObject.SetActive(false);
             _aiShipsToPlace.Add(aiShip);
         }
         AIPlaceShips();
@@ -50,6 +51,7 @@ public class AIManager : MonoBehaviour
     private void Start()
     {
         _gridManager = GridPositions.GetComponent<GridManager>();
+        _aiGridManager = AIShootingGrid.GetComponent<GridManager>();
         _gameManager = GameManager.GetComponent<GameManager>();
         InitializeAIShips();
         InitShots();
@@ -82,10 +84,11 @@ public class AIManager : MonoBehaviour
                     ship.transform.position = position;
                 }
                 
-                placed = true;
+                placed = placementManager.CheckForOccupy(ship);
+                // ship.IsPlayerShip = false;
 
             }
-            placementManager.CheckForOccupy(ship);
+            
 
             ship.GetComponent<BoxCollider2D>().enabled = false;
             // ship.GetComponent<SpriteRenderer>().enabled = false;
@@ -124,7 +127,7 @@ public class AIManager : MonoBehaviour
     private void InitShots()
     {
         _shootableTargets.Clear();
-        _shootableTargets = _gridManager.GetAllTilePositions();
+        _shootableTargets = _aiGridManager.GetAllTilePositions();
     }
 
     private void AITakeShot()
@@ -132,14 +135,15 @@ public class AIManager : MonoBehaviour
         if (_shootableTargets.Count == 0)
         {
             Debug.Log("Enemy heeft geen plekken meer om te schieten!");
-            return;
         }
-
-        int index = Random.Range(0, _shootableTargets.Count);
-        Vector2 shot = _shootableTargets[index];
-        _shootableTargets.RemoveAt(index);
-        _targetTile = _gridManager.GetTileAtPosition(shot);
-        HandleShot();
+        else
+        {
+            int index = Random.Range(0, _shootableTargets.Count);
+            Vector2 shot = _shootableTargets[index];
+            _shootableTargets.RemoveAt(index);
+            _targetTile = _aiGridManager.GetTileAtPosition(shot);
+            HandleShot();
+        }
     }
 
     private void HandleShot()
@@ -155,6 +159,10 @@ public class AIManager : MonoBehaviour
         }
     }
 
+    // IEnumerator Wait()
+    // {
+    //     yield return new WaitForSeconds(3);
+    // }
     // void Start()
     // {
     //     _gridManager = GridPositions.GetComponent<GridManager>();
@@ -165,9 +173,16 @@ public class AIManager : MonoBehaviour
     {
         if (_gameManager.GameState == GameStates.AITurn)
         {
+            _timeWaiting += Time.deltaTime;
+        }
+        if (_gameManager.GameState == GameStates.AITurn && _timeWaiting >= WaitTime)
+        {
             AITakeShot();
+            _timeWaiting = 0;
             _gameManager.GameState = GameStates.PlayerTurn;
             _gameManager.CanPlayerAttack = true;
+            
         }
+        
     }
 }

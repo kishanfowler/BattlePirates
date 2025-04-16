@@ -67,4 +67,13 @@ public class GridManager : MonoBehaviour
             _tiles[pos].IsOccupied = occupied;
         }
     }
+    public bool IsTileOccupied(Vector2 pos)
+    {
+        if (_tiles.TryGetValue(pos, out var tile))
+        {
+            return tile.IsOccupied;
+        }
+
+        return false; // als de tile niet bestaat
+    }
 }

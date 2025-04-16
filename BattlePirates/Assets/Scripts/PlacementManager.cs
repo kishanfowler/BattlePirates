@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
@@ -72,32 +73,39 @@ public class PlacementManager : MonoBehaviour
         _index = 0;
     }
 
-    public void CheckForOccupy(ShipBase Ship)
+    public bool CheckForOccupy(ShipBase Ship)
     {
-        var tile = _gridManager.GetAllTilePositions();
+        var tilePositions = _gridManager.GetAllTilePositions();
         Vector2 direction = Ship.IsHorizontal? Vector2.right: Vector2.up;
         var position = Ship.transform.position;
         var shipStartPos = new Vector2(position.x, position.y);
         bool overlap = false;
         List<Vector2> tilesToOccupy = new List<Vector2>();
+
+
         for (int i = 0; i < Ship.ShipLength; i++)
         {
             Vector2 shipTilePos = shipStartPos + direction * i;
-            if (!tile.Contains(shipTilePos))
+
+            // Check: bestaat de tile überhaupt?
+            if (!tilePositions.Contains(shipTilePos))
             {
-                overlap = true;
-                break;
+                return false;
             }
+
+            // Check: is de tile al bezet?
+            if (_gridManager.IsTileOccupied(shipTilePos))
+            {
+                return false;
+            }
+
             tilesToOccupy.Add(shipTilePos);
         }
-
-        if (!overlap)
+        foreach (var pos in tilesToOccupy)
         {
-            foreach (var pos in tilesToOccupy)
-            {
-                _gridManager.SetTileOccupied(pos,true);
-            }
+            _gridManager.SetTileOccupied(pos,true);
         }
+        return true;
     }
 
 
