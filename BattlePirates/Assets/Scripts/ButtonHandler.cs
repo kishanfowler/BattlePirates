@@ -18,15 +18,13 @@ public class ButtonHandler : MonoBehaviour
     private Button _CancelButton;
     private VisualElement _ConfirmationScreenForfeit;
     private Button _ActualForfeitButton;
-    private VisualElement _VictoryScreen;
     void Start()
     {
         var root = uiDocument.rootVisualElement;
         _ButtonActions = new Dictionary<string, Action>
         {
             { "Play", Play },
-            { "SettingsButton", ToggleSettings },
-            { "CloseSettingsButton", ToggleSettings },
+            { "Settings", ToggleSettings },
             { "Quit", QuitGame },
             { "HelpButton", Help},
             { "Forfeit", Forfeit},
@@ -34,8 +32,7 @@ public class ButtonHandler : MonoBehaviour
             { "MainMenu", MainMenu},
             { "SplashScreen", SplashScreen},
             { "ActualQuitButton", ActualQuit},
-            { "Cancel", Cancel},
-            { "CancelForfeit", CancelForfeit},
+            { "Cancel", Cancel},{ "CancelForfeit", CancelForfeit},
             { "ActualForfeitButton", ActualForfeit}
         };
         _ConfirmationScreen = root.Q<VisualElement>("ConfirmationScreen");
@@ -43,7 +40,6 @@ public class ButtonHandler : MonoBehaviour
         _SettingsPanel = root.Q<VisualElement>("SettingsPanel");
         _HelpScreen = root.Q<VisualElement>("HelpScreen");
         _SplashScreen = root.Q<VisualElement>("SplashScreen");
-        _VictoryScreen = root.Q<VisualElement>("VictoryScreen");
         foreach (var kvp in _ButtonActions)
         {
             Button button = root.Q<Button>(kvp.Key);
@@ -56,19 +52,10 @@ public class ButtonHandler : MonoBehaviour
                 _ConfirmationScreen.style.display = DisplayStyle.None;
                 _HelpScreen.style.display = DisplayStyle.None;
             }
-
-            if (_VictoryScreen != null)
-            {
-                _VictoryScreen.style.display = DisplayStyle.None;
-            }
             if (button != null)
             {
                 string buttonName = kvp.Key;
                 button.clicked += () => OnButtonClicked(buttonName);
-            }
-            if (_SettingsPanel != null)
-            {
-                _SettingsPanel.style.display = DisplayStyle.None;
             }
             else
             {
@@ -136,10 +123,6 @@ public class ButtonHandler : MonoBehaviour
         _ConfirmationScreenForfeit.style.display = DisplayStyle.Flex;
     }
 
-    public void ShowVictoryScreen()
-    {
-        _VictoryScreen.style.display = DisplayStyle.Flex;
-    }
     private void Help()
     {
         Debug.Log("Help Button clicked. Opening Help Box");

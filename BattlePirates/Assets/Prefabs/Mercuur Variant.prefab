@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3347990189617775213
+--- !u!1 &5030179968726920090
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13,16 +13,12 @@ GameObject:
   - component: {fileID: 4866474845174557391}
   m_Layer: 0
   m_Name: 'PlacementTile '
-  - component: {fileID: 8176101203141475305}
-  - component: {fileID: 2960275491869476805}
-  m_Layer: 0
-  m_Name: PlacementTile (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8176101203141475305
+--- !u!4 &5100488417284468278
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,7 +85,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3347990189617775213}
+  m_GameObject: {fileID: 5030179968726920090}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7867f42dac214048b560f95c59abf50, type: 3}
@@ -98,7 +94,7 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 8
---- !u!1 &7530570783379751128
+--- !u!1 &8587684030092433145
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,25 +102,26 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6340959832673846827}
-  - component: {fileID: 6799475589545198549}
+  - component: {fileID: 6263222699854071392}
+  - component: {fileID: 1650576322414631377}
+  - component: {fileID: 119857782749397079}
   m_Layer: 0
-  m_Name: PlacementTile
+  m_Name: PlacementTile (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6340959832673846827
+--- !u!4 &6263222699854071392
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7530570783379751128}
+  m_GameObject: {fileID: 8587684030092433145}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.01, y: 0, z: 0}
+  m_LocalPosition: {x: -0.011, y: -0.1, z: 0}
   m_LocalScale: {x: 0.15000002, y: 0.15000002, z: 0.81818175}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -182,7 +179,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7530570783379751128}
+  m_GameObject: {fileID: 8587684030092433145}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7867f42dac214048b560f95c59abf50, type: 3}
@@ -213,11 +210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1938867510886323433, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.48
+      value: -5.82
       objectReference: {fileID: 0}
     - target: {fileID: 1938867510886323433, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.75
+      value: 3.85
       objectReference: {fileID: 0}
     - target: {fileID: 1938867510886323433, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -287,16 +284,15 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: fae4de8773d44c7408f30b101d6d11c4, type: 3}
-    m_RemovedComponents:
-    - {fileID: -2691453122856237422, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1938867510886323433, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6340959832673846827}
+      addedObject: {fileID: 5100488417284468278}
     - targetCorrespondingSourceObject: {fileID: 1938867510886323433, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8176101203141475305}
+      addedObject: {fileID: 6263222699854071392}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4065578140228287621, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       insertIndex: -1
