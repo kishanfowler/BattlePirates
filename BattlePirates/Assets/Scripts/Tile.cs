@@ -5,6 +5,7 @@ public class Tile : MonoBehaviour
 {
     public bool IsOccupied;
     public bool CanBeHit;
+    public bool IsHit;
     [SerializeField] private GameObject Highlight;
     [SerializeField] private Sprite HitSprite;
     [SerializeField] private Sprite MissSprite;
@@ -28,6 +29,7 @@ public class Tile : MonoBehaviour
     public void OnHit()
     {
         CanBeHit = false;
+        IsHit = true;
         Highlight.SetActive(false);
         Highlight = null;
         ChangeSprite();
