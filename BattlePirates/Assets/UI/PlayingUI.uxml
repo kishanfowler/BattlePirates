@@ -45,7 +45,7 @@
             </engine:VisualElement>
         </engine:VisualElement>
     </engine:VisualElement>
-    <engine:VisualElement name="VictoryScreen" style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Art/backgroundPlaceholder.png?fileID=2800000&amp;guid=4d4b0e343bf40d14d95948ce33d1eef2&amp;type=3#backgroundPlaceholder&quot;);">
+    <engine:VisualElement name="VictoryScreen" style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Art/backgroundPlaceholder.png?fileID=2800000&amp;guid=4d4b0e343bf40d14d95948ce33d1eef2&amp;type=3#backgroundPlaceholder&quot;); display: none;">
         <engine:VisualElement style="flex-grow: 1; align-items: center; justify-content: center;">
             <engine:Label text="Victory!" />
             <engine:Button text="Again" name="Again" focusable="false" />

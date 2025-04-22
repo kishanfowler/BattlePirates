@@ -449,12 +449,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.4904421
+      objectReference: {fileID: 0}
+    - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y
-      value: 0.5
+      value: 0.1379928
       objectReference: {fileID: 0}
     - target: {fileID: 4065578140228287621, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_Name
       value: Johan Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329738768702476943, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
+      propertyPath: ShipLength
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7120169426108331734, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_Sprite
@@ -497,6 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8375e501f141d9849960c97fb71c32f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilesToOccupy: []
 --- !u!4 &7481273830201540252 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1938867510886323433, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}

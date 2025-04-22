@@ -215,7 +215,7 @@ MonoBehaviour:
   - {fileID: 4696336507693562106, guid: 8627e11066d210a45af82a4d11e1f585, type: 3}
   - {fileID: 238047051152723021, guid: f0d56ea9e2ad80f4bb5b43f104e69628, type: 3}
   - {fileID: 7751907812490936290, guid: 3f052164dfe10b347b9061487d7915d0, type: 3}
-  WaitTime: 3
+  WaitTime: 0.5
 --- !u!4 &459954808
 Transform:
   m_ObjectHideFlags: 0
