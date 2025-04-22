@@ -7,6 +7,7 @@ public class AIManager : MonoBehaviour
     public GameObject GridPositions;
     public GameObject GameManager;
     public GameObject AIShootingGrid;
+    public GameObject UIPlaying;
     private PlacementManager _placementManager;
     private int _shotsAvailable;
     private bool _canShoot;
@@ -16,6 +17,7 @@ public class AIManager : MonoBehaviour
     private GridManager _gridManager;
     private GridManager _aiGridManager;
     private GameManager _gameManager;
+    private ButtonHandler _buttonHandler;
     [SerializeField] private ShipBase[] ShipPrefabs;
     private List<ShipBase> _aiShipsToPlace = new();
     private ShipManager _shipManager;
@@ -53,6 +55,7 @@ public class AIManager : MonoBehaviour
         _gridManager = GridPositions.GetComponent<GridManager>();
         _aiGridManager = AIShootingGrid.GetComponent<GridManager>();
         _gameManager = GameManager.GetComponent<GameManager>();
+        _buttonHandler = UIPlaying.GetComponent<ButtonHandler>();
         InitializeAIShips();
         InitShots();
     }
@@ -182,6 +185,11 @@ public class AIManager : MonoBehaviour
             _gameManager.GameState = GameStates.PlayerTurn;
             _gameManager.CanPlayerAttack = true;
             
+        }
+
+        if (_gameManager.GameState == GameStates.AITurn && _gridManager.AreAllAIShipTilesHit())
+        {
+            _buttonHandler.ShowVictoryScreen();
         }
         
     }

@@ -1,6 +1,6 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Main%20Menu%20UI.uss?fileID=7433441132597879392&amp;guid=cb2c2d4af6531fa4492407b7f42d39ef&amp;type=3#Main Menu UI" />
-    <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; flex-direction: row-reverse; background-image: none;">
+    <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; flex-direction: row-reverse; background-image: none; flex-shrink: 1;">
         <engine:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); justify-content: flex-start; height: 100%; width: 75%;">
             <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%;">
                 <engine:VisualElement style="flex-grow: 0; width: 100%; height: auto; align-self: auto; align-items: flex-end; align-content: auto;">
@@ -43,6 +43,14 @@
                 <engine:Button text="Cancel" name="CancelForfeit" style="width: 30%; height: 15%; align-self: center;" />
                 <engine:Button text="Forfeit" name="ActualForfeitButton" style="width: 30%; height: 15%; align-self: center;" />
             </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+    <engine:VisualElement name="VictoryScreen" style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Art/backgroundPlaceholder.png?fileID=2800000&amp;guid=4d4b0e343bf40d14d95948ce33d1eef2&amp;type=3#backgroundPlaceholder&quot;);">
+        <engine:VisualElement style="flex-grow: 1; align-items: center; justify-content: center;">
+            <engine:Label text="Victory!" />
+            <engine:Button text="Again" name="Again" focusable="false" />
+            <engine:Button text="Main Menu" name="MainMenu" focusable="false" />
+            <engine:Button text="Quit" name="ActualQuitButton" selectable="false" />
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

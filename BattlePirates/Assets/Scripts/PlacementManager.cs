@@ -12,6 +12,7 @@ public class PlacementManager : MonoBehaviour
     private Tile _tile;
     private int _index = 0;
     private ShipBase _ship;
+    public List<Vector2> tilesToOccupy;
 
     private void Awake()
     {
@@ -80,7 +81,7 @@ public class PlacementManager : MonoBehaviour
         var position = Ship.transform.position;
         var shipStartPos = new Vector2(position.x, position.y);
         bool overlap = false;
-        List<Vector2> tilesToOccupy = new List<Vector2>();
+        tilesToOccupy = new List<Vector2>();
 
 
         for (int i = 0; i < Ship.ShipLength; i++)

@@ -76,4 +76,17 @@ public class GridManager : MonoBehaviour
 
         return false; // als de tile niet bestaat
     }
+
+    public bool AreAllAIShipTilesHit()
+    {
+        foreach (var tile in _tiles.Values)
+        {
+            if (tile.IsOccupied && !tile.IsHit)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

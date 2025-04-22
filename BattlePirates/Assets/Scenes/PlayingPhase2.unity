@@ -208,6 +208,7 @@ MonoBehaviour:
   GridPositions: {fileID: 1989245823}
   GameManager: {fileID: 511101213}
   AIShootingGrid: {fileID: 591641320}
+  UIPlaying: {fileID: 460398466}
   ShipPrefabs:
   - {fileID: 5892430735984906873, guid: 6a077455207630b418dbe432bd187e49, type: 3}
   - {fileID: 7662655176840426533, guid: 94c787fc537b1dd4b826d8f65119cf8e, type: 3}
@@ -230,6 +231,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &460398466 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3020233829857036306, guid: 441a82db17ef65f468547e03677a3d64, type: 3}
+  m_PrefabInstance: {fileID: 1247554845}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &511101213 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4706500568000942851, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
