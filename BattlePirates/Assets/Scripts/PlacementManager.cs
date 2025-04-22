@@ -1,16 +1,22 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
 {
+    private GameManager _gameManager;
+    private GameStates _gameState;
+    private GridManager _gridManager;
     private List<Tile> _oldTiles = new List<Tile>();
     private List<Tile> _placementTiles = new List<Tile>();
     private ShipBase _ship;
     private int _unoccupiedTiles = 0;
     private Vector3 _oldPosition;
+    public List<Vector2> tilesToOccupy;
 
-    private void Start()
+    private void Awake()
     {
+        _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
         _ship = gameObject.GetComponent<ShipBase>();
     }
 
@@ -48,7 +54,7 @@ public class PlacementManager : MonoBehaviour
         PlaceShip();
     }
 
-    private void PlaceShip()
+    public void PlaceShip()
     {
         for (int i = 0; i < _placementTiles.Count; i++)
         {
@@ -73,5 +79,42 @@ public class PlacementManager : MonoBehaviour
         }
         _placementTiles.Clear();
     }
+
+    public bool CheckForOccupy(ShipBase Ship)
+    {
+        var tilePositions = _gridManager.GetAllTilePositions();
+        Vector2 direction = Ship.IsHorizontal? Vector2.right: Vector2.up;
+        var position = Ship.transform.position;
+        var shipStartPos = new Vector2(position.x, position.y);
+        bool overlap = false;
+        tilesToOccupy = new List<Vector2>();
+
+
+        for (int i = 0; i < Ship.ShipLength; i++)
+        {
+            Vector2 shipTilePos = shipStartPos + direction * i;
+
+            // Check: bestaat de tile überhaupt?
+            if (!tilePositions.Contains(shipTilePos))
+            {
+                return false;
+            }
+
+            // Check: is de tile al bezet?
+            if (_gridManager.IsTileOccupied(shipTilePos))
+            {
+                return false;
+            }
+
+            tilesToOccupy.Add(shipTilePos);
+        }
+        foreach (var pos in tilesToOccupy)
+        {
+            _gridManager.SetTileOccupied(pos,true);
+        }
+        return true;
+    }
+
+
 }
     
