@@ -19,6 +19,7 @@ public class ButtonHandler : MonoBehaviour
     private VisualElement _ConfirmationScreenForfeit;
     private Button _ActualForfeitButton;
     private VisualElement _VictoryScreen;
+    private AIManager _aiManager;
     void Start()
     {
         var root = uiDocument.rootVisualElement;
@@ -87,6 +88,11 @@ public class ButtonHandler : MonoBehaviour
     private void ActualForfeit()
     {
         Debug.Log("Forfeit button clicked. Checking for confirmation");
+        _aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
+        if (_aiManager != null)
+        {
+            _aiManager.RemoveShips();
+        }
         SceneManager.LoadScene("DefeatScreen");
     }
 

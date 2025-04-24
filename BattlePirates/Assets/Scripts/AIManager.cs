@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class AIManager : MonoBehaviour
 {
     public GameObject GridPositions;
-    public GameObject GameManager;
+    // public GameObject GameManager;
     public GameObject AIShootingGrid;
     public GameObject UIPlaying;
     private PlacementManager _placementManager;
@@ -19,7 +20,7 @@ public class AIManager : MonoBehaviour
     private GameManager _gameManager;
     private ButtonHandler _buttonHandler;
     [SerializeField] private ShipBase[] ShipPrefabs;
-    private List<ShipBase> _aiShipsToPlace = new();
+    [SerializeField] private List<ShipBase> AIShipsToPlace = new();
     private ShipManager _shipManager;
     [SerializeField] private float WaitTime;
     private float _timeWaiting;
@@ -29,7 +30,7 @@ public class AIManager : MonoBehaviour
         foreach (var shipPrefab in ShipPrefabs)
         {
             ShipBase aiShip = Instantiate(shipPrefab);
-            _aiShipsToPlace.Add(aiShip);
+            AIShipsToPlace.Add(aiShip);
         }
         AIPlaceShips();
     }
@@ -54,7 +55,8 @@ public class AIManager : MonoBehaviour
     {
         _gridManager = GridPositions.GetComponent<GridManager>();
         _aiGridManager = AIShootingGrid.GetComponent<GridManager>();
-        _gameManager = GameManager.GetComponent<GameManager>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _gameManager.CanPlayerAttack = true;
         _buttonHandler = UIPlaying.GetComponent<ButtonHandler>();
         InitializeAIShips();
         InitShots();
@@ -63,7 +65,7 @@ public class AIManager : MonoBehaviour
     private void AIPlaceShips()
     {
         GridManager grid = _gridManager;
-        foreach (var ship in _aiShipsToPlace)
+        foreach (var ship in AIShipsToPlace)
         {
             var placementManager = ship.GetComponent<PlacementManager>();
             bool placed = false;
@@ -162,16 +164,22 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    // IEnumerator Wait()
-    // {
-    //     yield return new WaitForSeconds(3);
-    // }
-    // void Start()
-    // {
-    //     _gridManager = GridPositions.GetComponent<GridManager>();
-    //     _gameManager = GameManager.GetComponent<GameManager>();
-    //     InitShots();
-    // }
+    public void RemoveShips()
+    {
+        if (AIShipsToPlace != null)
+        {
+            foreach (var ship in AIShipsToPlace)
+            {
+                Destroy(ship.gameObject);
+            }
+            AIShipsToPlace.Clear();
+            foreach (var ship in _gameManager.ShipList)
+            {
+                Destroy(ship.gameObject);
+            }
+        }
+    }
+    
     void Update()
     {
         if (_gameManager.GameState == GameStates.AITurn)
@@ -190,6 +198,7 @@ public class AIManager : MonoBehaviour
         if (_gameManager.GameState == GameStates.AITurn && _gridManager.AreAllAIShipTilesHit())
         {
             _buttonHandler.ShowVictoryScreen();
+            RemoveShips();
         }
         
     }

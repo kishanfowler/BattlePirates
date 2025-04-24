@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
         if(Amount > Max) 
         { 
-        return Max;
+            return Max;
         }
 
         return Amount;

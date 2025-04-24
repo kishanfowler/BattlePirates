@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3347990189617775213
+--- !u!1 &3133363306330279430
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,13 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5100488417284468278}
-  - component: {fileID: 1590129539854004999}
-  - component: {fileID: 4866474845174557391}
-  m_Layer: 0
-  m_Name: 'PlacementTile '
-  - component: {fileID: 8176101203141475305}
-  - component: {fileID: 2960275491869476805}
+  - component: {fileID: 2391359965070303562}
+  - component: {fileID: 1449778043474257544}
+  - component: {fileID: 6559608687736918530}
   m_Layer: 0
   m_Name: PlacementTile (1)
   m_TagString: Untagged
@@ -22,28 +18,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8176101203141475305
+--- !u!4 &2391359965070303562
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5030179968726920090}
+  m_GameObject: {fileID: 3133363306330279430}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.09400008, z: 0}
   m_LocalScale: {x: 0.15000002, y: 0.15000002, z: 0.81818175}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5578307197807081860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1590129539854004999
+--- !u!61 &1449778043474257544
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5030179968726920090}
+  m_GameObject: {fileID: 3133363306330279430}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -83,13 +79,13 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4866474845174557391
+--- !u!114 &6559608687736918530
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3347990189617775213}
+  m_GameObject: {fileID: 3133363306330279430}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7867f42dac214048b560f95c59abf50, type: 3}
@@ -98,7 +94,7 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 8
---- !u!1 &7530570783379751128
+--- !u!1 &7536024118468593790
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,8 +102,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6340959832673846827}
-  - component: {fileID: 6799475589545198549}
+  - component: {fileID: 6575606277956321259}
+  - component: {fileID: 6813206410915489717}
+  - component: {fileID: 5936642651208800713}
   m_Layer: 0
   m_Name: PlacementTile
   m_TagString: Untagged
@@ -115,28 +112,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6340959832673846827
+--- !u!4 &6575606277956321259
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7530570783379751128}
+  m_GameObject: {fileID: 7536024118468593790}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.01, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.092, z: 0}
   m_LocalScale: {x: 0.15000002, y: 0.15000002, z: 0.81818175}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5578307197807081860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1650576322414631377
+--- !u!61 &6813206410915489717
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8587684030092433145}
+  m_GameObject: {fileID: 7536024118468593790}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -176,13 +173,13 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &119857782749397079
+--- !u!114 &5936642651208800713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7530570783379751128}
+  m_GameObject: {fileID: 7536024118468593790}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7867f42dac214048b560f95c59abf50, type: 3}
@@ -272,8 +269,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.4928316
+      objectReference: {fileID: 0}
+    - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y
-      value: 0.5
+      value: 0.37694144
       objectReference: {fileID: 0}
     - target: {fileID: 4065578140228287621, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_Name
@@ -293,10 +294,10 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1938867510886323433, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6340959832673846827}
+      addedObject: {fileID: 6575606277956321259}
     - targetCorrespondingSourceObject: {fileID: 1938867510886323433, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8176101203141475305}
+      addedObject: {fileID: 2391359965070303562}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4065578140228287621, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       insertIndex: -1
@@ -324,3 +325,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8375e501f141d9849960c97fb71c32f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilesToOccupy: []
