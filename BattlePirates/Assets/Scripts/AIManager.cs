@@ -173,7 +173,11 @@ public class AIManager : MonoBehaviour
                 Destroy(ship.gameObject);
             }
             AIShipsToPlace.Clear();
-            foreach (var ship in _gameManager.ShipList)
+        }
+        var playerShips= GameObject.FindGameObjectsWithTag("Ship");
+        if (playerShips != null)
+        {
+            foreach (var ship in playerShips)
             {
                 Destroy(ship.gameObject);
             }

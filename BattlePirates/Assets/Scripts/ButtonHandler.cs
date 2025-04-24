@@ -30,6 +30,7 @@ public class ButtonHandler : MonoBehaviour
             { "CloseSettingsButton", ToggleSettings },
             { "Quit", QuitGame },
             { "HelpButton", Help},
+            { "CloseHelpButton", CloseHelp},
             { "Forfeit", Forfeit},
             { "Again", Again},
             { "MainMenu", MainMenu},
@@ -144,6 +145,7 @@ public class ButtonHandler : MonoBehaviour
 
     public void ShowVictoryScreen()
     {
+        GameObject.Find("AttackSystem").gameObject.GetComponent<AttackManager>().enabled = false;
         _VictoryScreen.style.display = DisplayStyle.Flex;
     }
     private void Help()
@@ -151,8 +153,11 @@ public class ButtonHandler : MonoBehaviour
         Debug.Log("Help Button clicked. Opening Help Box");
         if (_HelpScreen.style.display == DisplayStyle.None)
             _HelpScreen.style.display = DisplayStyle.Flex; // Of wat je gebruikt (bijv. Grid)
-        else
-            _HelpScreen.style.display = DisplayStyle.None;
+    }
+
+    private void CloseHelp()
+    {
+        _HelpScreen.style.display = DisplayStyle.None;
     }
     private void QuitGame()
     {

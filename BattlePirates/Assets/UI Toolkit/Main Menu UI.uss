@@ -1,0 +1,6 @@
+.unity-text-field {
+    padding-bottom: 0;
+    white-space: normal;
+    text-overflow: ellipsis;
+    -unity-text-align: upper-left;
+}

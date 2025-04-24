@@ -4,33 +4,46 @@
         <engine:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); justify-content: flex-start; height: 100%; width: 75%;">
             <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%;">
                 <engine:VisualElement style="flex-grow: 0; width: 100%; height: auto; align-self: auto; align-items: flex-end; align-content: auto;">
-                    <engine:Button text="Button" name="Quit" style="width: 50px; height: 50px; color: rgba(27, 27, 27, 0); background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=8228938214290033325&amp;guid=fd7bb84a7f5db8744b6fc09ba82ed871&amp;type=3#console.erroricon&quot;); background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-right: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; flex-shrink: 0;" />
+                    <engine:Button text="Button" name="Quit" style="width: 50px; height: 50px; color: rgba(27, 27, 27, 0); background-image: url(&quot;project://database/Assets/Art/Settings_button.png?fileID=2800000&amp;guid=33dca34e1cc61324aa3f96f5d4229d4c&amp;type=3#Settings_button&quot;); background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-right: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; flex-shrink: 0;" />
                 </engine:VisualElement>
                 <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; margin-top: 0; margin-bottom: 0; align-items: center; justify-content: flex-start;">
-                    <engine:Label text="Label" style="flex-shrink: 0; flex-grow: 0; width: 80%; height: auto; font-size: 50%; -unity-text-align: upper-center; padding-bottom: 4px;" />
+                    <engine:Label text="Label" style="flex-shrink: 0; flex-grow: 0; width: 80%; height: auto; font-size: 25%; -unity-text-align: upper-center; padding-bottom: 4px;" />
                 </engine:VisualElement>
             </engine:VisualElement>
         </engine:VisualElement>
-        <engine:VisualElement style="flex-grow: 0; background-color: rgba(197, 20, 20, 0); flex-direction: column; width: 50%; align-items: center; justify-content: space-between; align-self: auto; align-content: auto; height: 100%;">
+        <engine:VisualElement style="flex-grow: 0; background-color: rgba(197, 20, 20, 0); flex-direction: column; width: 40%; align-items: center; justify-content: space-between; align-self: auto; align-content: auto; height: 100%;">
             <engine:VisualElement style="flex-grow: 0; align-items: auto; align-self: auto; align-content: auto; flex-direction: column; width: 100%; height: 100%;">
-                <engine:VisualElement style="flex-grow: 0; align-items: flex-start; width: 100%; flex-direction: row;">
-                    <engine:Button text="Button" name="HelpButton" style="background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2346436936791262179&amp;guid=fd7bb84a7f5db8744b6fc09ba82ed871&amp;type=3#console.infoicon&quot;); color: rgba(27, 27, 27, 0); width: 50px; height: 50px; align-items: auto; background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-left: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; flex-shrink: 0;" />
-                    <engine:VisualElement name="HelpScreen" style="flex-grow: 0; width: 100%; height: 100%;">
-                        <engine:TextField label="Text Field" placeholder-text="filler text" />
-                    </engine:VisualElement>
+                <engine:VisualElement name="VisualElement" style="flex-grow: 0; width: 100%; height: 10%; align-items: center; justify-content: flex-end; align-self: flex-end;">
+                    <engine:Button name="Forfeit" style="background-image: url(&quot;project://database/Assets/Art/quit_button_placeholder%201.png?fileID=2800000&amp;guid=a6a2f40b857e6c94bb4215e8ad220f91&amp;type=3#quit_button_placeholder 1&quot;); background-color: rgba(188, 188, 188, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-size: cover; width: 80%; height: 60%;" />
                 </engine:VisualElement>
-                <engine:VisualElement style="flex-grow: 0; width: 100%; height: 40%; justify-content: flex-end; align-items: flex-start; flex-direction: row;">
+                <engine:VisualElement style="flex-grow: 0; width: 100%; height: 30%; justify-content: flex-end; align-items: flex-start; flex-direction: row;">
                     <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; align-self: center; justify-content: center;">
-                        <engine:VisualElement style="flex-grow: 0; background-color: rgba(23, 23, 231, 0); width: 50%; height: 60%; padding-top: 0; padding-bottom: 0; padding-right: 0; padding-left: 0; margin-top: 0; margin-bottom: 0; align-content: auto; align-self: center; justify-content: flex-end; background-image: url(&quot;project://database/Assets/Art/Illustration186.png?fileID=2800000&amp;guid=3b4c3541b90d6124c96dd5619e9017ec&amp;type=3#Illustration186&quot;);" />
+                        <engine:VisualElement style="flex-grow: 0; background-color: rgba(23, 23, 231, 0); width: 60%; height: 60%; padding-top: 0; padding-bottom: 0; padding-right: 0; padding-left: 0; margin-top: 0; margin-bottom: 0; align-content: auto; align-self: center; justify-content: flex-end; background-image: url(&quot;project://database/Assets/Art/scrolls_2.png?fileID=2800000&amp;guid=7759ddf3c08860b478d2731d69093929&amp;type=3#scrolls_2&quot;);" />
                     </engine:VisualElement>
                 </engine:VisualElement>
-                <engine:VisualElement name="VisualElement" style="flex-grow: 0; width: 100%; height: 50%; align-items: flex-end; justify-content: space-between; align-self: flex-end;">
-                    <engine:VisualElement style="flex-grow: 0; background-color: rgba(36, 162, 176, 0.43); width: 50%; height: 50%; justify-content: flex-start; margin-top: 0; margin-bottom: 0; background-image: url(&quot;project://database/Assets/Art/grid_02.png?fileID=2800000&amp;guid=53d4e0115ce65214c84ef9b46a68fe02&amp;type=3#grid_02&quot;); margin-right: 30px;" />
-                    <engine:Button text="Forfeit" name="Forfeit" />
+                <engine:VisualElement style="flex-grow: 0; width: 100%; height: 30%; justify-content: flex-end; align-items: flex-start; flex-direction: row;">
+                    <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; align-self: center; justify-content: center;">
+                        <engine:VisualElement style="flex-grow: 0; background-color: rgba(23, 23, 231, 0); width: 60%; height: 60%; padding-top: 0; padding-bottom: 0; padding-right: 0; padding-left: 0; margin-top: 0; margin-bottom: 0; align-content: auto; align-self: center; justify-content: flex-end; background-image: url(&quot;project://database/Assets/Art/Illustration186.png?fileID=2800000&amp;guid=3b4c3541b90d6124c96dd5619e9017ec&amp;type=3#Illustration186&quot;);" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+                <engine:VisualElement style="flex-grow: 0; width: 100%; height: 30%; justify-content: flex-end; align-items: flex-start; flex-direction: row;">
+                    <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; align-self: center; justify-content: center;">
+                        <engine:VisualElement style="flex-grow: 0; background-color: rgba(23, 23, 231, 0); width: 60%; height: 60%; padding-top: 0; padding-bottom: 0; padding-right: 0; padding-left: 0; margin-top: 0; margin-bottom: 0; align-content: auto; align-self: center; justify-content: flex-end; background-image: url(&quot;project://database/Assets/Art/scrolls_2.png?fileID=2800000&amp;guid=7759ddf3c08860b478d2731d69093929&amp;type=3#scrolls_2&quot;);" />
+                    </engine:VisualElement>
                 </engine:VisualElement>
             </engine:VisualElement>
         </engine:VisualElement>
-        <engine:VisualElement name="ConfirmationScreen" style="flex-grow: 0; width: 30%; height: 40%; flex-shrink: 0; display: flex; align-items: center; align-self: center; position: absolute; top: auto; left: 30%; right: 30%; bottom: auto; background-image: url(&quot;project://database/Assets/Art/grid_01.png?fileID=2800000&amp;guid=017674c9df4a20449b6bf96b00d48763&amp;type=3#grid_01&quot;);">
+        <engine:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); justify-content: flex-start; height: 100%; width: 75%;">
+            <engine:VisualElement style="flex-grow: 0; align-items: flex-start; width: 100%; flex-direction: row;">
+                <engine:Button text="Button" name="HelpButton" style="background-image: url(&quot;project://database/Assets/Art/help_button_placeholder_1.png?fileID=2800000&amp;guid=b187baa1dc8d1de4dac8a65d1a91ad58&amp;type=3#help_button_placeholder_1&quot;); color: rgba(27, 27, 27, 0); width: 50px; height: 50px; align-items: auto; background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-left: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; flex-shrink: 0;" />
+            </engine:VisualElement>
+            <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%;">
+                <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; margin-top: 0; margin-bottom: 0; align-items: center; justify-content: flex-start;">
+                    <engine:Label text="Label" style="flex-shrink: 0; flex-grow: 0; width: 80%; height: auto; font-size: 25%; -unity-text-align: upper-center; padding-bottom: 4px;" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement name="ConfirmationScreen" style="flex-grow: 0; width: 30%; height: 40%; flex-shrink: 0; display: none; align-items: center; align-self: center; position: absolute; top: auto; left: 30%; right: 30%; bottom: auto; background-image: url(&quot;project://database/Assets/Art/grid_01.png?fileID=2800000&amp;guid=017674c9df4a20449b6bf96b00d48763&amp;type=3#grid_01&quot;);">
             <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; justify-content: center;">
                 <engine:Label text="Quit?" style="align-self: center; justify-content: flex-start; align-items: auto; font-size: 37px; color: rgb(255, 0, 0); text-shadow: 5px 5px 0 rgb(0, 0, 0);" />
                 <engine:Button text="Cancel" name="Cancel" style="width: 30%; height: 15%; align-self: center;" />
@@ -47,10 +60,15 @@
     </engine:VisualElement>
     <engine:VisualElement name="VictoryScreen" style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Art/backgroundPlaceholder.png?fileID=2800000&amp;guid=4d4b0e343bf40d14d95948ce33d1eef2&amp;type=3#backgroundPlaceholder&quot;); display: none;">
         <engine:VisualElement style="flex-grow: 1; align-items: center; justify-content: center;">
-            <engine:Label text="Victory!" />
-            <engine:Button text="Again" name="Again" focusable="false" />
-            <engine:Button text="Main Menu" name="MainMenu" focusable="false" />
-            <engine:Button text="Quit" name="ActualQuitButton" selectable="false" />
+            <engine:Label style="background-image: url(&quot;project://database/Assets/Art/799px-Victory_banner.png?fileID=2800000&amp;guid=6c94b93f0dd11544495eca3e877b603f&amp;type=3#799px-Victory_banner&quot;); width: 75%; height: 30%;" />
+            <engine:Button name="Again" focusable="false" style="background-image: url(&quot;project://database/Assets/Art/again_button_placeholder.png?fileID=2800000&amp;guid=553d4b7a9e1343d4eb72edebdb279ac8&amp;type=3#again_button_placeholder&quot;); flex-grow: 0; width: 10%; height: 10%; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0);" />
+            <engine:Button name="MainMenu" focusable="false" style="background-image: url(&quot;project://database/Assets/Art/main_menu_button_placeholder.png?fileID=2800000&amp;guid=f77698b3aa01e8b40b40950f486a2f31&amp;type=3#main_menu_button_placeholder&quot;); width: 10%; height: 10%; background-color: rgba(188, 188, 188, 0); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0);" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+    <engine:VisualElement name="HelpScreen" style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Art/backgroundPlaceholder.png?fileID=2800000&amp;guid=4d4b0e343bf40d14d95948ce33d1eef2&amp;type=3#backgroundPlaceholder&quot;); display: none;">
+        <engine:Button name="CloseHelpButton" style="background-image: url(&quot;project://database/Assets/Art/help_button_placeholder_1.png?fileID=2800000&amp;guid=b187baa1dc8d1de4dac8a65d1a91ad58&amp;type=3#help_button_placeholder_1&quot;); color: rgba(27, 27, 27, 0); width: 50px; height: 50px; align-items: auto; background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-left: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; flex-shrink: 0;" />
+        <engine:VisualElement name="VisualElement" style="flex-grow: 0; width: 100%; height: 100%;">
+            <engine:TextField placeholder-text="During gameplay there are two turns: A player turn and an AI turn. During the player&apos;s turn, the player may attack one of the tiles on the AI&apos;s battlemap and on a hit, the player may attack again. On a miss, the turn goes to the opponent." hide-placeholder-on-focus="false" max-length="-1" vertical-scroller-visibility="Auto" multiline="true" auto-correction="true" readonly="true" style="flex-grow: 0; height: 90px; width: 700px;" />
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>
