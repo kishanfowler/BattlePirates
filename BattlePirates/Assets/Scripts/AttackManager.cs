@@ -29,8 +29,11 @@ public class AttackManager : MonoBehaviour
         if (_gameState == GameStates.PlayerTurn && _gameManager.CanPlayerAttack && tile.CanBeHit)
         {
             tile.OnHit();
-            _gameManager.GameState = GameStates.AITurn;
-            _gameManager.CanPlayerAttack = false;
+            if (!tile.IsOccupied)
+            {
+                _gameManager.GameState = GameStates.AITurn;
+                _gameManager.CanPlayerAttack = false;
+            }
         }
     }
 }

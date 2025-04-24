@@ -27,7 +27,7 @@ public class ButtonHandler : MonoBehaviour
         {
             { "Play", Play },
             { "SettingsButton", ToggleSettings },
-            { "CloseSettingsButton", ToggleSettings },
+            { "CloseSettingsButton", CloseSettings },
             { "Quit", QuitGame },
             { "HelpButton", Help},
             { "CloseHelpButton", CloseHelp},
@@ -196,5 +196,10 @@ public class ButtonHandler : MonoBehaviour
         {
             _SettingsPanel.style.display = DisplayStyle.None;
         }
+    }
+
+    private void CloseSettings()
+    {
+        _SettingsPanel.style.display = DisplayStyle.None;
     }
 }

@@ -96,7 +96,7 @@ public class AIManager : MonoBehaviour
             
 
             ship.GetComponent<BoxCollider2D>().enabled = false;
-            // ship.GetComponent<SpriteRenderer>().enabled = false;
+            ship.GetComponent<SpriteRenderer>().enabled = false;
         }
 
         _gameManager.GameState = GameStates.PlayerTurn;
@@ -199,7 +199,7 @@ public class AIManager : MonoBehaviour
             
         }
 
-        if (_gameManager.GameState == GameStates.AITurn && _gridManager.AreAllAIShipTilesHit())
+        if (_gameManager.GameState == GameStates.PlayerTurn && _gridManager.AreAllAIShipTilesHit())
         {
             _buttonHandler.ShowVictoryScreen();
             RemoveShips();
