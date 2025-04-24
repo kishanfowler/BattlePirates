@@ -54,7 +54,7 @@ public class PlacementManager : MonoBehaviour
         PlaceShip();
     }
 
-    public void PlaceShip()
+    private void PlaceShip()
     {
         for (int i = 0; i < _placementTiles.Count; i++)
         {
