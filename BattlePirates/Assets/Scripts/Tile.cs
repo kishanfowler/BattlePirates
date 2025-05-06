@@ -30,8 +30,11 @@ public class Tile : MonoBehaviour
     {
         CanBeHit = false;
         IsHit = true;
-        Highlight.SetActive(false);
-        Highlight = null;
+        if (Highlight != null)
+        {
+            Highlight.SetActive(false);
+            Highlight = null;
+        }
         ChangeSprite();
     }
 

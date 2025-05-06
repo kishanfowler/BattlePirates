@@ -1,4 +1,7 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -24,7 +27,25 @@ public class AIManager : MonoBehaviour
     private ShipManager _shipManager;
     [SerializeField] private float WaitTime;
     private float _timeWaiting;
+    private bool _canSpecialAttack;
+    [SerializeField] private int TurnsPlayed = 0;
+    public int MinimumTurnsBeforeSpecial;
+    public int MaximumTurnsBeforeSpecial;
+    private bool _specialAttackChosen = false;
+    [SerializeField] private SpecialAttacks ChosenSpecialAttack;
+    [SerializeField] private GameObject PlusIndicator;
+    [SerializeField] private GameObject StandardShotIndicator;
+    private bool _plusAttack = true;
+    public ShipBase DutchmanPrefab;
+    [SerializeField] private int RandomTurn;
+    private bool _hasIndicator = false;
 
+    private enum SpecialAttacks
+    {
+        Coin,
+        Plus,
+        Dutchman
+    }
     private void InitializeAIShips()
     {
         foreach (var shipPrefab in ShipPrefabs)
@@ -32,23 +53,12 @@ public class AIManager : MonoBehaviour
             ShipBase aiShip = Instantiate(shipPrefab);
             AIShipsToPlace.Add(aiShip);
         }
-        AIPlaceShips();
-    }
-    private bool CanPlaceShipVertically(Vector2 StartPos, int Length)
-    {
-        
-        for (int i = 0; i < Length; i++)
+        if (ChosenSpecialAttack == SpecialAttacks.Dutchman)
         {
-            Vector2 pos = new Vector2(StartPos.x, StartPos.y + i);
-            Tile tile = _gridManager.GetTileAtPosition(pos);
-            if (tile == null)
-            {
-                return false;
-            }
-            if (_gridManager.GetAllTilePositions().Contains(pos)) return false; // buiten de grid
-            if (tile.IsOccupied) return false; // overlapping
+            ShipBase aiDutchman = Instantiate(DutchmanPrefab);
+            AIShipsToPlace.Add(aiDutchman);
         }
-        return true;
+        AIPlaceShips();
     }
 
     private void Start()
@@ -58,6 +68,13 @@ public class AIManager : MonoBehaviour
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _gameManager.CanPlayerAttack = true;
         _buttonHandler = UIPlaying.GetComponent<ButtonHandler>();
+        if (!_specialAttackChosen)
+        {
+            ChosenSpecialAttack = (SpecialAttacks)Random.Range(0, Enum.GetNames(typeof(SpecialAttacks)).Length);
+            RandomTurn = Random.Range(MinimumTurnsBeforeSpecial, MaximumTurnsBeforeSpecial);
+            _specialAttackChosen = true;
+            _canSpecialAttack = true;
+        }
         InitializeAIShips();
         InitShots();
     }
@@ -96,7 +113,7 @@ public class AIManager : MonoBehaviour
             
 
             ship.GetComponent<BoxCollider2D>().enabled = false;
-            ship.GetComponent<SpriteRenderer>().enabled = false;
+            // ship.GetComponent<SpriteRenderer>().enabled = false;
         }
 
         _gameManager.GameState = GameStates.PlayerTurn;
@@ -119,23 +136,13 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    private void PlaceShipVertically(Vector2 StartPos, int ShipLength)
-    {
-        for (int i = 0; i < ShipLength; i++)
-        {
-            Vector2 pos = new Vector2(StartPos.x, StartPos.y + i);
-            Tile tile = _gridManager.GetTileAtPosition(pos);
-            tile.IsOccupied = true;
-        }
-    }
-
     private void InitShots()
     {
         _shootableTargets.Clear();
         _shootableTargets = _aiGridManager.GetAllTilePositions();
     }
 
-    private void AITakeShot()
+    private IEnumerator ExecuteAIShotRoutine()
     {
         if (_shootableTargets.Count == 0)
         {
@@ -147,7 +154,18 @@ public class AIManager : MonoBehaviour
             Vector2 shot = _shootableTargets[index];
             _shootableTargets.RemoveAt(index);
             _targetTile = _aiGridManager.GetTileAtPosition(shot);
+            if (!_hasIndicator)
+            {
+                var indicator = Instantiate(StandardShotIndicator,
+                    new Vector3(_targetTile.transform.position.x, _targetTile.transform.position.y, -1.5f),
+                    quaternion.identity);
+                _hasIndicator = true;
+                Destroy(indicator, WaitTime);
+            }
+            yield return new WaitForSeconds(WaitTime);
             HandleShot();
+            
+            _hasIndicator = false;
         }
     }
 
@@ -160,7 +178,7 @@ public class AIManager : MonoBehaviour
         }
         else
         {
-            AITakeShot();
+            StartCoroutine(ExecuteAIShotRoutine());
         }
     }
 
@@ -184,19 +202,30 @@ public class AIManager : MonoBehaviour
         }
     }
     
-    void Update()
+    private void Update()
     {
         if (_gameManager.GameState == GameStates.AITurn)
         {
             _timeWaiting += Time.deltaTime;
         }
-        if (_gameManager.GameState == GameStates.AITurn && _timeWaiting >= WaitTime)
+        if (_gameManager.GameState == GameStates.AITurn)
         {
-            AITakeShot();
-            _timeWaiting = 0;
+            if (TurnsPlayed == RandomTurn)
+            {
+                if (_canSpecialAttack && ChosenSpecialAttack != SpecialAttacks.Dutchman)
+                {
+                    StartCoroutine(ExecuteAISpecialAttackRoutine(ChosenSpecialAttack));
+                }
+            }
+            else
+            {
+                StartCoroutine(ExecuteAIShotRoutine());
+            }
+            TurnsPlayed++;
             _gameManager.GameState = GameStates.PlayerTurn;
             _gameManager.CanPlayerAttack = true;
-            
+            _timeWaiting = 0;
+
         }
 
         if (_gameManager.GameState == GameStates.PlayerTurn && _gridManager.AreAllAIShipTilesHit())
@@ -206,4 +235,98 @@ public class AIManager : MonoBehaviour
         }
         
     }
+
+    private IEnumerator ExecuteAISpecialAttackRoutine(SpecialAttacks attackType)
+    {
+        if (_gameManager.GameState == GameStates.AITurn && _canSpecialAttack)
+        {
+            switch (attackType)
+            {
+                case SpecialAttacks.Coin:
+                    if (Random.Range(0,1) == 0)
+                    {
+                        int randomShip = Random.Range(0, _shipManager._ships.Count);
+                        while (!_shipManager._ships[randomShip].IsPlayerShip)
+                        {
+                            randomShip = Random.Range(0, _shipManager._ships.Count);
+                            break;
+                        }
+
+                        if (_shipManager._ships[randomShip].IsPlayerShip)
+                        {
+                            Tile tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[
+                                Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                            while (tile.CanBeHit == false)
+                            {
+                                tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[
+                                    Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                            }
+                            tile.OnHit();
+                        }
+                    }
+                    else
+                    {
+                        int randomShip = Random.Range(0, _shipManager._ships.Count);
+                        while (_shipManager._ships[randomShip].IsPlayerShip)
+                        {
+                            randomShip = Random.Range(0, _shipManager._ships.Count);
+                            break;
+                        }
+                        if (!_shipManager._ships[randomShip].IsPlayerShip)
+                        {
+                            Tile tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                            while (tile.CanBeHit == false)
+                            {
+                                tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                                break;
+                            }
+                            tile.OnHit();
+                        }
+                    }
+
+                    _canSpecialAttack = false;
+                    break;
+                case SpecialAttacks.Plus:
+                    int index = Random.Range(0, _shootableTargets.Count);
+                    Vector2 shot = _shootableTargets[index];
+                    _shootableTargets.RemoveAt(index);
+
+                    _targetTile = _aiGridManager.GetTileAtPosition(shot);
+
+                    Vector2 centerPos = _targetTile.transform.position;
+                    var indicator = Instantiate(PlusIndicator,
+                        new Vector3(centerPos.x, centerPos.y, -1.5f),
+                        Quaternion.identity);
+                    Destroy(indicator, WaitTime);
+                    yield return new WaitForSeconds(WaitTime);
+                    Vector2[] directions = {
+                        Vector2.zero,               // midden
+                        Vector2.right,              // rechts
+                        Vector2.left,               // links
+                        Vector2.up,                 // boven
+                        Vector2.down                // onder
+                    };
+
+                    foreach (var dir in directions)
+                    {
+                        Tile tile = _aiGridManager.GetTileAtPosition(centerPos + dir);
+                        if (tile != null)
+                        {
+                            tile.OnHit();
+                        }
+                    }
+
+                    _canSpecialAttack = false;
+                    break;
+                case SpecialAttacks.Dutchman:
+                    _canSpecialAttack = false;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(attackType), attackType, null);
+            }        
+            _canSpecialAttack = false;
+        }
+
+    }
+    
 }

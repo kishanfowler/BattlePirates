@@ -3,6 +3,7 @@ using UnityEngine;
 public class ShipBase : MonoBehaviour
 {
     public int ShipLength;
+    public bool IsPlayerShip;
 
     [SerializeField] private Sprite SunkenShipSprite;
     public bool IsHorizontal { get; set; }

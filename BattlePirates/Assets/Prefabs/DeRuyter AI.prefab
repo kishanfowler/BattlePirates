@@ -368,15 +368,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.19824219
+      value: 0.20605469
       objectReference: {fileID: 0}
     - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.55859375
+      value: 0.60253906
       objectReference: {fileID: 0}
     - target: {fileID: 4065578140228287621, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_Name
-      value: DeRuyter Variant
+      value: DeRuyter AI
       objectReference: {fileID: 0}
     - target: {fileID: 4065578140228287621, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_TagString
@@ -389,7 +389,7 @@ PrefabInstance:
     - target: {fileID: 7120169426108331734, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2942bc7f069858e418fb34537feed209, type: 3}
+      objectReference: {fileID: 21300000, guid: 5f31b84bfd90c8246b6fbfe389b35568, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
