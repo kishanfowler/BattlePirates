@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3726228753162471254}
   - component: {fileID: 2823220321611580699}
   - component: {fileID: 3038994199082609979}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlacementTile (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 2470975554812114808}
   - component: {fileID: 1882868318912545634}
   - component: {fileID: 7852669125739472422}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlacementTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 3742082206626613885}
   - component: {fileID: 1891088548586204224}
   - component: {fileID: 4520639386805822938}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlacementTile (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,11 +360,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
-      value: 0.49283165
+      value: 0.486858
       objectReference: {fileID: 0}
     - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y
-      value: 0.2682198
+      value: 0.4832736
       objectReference: {fileID: 0}
     - target: {fileID: 4065578140228287621, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_Name

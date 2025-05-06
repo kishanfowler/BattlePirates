@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2391359965070303562}
   - component: {fileID: 1449778043474257544}
   - component: {fileID: 6559608687736918530}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlacementTile (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 6575606277956321259}
   - component: {fileID: 6813206410915489717}
   - component: {fileID: 5936642651208800713}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlacementTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,11 +270,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
-      value: 0.4928316
+      value: 0.48805276
       objectReference: {fileID: 0}
     - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y
-      value: 0.37694144
+      value: 0.5119474
+      objectReference: {fileID: 0}
+    - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0.32714844
+      objectReference: {fileID: 0}
+    - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0.38183594
+      objectReference: {fileID: 0}
+    - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0.36132812
+      objectReference: {fileID: 0}
+    - target: {fileID: 3713324284047885256, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0.40429688
       objectReference: {fileID: 0}
     - target: {fileID: 4065578140228287621, guid: 0e52d28892bdf3d458e418fc1d9281d8, type: 3}
       propertyPath: m_Name

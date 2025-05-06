@@ -42,7 +42,7 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        Camera.transform.position = new Vector3(Width/2, Height/2, -10);
+        // Camera.transform.position = new Vector3(Width/2, Height/2, -10);
     }
 
     public Tile GetTileAtPosition(Vector2 position)

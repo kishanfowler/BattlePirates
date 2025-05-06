@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9085061420708762971}
   - component: {fileID: 5486566809070104542}
   - component: {fileID: 4730431940276507371}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlacementTile (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 1707159452284194636}
   - component: {fileID: 8905199526345194084}
   - component: {fileID: 722025626578647960}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlacementTile (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 2832541338230720305}
   - component: {fileID: 892973265954947468}
   - component: {fileID: 1842299602440963638}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlacementTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
