@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ShipBase : MonoBehaviour
 {
     public int ShipLength;
     public bool IsPlayerShip;
+    public List<Vector2> OccupiedTileLocations = new();
 
     [SerializeField] private Sprite SunkenShipSprite;
     public bool IsHorizontal { get; set; }

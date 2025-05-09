@@ -30,19 +30,21 @@ public class GridManager : MonoBehaviour
 
     void GenerateGrid()
     {
+        
         _tiles = new Dictionary<Vector2, Tile>();
         for (int i = 0; i < Width; i++)
         {
             for(int j = 0; j < Height; j++)
             {
-                var spawnedTile = Instantiate(TilePrefab, new Vector3(((i + i) / 2.2f)+XOffset,((j+j)/2.2f)+YOffset, -0.5f), Quaternion.identity);
+                var position = new Vector2(i + XOffset, j + YOffset);
+                var spawnedTile = Instantiate(TilePrefab, new Vector3(i+XOffset,j+YOffset, -0.5f), Quaternion.identity);
                 spawnedTile.name = $"Tile {i} {j}";
-
-                _tiles[new Vector2(i + XOffset,j + YOffset)] = spawnedTile;
+                spawnedTile.Init(position); // <-- hier geef je tile zijn gridpositie
+                var sprite = Resources.Load<Sprite>($"MapWithoutHoles/{spawnedTile.name}");
+                spawnedTile.SetBaseSprite(sprite);
+                _tiles[position] = spawnedTile;
             }
         }
-
-        // Camera.transform.position = new Vector3(Width/2, Height/2, -10);
     }
 
     public Tile GetTileAtPosition(Vector2 position)

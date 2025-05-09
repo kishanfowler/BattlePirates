@@ -42,10 +42,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < ShipList.Count; i++)
         {
-            var shipPos = ShipList[i].gameObject.transform.position;
-            ShipList[i].gameObject.transform.position = new Vector3(shipPos.x + 6, shipPos.y,shipPos.z);
-            Physics.SyncTransforms();
-            ShipList[i].gameObject.GetComponent<PlacementManager>().TryPlaceShip();
+            ShipList[i].gameObject.GetComponent<PlacementManager>().PlaceShip();
             Debug.Log("hoi");
             ShipList[i].gameObject.SetActive(false);
         }

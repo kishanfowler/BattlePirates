@@ -116,7 +116,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7414955339008348228}
@@ -195,6 +195,7 @@ MonoBehaviour:
   Highlight: {fileID: 931030560965410486}
   HitSprite: {fileID: 21300000, guid: 68662ae9fad787c4ca1d3bff7e0c06a8, type: 3}
   MissSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  HitEffectPrefab: {fileID: 7137211247910331786, guid: 48360df7877def844b317ae3f2808c23, type: 3}
 --- !u!61 &901114907533009894
 BoxCollider2D:
   m_ObjectHideFlags: 0

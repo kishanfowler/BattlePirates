@@ -44,7 +44,8 @@ public class AIManager : MonoBehaviour
     {
         Coin,
         Plus,
-        Dutchman
+        Dutchman,
+        Mist
     }
     private void InitializeAIShips()
     {
@@ -113,7 +114,7 @@ public class AIManager : MonoBehaviour
             
 
             ship.GetComponent<BoxCollider2D>().enabled = false;
-            // ship.GetComponent<SpriteRenderer>().enabled = false;
+            ship.GetComponent<SpriteRenderer>().enabled = false;
         }
 
         _gameManager.GameState = GameStates.PlayerTurn;
@@ -319,6 +320,9 @@ public class AIManager : MonoBehaviour
                     _canSpecialAttack = false;
                     break;
                 case SpecialAttacks.Dutchman:
+                    _canSpecialAttack = false;
+                    break;
+                case SpecialAttacks.Mist:
                     _canSpecialAttack = false;
                     break;
                 default:
