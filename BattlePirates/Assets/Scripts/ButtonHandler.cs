@@ -18,21 +18,26 @@ public class ButtonHandler : MonoBehaviour
     private Button _CancelButton;
     private VisualElement _ConfirmationScreenForfeit;
     private Button _ActualForfeitButton;
+    private VisualElement _VictoryScreen;
+    private AIManager _aiManager;
     void Start()
     {
         var root = uiDocument.rootVisualElement;
         _ButtonActions = new Dictionary<string, Action>
         {
             { "Play", Play },
-            { "Settings", ToggleSettings },
+            { "SettingsButton", ToggleSettings },
+            { "CloseSettingsButton", CloseSettings },
             { "Quit", QuitGame },
             { "HelpButton", Help},
+            { "CloseHelpButton", CloseHelp},
             { "Forfeit", Forfeit},
             { "Again", Again},
             { "MainMenu", MainMenu},
             { "SplashScreen", SplashScreen},
             { "ActualQuitButton", ActualQuit},
-            { "Cancel", Cancel},{ "CancelForfeit", CancelForfeit},
+            { "Cancel", Cancel},
+            { "CancelForfeit", CancelForfeit},
             { "ActualForfeitButton", ActualForfeit}
         };
         _ConfirmationScreen = root.Q<VisualElement>("ConfirmationScreen");
@@ -40,6 +45,7 @@ public class ButtonHandler : MonoBehaviour
         _SettingsPanel = root.Q<VisualElement>("SettingsPanel");
         _HelpScreen = root.Q<VisualElement>("HelpScreen");
         _SplashScreen = root.Q<VisualElement>("SplashScreen");
+        _VictoryScreen = root.Q<VisualElement>("VictoryScreen");
         foreach (var kvp in _ButtonActions)
         {
             Button button = root.Q<Button>(kvp.Key);
@@ -52,10 +58,19 @@ public class ButtonHandler : MonoBehaviour
                 _ConfirmationScreen.style.display = DisplayStyle.None;
                 _HelpScreen.style.display = DisplayStyle.None;
             }
+
+            if (_VictoryScreen != null)
+            {
+                _VictoryScreen.style.display = DisplayStyle.None;
+            }
             if (button != null)
             {
                 string buttonName = kvp.Key;
                 button.clicked += () => OnButtonClicked(buttonName);
+            }
+            if (_SettingsPanel != null)
+            {
+                _SettingsPanel.style.display = DisplayStyle.None;
             }
             else
             {
@@ -74,6 +89,11 @@ public class ButtonHandler : MonoBehaviour
     private void ActualForfeit()
     {
         Debug.Log("Forfeit button clicked. Checking for confirmation");
+        _aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
+        if (_aiManager != null)
+        {
+            _aiManager.RemoveShips();
+        }
         SceneManager.LoadScene("DefeatScreen");
     }
 
@@ -123,13 +143,21 @@ public class ButtonHandler : MonoBehaviour
         _ConfirmationScreenForfeit.style.display = DisplayStyle.Flex;
     }
 
+    public void ShowVictoryScreen()
+    {
+        GameObject.Find("AttackSystem").gameObject.GetComponent<AttackManager>().enabled = false;
+        _VictoryScreen.style.display = DisplayStyle.Flex;
+    }
     private void Help()
     {
         Debug.Log("Help Button clicked. Opening Help Box");
         if (_HelpScreen.style.display == DisplayStyle.None)
             _HelpScreen.style.display = DisplayStyle.Flex; // Of wat je gebruikt (bijv. Grid)
-        else
-            _HelpScreen.style.display = DisplayStyle.None;
+    }
+
+    private void CloseHelp()
+    {
+        _HelpScreen.style.display = DisplayStyle.None;
     }
     private void QuitGame()
     {
@@ -168,5 +196,10 @@ public class ButtonHandler : MonoBehaviour
         {
             _SettingsPanel.style.display = DisplayStyle.None;
         }
+    }
+
+    private void CloseSettings()
+    {
+        _SettingsPanel.style.display = DisplayStyle.None;
     }
 }

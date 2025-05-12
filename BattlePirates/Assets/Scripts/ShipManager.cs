@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class ShipManager : MonoBehaviour
 {
-    public ShipBase[] _ships;
+    public List<ShipBase> _ships;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        _ships = GameObject.FindObjectsOfType<ShipBase>();
+        _ships = new List<ShipBase>(GameObject.FindObjectsByType<ShipBase>(sortMode: FindObjectsSortMode.None));
     }
 }
