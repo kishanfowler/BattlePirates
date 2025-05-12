@@ -73,10 +73,10 @@ public class AttackManager : MonoBehaviour
                     //animatie stuffs
                     if (UnityEngine.Random.Range(0, 1) == 0)
                     {
-                        int randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Length);
+                        int randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
                         while (!_shipManager._ships[randomShip].IsPlayerShip)
                         {
-                            randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Length);
+                            randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
                             break;
                         }
                         if (_shipManager._ships[randomShip].IsPlayerShip)
@@ -92,10 +92,10 @@ public class AttackManager : MonoBehaviour
                     }
                     else
                     {
-                        int randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Length);
+                        int randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
                         while (_shipManager._ships[randomShip].IsPlayerShip)
                         {
-                            randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Length);
+                            randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
                             break;
                         }
                         if (!_shipManager._ships[randomShip].IsPlayerShip)
