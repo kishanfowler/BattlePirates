@@ -1,11 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
 {
-    private GameManager _gameManager;
-    private GameStates _gameState;
     private GridManager _gridManager;
     private List<Tile> _oldTiles = new();
     private List<Tile> _placementTiles = new();
@@ -50,21 +47,29 @@ public class PlacementManager : MonoBehaviour
     {
         for (int i = 0; i < gameObject.GetComponentsInChildren<ShipPlacer>().Length; i++)
         {
-            _placementTiles.Add(gameObject.GetComponentsInChildren<ShipPlacer>()[i].GetTile());
+            if (gameObject.GetComponentsInChildren<ShipPlacer>()[i].GetTile() == null)
+            {
+                transform.position = _oldPosition;
+                break;
+            }
+            else
+            {
+                _placementTiles.Add(gameObject.GetComponentsInChildren<ShipPlacer>()[i].GetTile());
+            }
             _ship.OccupiedTileLocations.Add(_placementTiles[i].GridPosition);
         }
         _occupiedTileList = _ship.OccupiedTileLocations;
-        PlaceShip();
+        if(_placementTiles.Count == _ship.ShipLength)
+        {
+            PlaceShip();
+        }
     }
 
     public void PlaceShip()
     {
         if (_ship.OccupiedTileLocations != null)
         {
-            for (int i = 0; i < _ship.OccupiedTileLocations.Count; i++)
-            {
-                transform.position = new Vector3(_ship.OccupiedTileLocations[i].x,_ship.OccupiedTileLocations[i].y,-1);
-            }
+            transform.position = new Vector3(_ship.OccupiedTileLocations[GameManager.BetterClamp((_ship.ShipLength - 1), 1, 3)].x, _ship.OccupiedTileLocations[GameManager.BetterClamp(_ship.ShipLength - 1, 1, 3)].y, -1);
             for (int i = 0; i < _occupiedTileList.Count; i++)
             {
                 _gridManager.GetTileAtPosition(_occupiedTileList[i]).OnOccupy();
