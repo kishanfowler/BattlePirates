@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public bool CanPlayerAttack;
     public GameStates GameState;
-    private ShipManager shipManager;
     public static GameManager GameManagerInstance;
-    private GridManager gridManager;
+    private GridManager _gridManager;
     public List<ShipBase> ShipList;
     private ShipManager _shipManager;
     private int _timer = 3600;
@@ -31,11 +31,10 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        shipManager = GameObject.Find("ShipManager").GetComponent<ShipManager>();
-        gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
+        _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
         if (ShipList.Count <= 0)
         {
-            ShipList = shipManager._ships;
+            ShipList = _shipManager._ships;
         }
         if(scene.name == "PlayingPhase2" /*&& aimanager.hasplaced*/)
         {
@@ -80,7 +79,6 @@ public class GameManager : MonoBehaviour
         {
             ship.gameObject.SetActive(false);
         }
-        gameObject.SetActive(false);
     }
 
     public static int BetterClamp(int Amount, int Min, int Max)
