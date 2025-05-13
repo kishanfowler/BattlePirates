@@ -13,6 +13,7 @@ public class PlacementManager : MonoBehaviour
     private ShipBase _ship;
     private int _unoccupiedTiles = 0;
     private Vector3 _oldPosition;
+    private GameObject _SelectedObject;
     public List<Vector2> tilesToOccupy;
 
     private void Awake()
@@ -32,8 +33,37 @@ public class PlacementManager : MonoBehaviour
         }
 
         _oldPosition = gameObject.transform.position;
+    }
 
-        gameObject.transform.Rotate(0, 0, 90, Space.World);
+    private void Update()
+    {
+        // Als je de linkermuisknop indrukt
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                _SelectedObject = hit.collider.gameObject;
+            }
+        }
+
+        // Als muis wordt vastgehouden en E wordt ingedrukt
+        if (Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.E))
+        {
+            if (_SelectedObject != null)
+            {
+                _SelectedObject.transform.Rotate(0, 0, -90, Space.World);
+            }
+        }
+        if (Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.Q))
+        {
+            if (_SelectedObject != null)
+            {
+                _SelectedObject.transform.Rotate(0, 0, 90, Space.World);
+            }
+        }
     }
 
     private void OnMouseDrag()
@@ -43,6 +73,12 @@ public class PlacementManager : MonoBehaviour
 
     private void OnMouseUp()
     {
+        if (_ship.OccupiedTileLocations != null && _occupiedTileList != null)
+        {
+            _occupiedTileList.Clear();
+            _ship.OccupiedTileLocations.Clear();
+        }
+        _SelectedObject = null;
         TryPlaceShip();
     }
 
@@ -50,11 +86,25 @@ public class PlacementManager : MonoBehaviour
     {
         for (int i = 0; i < gameObject.GetComponentsInChildren<ShipPlacer>().Length; i++)
         {
-            _placementTiles.Add(gameObject.GetComponentsInChildren<ShipPlacer>()[i].GetTile());
-            _ship.OccupiedTileLocations.Add(_placementTiles[i].GridPosition);
+            if (gameObject.GetComponentsInChildren<ShipPlacer>()[i].GetTile())
+            {
+                _placementTiles.Add(gameObject.GetComponentsInChildren<ShipPlacer>()[i].GetTile());
+                _ship.OccupiedTileLocations.Add(_placementTiles[i].GridPosition);
+            }
+            else
+            {
+                break;
+            }
         }
         _occupiedTileList = _ship.OccupiedTileLocations;
-        PlaceShip();
+        if(_occupiedTileList.Count == _ship.ShipLength)
+        {
+            PlaceShip();
+        }
+        else
+        {
+            _ship.transform.position = _oldPosition;
+        }
     }
 
     public void PlaceShip()
