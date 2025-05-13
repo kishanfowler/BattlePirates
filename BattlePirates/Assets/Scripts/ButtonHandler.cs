@@ -11,6 +11,7 @@ public class ButtonHandler : MonoBehaviour
     private VisualElement _Help;
     private VisualElement _HelpScreen;
     private VisualElement _SettingsPanel;
+    private VisualElement _PowerUpPanel;
     private Button _SettingsButton;
     private VisualElement _SplashScreen;
     private VisualElement _ConfirmationScreen;
@@ -20,6 +21,10 @@ public class ButtonHandler : MonoBehaviour
     private Button _ActualForfeitButton;
     private VisualElement _VictoryScreen;
     private AIManager _aiManager;
+    private List<VisualElement> _captainPortraits;
+    private List<VisualElement> _powerUpElements;
+    private int _currentCaptainIndex;
+    private int _currentPowerUpIndex;
     void Start()
     {
         var root = uiDocument.rootVisualElement;
@@ -38,14 +43,34 @@ public class ButtonHandler : MonoBehaviour
             { "ActualQuitButton", ActualQuit},
             { "Cancel", Cancel},
             { "CancelForfeit", CancelForfeit},
-            { "ActualForfeitButton", ActualForfeit}
+            { "ActualForfeitButton", ActualForfeit},
+            { "SelectPowerUp", SelectPowerUp},
+            { "PreviousPowerButton", PreviousPowerUp},
+            { "NextPowerButton", NextPowerUp},
         };
+        
         _ConfirmationScreen = root.Q<VisualElement>("ConfirmationScreen");
         _ConfirmationScreenForfeit = root.Q<VisualElement>("ConfirmationScreenForfeit");
         _SettingsPanel = root.Q<VisualElement>("SettingsPanel");
+        _PowerUpPanel = root.Q<VisualElement>("PowerUpChoice");
         _HelpScreen = root.Q<VisualElement>("HelpScreen");
         _SplashScreen = root.Q<VisualElement>("SplashScreen");
         _VictoryScreen = root.Q<VisualElement>("VictoryScreen");
+        if (SceneManager.GetActiveScene().name == "PlanningPhase2")
+        {
+            _captainPortraits = root.Query<VisualElement>(name: "CaptainPortrait").ToList();
+            _powerUpElements = root.Query<VisualElement>(name: "PowerUp").ToList();
+            foreach (var el in _captainPortraits)
+            {
+                el.style.display = DisplayStyle.None;
+            }
+            _captainPortraits[0].style.display = DisplayStyle.Flex;
+            foreach (var el in _powerUpElements)
+            {
+                el.style.display = DisplayStyle.None;
+            }
+            _powerUpElements[0].style.display = DisplayStyle.Flex;
+        }
         foreach (var kvp in _ButtonActions)
         {
             Button button = root.Q<Button>(kvp.Key);
@@ -80,6 +105,52 @@ public class ButtonHandler : MonoBehaviour
 
         root.RegisterCallback<ClickEvent>(evt => SplashScreen() );
     }
+    void ToggleNextPowerUp()
+    {
+        if (_powerUpElements.Count == 0) return;
+        if (_captainPortraits.Count == 0) return;
+
+        // Huidige element uitzetten
+        _powerUpElements[_currentPowerUpIndex].style.display = DisplayStyle.None;
+        _captainPortraits[_currentCaptainIndex].style.display = DisplayStyle.None;
+        // Volgende index
+        _currentPowerUpIndex = (_currentPowerUpIndex + 1) % _powerUpElements.Count;
+        _currentCaptainIndex = (_currentCaptainIndex + 1) % _captainPortraits.Count;
+        // Volgende element aanzetten
+        _powerUpElements[_currentPowerUpIndex].style.display = DisplayStyle.Flex;
+        _captainPortraits[_currentCaptainIndex].style.display = DisplayStyle.Flex;
+    }
+
+    void TogglePreviousPowerUp()
+    {
+        if (_powerUpElements.Count == 0) return;
+        if (_captainPortraits.Count == 0) return;
+
+        // Huidige element uitzetten
+        _powerUpElements[_currentPowerUpIndex].style.display = DisplayStyle.None;
+        _captainPortraits[_currentCaptainIndex].style.display = DisplayStyle.None;
+        // Volgende index
+        _currentPowerUpIndex = (_currentPowerUpIndex - 1 + _powerUpElements.Count) % _powerUpElements.Count;
+        _currentCaptainIndex = (_currentCaptainIndex - 1 + _captainPortraits.Count) % _captainPortraits.Count;
+        // Volgende element aanzetten
+        _powerUpElements[_currentPowerUpIndex].style.display = DisplayStyle.Flex;
+        _captainPortraits[_currentCaptainIndex].style.display = DisplayStyle.Flex;
+    }
+
+    private void NextPowerUp()
+    {
+        ToggleNextPowerUp();
+    }
+
+    private void PreviousPowerUp()
+    {
+        TogglePreviousPowerUp();
+    }
+
+    private void SelectPowerUp()
+    {
+        _PowerUpPanel.style.display = DisplayStyle.None;
+    }
 
     private void CancelForfeit()
     {
@@ -95,6 +166,7 @@ public class ButtonHandler : MonoBehaviour
             _aiManager.RemoveShips();
         }
         SceneManager.LoadScene("DefeatScreen");
+        
     }
 
     private void Cancel()

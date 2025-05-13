@@ -209,7 +209,7 @@ public class AIManager : MonoBehaviour
         {
             _timeWaiting += Time.deltaTime;
         }
-        if (_gameManager.GameState == GameStates.AITurn)
+        if (_gameManager.GameState == GameStates.AITurn && _timeWaiting >= WaitTime)
         {
             if (TurnsPlayed == RandomTurn)
             {
