@@ -170,7 +170,7 @@ public class PlacementManager : MonoBehaviour
             }
 
             // Check: is de tile al bezet?
-            if (_gridManager.IsTileOccupied(shipTilePos))
+            if (gridManager.IsTileOccupied(shipTilePos))
             {
                 return false;
             }
@@ -179,7 +179,7 @@ public class PlacementManager : MonoBehaviour
         }
         foreach (var pos in tilesToOccupy)
         {
-            _gridManager.SetTileOccupied(pos,true);
+            gridManager.SetTileOccupied(pos,true);
         }
         return true;
     }
