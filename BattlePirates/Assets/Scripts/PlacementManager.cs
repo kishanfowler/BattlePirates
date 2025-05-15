@@ -149,9 +149,9 @@ public class PlacementManager : MonoBehaviour
         _placementTiles.Clear();
     }
 
-    public bool CheckForOccupy(ShipBase Ship)
+    public bool CheckForOccupy(ShipBase Ship, GridManager gridManager)
     {
-        var tilePositions = _gridManager.GetAllTilePositions();
+        var tilePositions = gridManager.GetAllTilePositions();
         Vector2 direction = Ship.IsHorizontal? Vector2.right: Vector2.up;
         var position = Ship.transform.position;
         var shipStartPos = new Vector2(position.x, position.y);

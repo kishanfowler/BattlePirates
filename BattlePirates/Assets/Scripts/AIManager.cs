@@ -107,7 +107,7 @@ public class AIManager : MonoBehaviour
                     ship.transform.position = position;
                 }
                 
-                placed = placementManager.CheckForOccupy(ship);
+                placed = placementManager.CheckForOccupy(ship, grid);
                 // ship.IsPlayerShip = false;
 
             }

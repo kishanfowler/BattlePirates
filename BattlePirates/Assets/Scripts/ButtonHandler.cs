@@ -109,14 +109,10 @@ public class ButtonHandler : MonoBehaviour
     {
         if (_powerUpElements.Count == 0) return;
         if (_captainPortraits.Count == 0) return;
-
-        // Huidige element uitzetten
         _powerUpElements[_currentPowerUpIndex].style.display = DisplayStyle.None;
         _captainPortraits[_currentCaptainIndex].style.display = DisplayStyle.None;
-        // Volgende index
         _currentPowerUpIndex = (_currentPowerUpIndex + 1) % _powerUpElements.Count;
         _currentCaptainIndex = (_currentCaptainIndex + 1) % _captainPortraits.Count;
-        // Volgende element aanzetten
         _powerUpElements[_currentPowerUpIndex].style.display = DisplayStyle.Flex;
         _captainPortraits[_currentCaptainIndex].style.display = DisplayStyle.Flex;
     }
@@ -125,14 +121,10 @@ public class ButtonHandler : MonoBehaviour
     {
         if (_powerUpElements.Count == 0) return;
         if (_captainPortraits.Count == 0) return;
-
-        // Huidige element uitzetten
         _powerUpElements[_currentPowerUpIndex].style.display = DisplayStyle.None;
         _captainPortraits[_currentCaptainIndex].style.display = DisplayStyle.None;
-        // Volgende index
         _currentPowerUpIndex = (_currentPowerUpIndex - 1 + _powerUpElements.Count) % _powerUpElements.Count;
         _currentCaptainIndex = (_currentCaptainIndex - 1 + _captainPortraits.Count) % _captainPortraits.Count;
-        // Volgende element aanzetten
         _powerUpElements[_currentPowerUpIndex].style.display = DisplayStyle.Flex;
         _captainPortraits[_currentCaptainIndex].style.display = DisplayStyle.Flex;
     }
@@ -224,7 +216,7 @@ public class ButtonHandler : MonoBehaviour
     {
         Debug.Log("Help Button clicked. Opening Help Box");
         if (_HelpScreen.style.display == DisplayStyle.None)
-            _HelpScreen.style.display = DisplayStyle.Flex; // Of wat je gebruikt (bijv. Grid)
+            _HelpScreen.style.display = DisplayStyle.Flex;
     }
 
     private void CloseHelp()
