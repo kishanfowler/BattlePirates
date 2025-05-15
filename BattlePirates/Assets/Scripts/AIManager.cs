@@ -147,7 +147,7 @@ public class AIManager : MonoBehaviour
     {
         if (_shootableTargets.Count == 0)
         {
-            Debug.Log("Enemy heeft geen plekken meer om te schieten!");
+            Debug.LogWarning("Enemy heeft geen plekken meer om te schieten!");
         }
         else
         {
@@ -225,6 +225,7 @@ public class AIManager : MonoBehaviour
             TurnsPlayed++;
             _gameManager.GameState = GameStates.PlayerTurn;
             _gameManager.CanPlayerAttack = true;
+            _gameManager.TimerHasReset = false;
             _timeWaiting = 0;
 
         }

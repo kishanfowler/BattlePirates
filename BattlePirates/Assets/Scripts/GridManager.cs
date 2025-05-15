@@ -37,7 +37,7 @@ public class GridManager : MonoBehaviour
             for(int j = 0; j < Height; j++)
             {
                 var position = new Vector2(i + XOffset, j + YOffset);
-                var spawnedTile = Instantiate(TilePrefab, new Vector3(i+XOffset,j+YOffset, -0.5f), Quaternion.identity);
+                var spawnedTile = Instantiate(TilePrefab, new Vector3(i+XOffset,j+YOffset, -0.5f), Quaternion.identity, gameObject.transform);
                 spawnedTile.name = $"Tile {i} {j}";
                 spawnedTile.Init(position); // <-- hier geef je tile zijn gridpositie
                 var sprite = Resources.Load<Sprite>($"MapWithoutHoles/{spawnedTile.name}");
@@ -45,6 +45,7 @@ public class GridManager : MonoBehaviour
                 _tiles[position] = spawnedTile;
             }
         }
+        _gridGenDone = true;
     }
 
     public Tile GetTileAtPosition(Vector2 position)
