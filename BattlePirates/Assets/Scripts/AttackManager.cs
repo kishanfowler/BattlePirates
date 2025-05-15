@@ -60,7 +60,6 @@ public class AttackManager : MonoBehaviour
             {
                 _gameManager.GameState = GameStates.AITurn;
                 _gameManager.CanPlayerAttack = false;
-                _gameManager.TimerHasReset = false;
             }
         }
     }

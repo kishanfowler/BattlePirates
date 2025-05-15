@@ -19,7 +19,7 @@
                 </engine:VisualElement>
                 <engine:VisualElement style="flex-grow: 0; width: 100%; height: 30%; justify-content: flex-end; align-items: flex-start; flex-direction: row;">
                     <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; align-self: center; justify-content: center;">
-                        <engine:VisualElement enabled="true" style="flex-grow: 0; background-color: rgba(23, 23, 231, 0); width: 70%; height: 70%; padding-top: 0; padding-bottom: 0; padding-right: 0; padding-left: 0; margin-top: 0; margin-bottom: 0; align-content: auto; align-self: center; justify-content: flex-end; background-image: none; flex-shrink: 0; background-size: contain;" />
+                        <engine:VisualElement style="flex-grow: 0; background-color: rgba(23, 23, 231, 0); width: 70%; height: 70%; padding-top: 0; padding-bottom: 0; padding-right: 0; padding-left: 0; margin-top: 0; margin-bottom: 0; align-content: auto; align-self: center; justify-content: flex-end; background-image: url(&quot;project://database/Assets/Art/Nomi/Illustration239_4.png?fileID=2800000&amp;guid=c6743eff8d06c3b4781a643a59dee1fc&amp;type=3#Illustration239_4&quot;); flex-shrink: 0; background-size: contain;" />
                     </engine:VisualElement>
                 </engine:VisualElement>
             </engine:VisualElement>
