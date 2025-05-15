@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,12 +12,17 @@ public class GameManager : MonoBehaviour
     private GridManager _gridManager;
     public List<ShipBase> ShipList;
     private ShipManager _shipManager;
-    private int _timer = 3600;
-    [SerializeField] private Text TimerText;
+    [SerializeField] private int TimerTime;
+    private int _timer;
+    private Text TimerText;
+    private bool DoOnce = false;
+    private GridManager _AIGridManager;
+    public bool TimerHasReset = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        _timer = TimerTime * 60;
         if (GameManagerInstance != null)
         {
             Destroy(gameObject);
@@ -25,60 +31,81 @@ public class GameManager : MonoBehaviour
         GameState = GameStates.PreparationPhase;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
-        //GameState = GameStates.PreparationPhase;
         _shipManager = GameObject.Find("ShipManager").GetComponent<ShipManager>();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
+        
         if (ShipList.Count <= 0)
         {
             ShipList = _shipManager._ships;
         }
-        if(scene.name == "PlayingPhase2" /*&& aimanager.hasplaced*/)
+        if(scene.name == "PlayingPhase2")
         {
-            ChangeToAttackPhase();
+            _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
+            _AIGridManager = GameObject.Find("AIGridManager").GetComponent<GridManager>();
+            TimerText = GameObject.Find("TimerText").GetComponent<Text>();
+            DoOnce = true;
         }
+    }
 
+    private void FixedUpdate()
+    {
         if (GameState == GameStates.PlayerTurn)
         {
+            if (!TimerHasReset)
+            {
+                ResetTimer();
+            }
             _timer--;
-            TimerText.text = (_timer / 60).ToString();
+            TimerText.text = "00:" + (_timer / 60).ToString();
             if (_timer <= 0)
             {
                 GameState = GameStates.AITurn;
-                _timer = 3600;
+                TimerHasReset = false;
             }
         }
 
         if (GameState == GameStates.AITurn)
         {
+            if (!TimerHasReset)
+            {
+                ResetTimer();
+            }
             _timer--;
-            TimerText.text = (_timer / 60).ToString();
+            TimerText.text = "00:" + (_timer / 60).ToString();
             if (_timer <= 0)
             {
                 GameState = GameStates.PlayerTurn;
-                _timer = 3600;
+                TimerHasReset = false;
             }
         }
 
+        if (DoOnce)
+        {
+            if(_gridManager.GridGenDone)
+            {
+                DoOnce=false;
+                ChangeToAttackPhase();
+            }
+        }
     }
 
     void ChangeToAttackPhase()
     {
         for (int i = 0; i < ShipList.Count; i++)
         {
-            ShipList[i].gameObject.GetComponent<PlacementManager>().PlaceShip();
-            Debug.Log("hoi");
-            ShipList[i].gameObject.SetActive(false);
+            ShipList[i].gameObject.GetComponent<PlacementManager>().CheckForOccupy(ShipList[i], _AIGridManager);
         }
         GameState = GameStates.PlayerTurn;
         CanPlayerAttack = true;
-        foreach (ShipBase ship in _shipManager._ships)
-        {
-            ship.gameObject.SetActive(false);
-        }
+    }
+
+    private void ResetTimer() 
+    {
+        _timer = TimerTime * 60;
+        TimerHasReset = true;
     }
 
     public static int BetterClamp(int Amount, int Min, int Max)
