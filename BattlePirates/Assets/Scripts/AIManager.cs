@@ -23,7 +23,7 @@ public class AIManager : MonoBehaviour
     private GameManager _gameManager;
     private ButtonHandler _buttonHandler;
     [SerializeField] private ShipBase[] ShipPrefabs;
-    [SerializeField] private List<ShipBase> AIShipsToPlace = new();
+    public List<ShipBase> AIShipsToPlace = new();
     private ShipManager _shipManager;
     [SerializeField] private float WaitTime;
     private float _timeWaiting;
