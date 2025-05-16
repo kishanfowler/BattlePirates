@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
     private bool DoOnce = false;
     private GridManager _AIGridManager;
     public bool TimerHasReset = false;
-
+    public AttackManager.SpecialAttacks ChosenPowerUp;
+    public bool PowerUpChosen = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -83,6 +84,13 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (SceneManager.GetActiveScene().name == "PlanningPhase2")
+        {
+            if (PowerUpChosen == true)
+            {
+                
+            }
+        }
         if (DoOnce)
         {
             if(_gridManager.GridGenDone)
@@ -92,6 +100,8 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    
 
     void ChangeToAttackPhase()
     {
@@ -124,8 +134,6 @@ public class GameManager : MonoBehaviour
         return Amount;
     }
 }
-
-
 
 
 public enum GameStates

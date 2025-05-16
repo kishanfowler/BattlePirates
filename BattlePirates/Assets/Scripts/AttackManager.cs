@@ -65,7 +65,7 @@ public class AttackManager : MonoBehaviour
         }
     }
 
-    void SpecialAttack(SpecialAttacks attackType)
+    public void SpecialAttack(SpecialAttacks attackType)
     {
         if (_gameManager.GameState == GameStates.PlayerTurn && _canPlayerSpecialAttack)
         {
