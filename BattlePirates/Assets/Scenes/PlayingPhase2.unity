@@ -270,7 +270,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2113112968194266062, guid: 6c0fac5133728944396c3cf0ea3f2fb4, type: 3}
       propertyPath: m_Name
-      value: AttackSystem
+      value: AttackManager
       objectReference: {fileID: 0}
     - target: {fileID: 5152142089230753075, guid: 6c0fac5133728944396c3cf0ea3f2fb4, type: 3}
       propertyPath: MistPrefab

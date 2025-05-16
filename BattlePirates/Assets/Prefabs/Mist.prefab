@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 732485575011156881}
   - component: {fileID: 7657023771268084452}
   - component: {fileID: 8910396636206235047}
+  - component: {fileID: -6301348737415742732}
   m_Layer: 0
   m_Name: Mist
   m_TagString: Untagged
@@ -101,6 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8375e501f141d9849960c97fb71c32f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilesToOccupy: []
 --- !u!61 &8910396636206235047
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -147,3 +149,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-6301348737415742732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401680110777432976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ccd724b86b003e4489d9c76b6a9328f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

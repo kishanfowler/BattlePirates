@@ -46,7 +46,7 @@ public class AttackManager : MonoBehaviour
 
         if (Input.GetKey(KeyCode.M))
         {
-            DoSpecialAttack(SpecialAttacks.Coin);
+            DoSpecialAttack(SpecialAttacks.Mist);
         }
     }
 
@@ -77,7 +77,7 @@ public class AttackManager : MonoBehaviour
             switch (attackType)
             {
                 case SpecialAttacks.Mist:
-                    Instantiate(MistPrefab, new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1), Quaternion.identity);
+                    Instantiate(MistPrefab, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -2), Quaternion.identity);
                     _canPlayerSpecialAttack = false;
                     break;
                 case SpecialAttacks.Coin:
