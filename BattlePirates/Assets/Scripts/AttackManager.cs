@@ -1,4 +1,5 @@
 using Spine.Unity;
+using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -9,9 +10,9 @@ public class AttackManager : MonoBehaviour
     private ShipManager _shipManager;
     private AIManager _aiManager;
     private GameStates _gameState;
-    private bool _canAISpecialAttack = true;
     private bool _canPlayerSpecialAttack = true;
     private bool _plusAttack = true;
+    private bool _hasClicked = false;
     public GameObject MistPrefab;
     public GameObject PlusIndicator;
     public GameObject DutchManPrefab;
@@ -41,12 +42,19 @@ public class AttackManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            Attack();
-        } 
+            if (!_plusAttack)
+            {
+                Attack();
+            }
+            else
+            {
+                HandlePlusAttack(PlusIndicator.transform.position);
+            }
+        }
 
-        if (Input.GetKey(KeyCode.M))
+        if (_plusAttack)
         {
-            DoSpecialAttack(SpecialAttacks.Mist);
+            PlusIndicator.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
     }
 
@@ -138,89 +146,9 @@ public class AttackManager : MonoBehaviour
                     _canPlayerSpecialAttack = false;
                     break;
                 case SpecialAttacks.Plus:
-                    var screenPosition = Input.mousePosition;
-                    screenPosition.z = 9f; // z-distance from camera
-                    Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-
-                    // Instantiate the indicator at the world position
-                    var indicator = Instantiate(PlusIndicator, worldPosition, Quaternion.identity);
-
-                    while (_plusAttack)
-                    {
-                        // Update indicator position
-                        screenPosition = Input.mousePosition;
-                        screenPosition.z = 9f;
-                        worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-                        indicator.transform.position = worldPosition;
-
-                        if (Input.GetKeyDown(KeyCode.Mouse0))
-                        {
-                            Tile centerTile = _gridManager.GetTileAtPosition(worldPosition);
-                            if (centerTile != null)
-                            {
-                                centerTile.OnHit();
-
-                                // Define 4 cardinal directions
-                                Vector2[] directions = new Vector2[]
-                                {
-                                    Vector2.right,
-                                    Vector2.left,
-                                    Vector2.up,
-                                    Vector2.down
-                                };
-
-                                foreach (Vector2 dir in directions)
-                                {
-                                    Vector2 neighborPos = (Vector2)centerTile.transform.position + dir;
-                                    Tile neighborTile = _gridManager.GetTileAtPosition(neighborPos);
-                                    if (neighborTile != null)
-                                    {
-                                        neighborTile.OnHit();
-                                    }
-                                }
-
-                                _plusAttack = false;
-                                _canPlayerSpecialAttack = false;
-                                break;
-                            }
-                        }
-                    }
-                    _canPlayerSpecialAttack = false;
+                    PlusIndicator = Instantiate(PlusIndicator, new Vector3(0, 0, 10), Quaternion.identity);
+                    _plusAttack = true;
                     break;
-                /*var indicator = Instantiate(PlusIndicator, new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1), Quaternion.identity);
-                while (_plusAttack)
-                {
-                    indicator.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 9));
-                    if (Input.GetKeyDown(KeyCode.Mouse0))
-                    {
-                        Tile tile = _gridManager.GetTileAtPosition(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 9)));
-                        if (tile)
-                        {
-                            tile.OnHit();
-                            if (_gridManager.GetTileAtPosition(new Vector2(tile.transform.position.x + 1, tile.transform.position.y)))
-                            {
-                                _gridManager.GetTileAtPosition(new Vector2(tile.transform.position.x + 1, tile.transform.position.y)).OnHit();
-                            }
-                            if (_gridManager.GetTileAtPosition(new Vector2(tile.transform.position.x - 1, tile.transform.position.y)))
-                            {
-                                _gridManager.GetTileAtPosition(new Vector2(tile.transform.position.x - 1, tile.transform.position.y)).OnHit();
-                            }
-                            if (_gridManager.GetTileAtPosition(new Vector2(tile.transform.position.x, tile.transform.position.y + 1)))
-                            {
-                                _gridManager.GetTileAtPosition(new Vector2(tile.transform.position.x, tile.transform.position.y + 1)).OnHit();
-                            }
-                            if (_gridManager.GetTileAtPosition(new Vector2(tile.transform.position.x, tile.transform.position.y - 1)))
-                            {
-                                _gridManager.GetTileAtPosition(new Vector2(tile.transform.position.x, tile.transform.position.y - 1)).OnHit();
-                            }
-                            _plusAttack = false;
-                            _canPlayerSpecialAttack = false;
-                            break;
-                        }
-                    }
-                }
-                _canPlayerSpecialAttack = false;
-                break;*/
                 case SpecialAttacks.Dutchman:
                     var ship = Instantiate(DutchManPrefab, new Vector3(-8, 6, -1), quaternion.identity);
                     ship.GetComponent<ShipBase>().IsPlayerShip = true;
@@ -228,9 +156,35 @@ public class AttackManager : MonoBehaviour
                     break;
             }
         }
-        if(_gameManager.GameState == GameStates.AITurn && _canAISpecialAttack)
-        {
+    }
 
+    private void HandlePlusAttack(Vector3 IndicatorPosition)
+    {
+        Tile centerTile = _gridManager.GetTileAtPosition(IndicatorPosition);
+        if (centerTile != null)
+        {
+            centerTile.OnHit();
+
+            Vector2[] directions = new Vector2[]
+            {
+                Vector2.right,
+                Vector2.left,
+                Vector2.up,
+                Vector2.down
+            };
+
+            foreach (Vector2 dir in directions)
+            {
+                Vector2 neighborPos = (Vector2)centerTile.transform.position + dir;
+                Tile neighborTile = _gridManager.GetTileAtPosition(neighborPos);
+                if (neighborTile != null)
+                {
+                    neighborTile.OnHit();
+                }
+            }
+
+            _plusAttack = false;
+            _canPlayerSpecialAttack = false;
         }
     }
 }
