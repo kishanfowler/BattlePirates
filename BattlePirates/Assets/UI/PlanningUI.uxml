@@ -1,11 +1,11 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Main%20Menu%20UI.uss?fileID=7433441132597879392&amp;guid=cb2c2d4af6531fa4492407b7f42d39ef&amp;type=3#Main Menu UI" />
-    <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; flex-direction: row-reverse; -unity-background-image-tint-color: rgb(255, 255, 255); background-image: none; background-color: rgba(0, 0, 0, 0);">
+    <engine:VisualElement name="VisualElement" style="flex-grow: 0; width: 100%; height: 100%; flex-direction: row-reverse; -unity-background-image-tint-color: rgb(255, 255, 255); background-image: none; background-color: rgba(0, 0, 0, 0); display: flex;">
         <engine:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.43); justify-content: flex-start; height: 100%; width: 100%;">
             <engine:VisualElement style="flex-grow: 0; width: 100%; height: auto; align-self: auto; align-items: flex-end; align-content: stretch; flex-direction: row-reverse; justify-content: space-between;">
                 <engine:Button text="Button" name="Quit" style="width: 50px; height: 50px; color: rgba(27, 27, 27, 0); background-image: url(&quot;project://database/Assets/Art/UI/give_up_button.png?fileID=2800000&amp;guid=78dd96e2af1e15d41b82194e18f4e460&amp;type=3#give_up_button&quot;); background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-right: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
                 <engine:VisualElement style="flex-grow: 1; flex-direction: row; align-self: flex-start;">
-                    <engine:Button text="Button" name="HelpButton" style="background-image: url(&quot;project://database/Assets/Art/UI/help_button.png?fileID=2800000&amp;guid=e8b0433c67af47f4d8ae28586ed9b9e9&amp;type=3#help_button&quot;); color: rgba(27, 27, 27, 0); width: 50px; height: 50px; align-items: auto; background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-left: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+                    <engine:Button name="HelpButton" style="background-image: url(&quot;project://database/Assets/Art/UI/help_button.png?fileID=2800000&amp;guid=e8b0433c67af47f4d8ae28586ed9b9e9&amp;type=3#help_button&quot;); color: rgba(27, 27, 27, 0); width: 50px; height: 50px; align-items: auto; background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-left: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
                 </engine:VisualElement>
             </engine:VisualElement>
             <engine:VisualElement style="flex-grow: 0; width: 100%; height: 100%; flex-direction: row;">
@@ -21,6 +21,65 @@
                 <engine:Label style="align-self: center; justify-content: flex-start; align-items: auto; font-size: 37px; color: rgb(255, 0, 0); text-shadow: 5px 5px 0 rgb(0, 0, 0); background-image: url(&quot;project://database/Assets/Art/UI/are_u_sure.png?fileID=2800000&amp;guid=4ed8a6816a80ed047b42f41cb00e5e35&amp;type=3#are_u_sure&quot;); height: 147px; width: 186px;" />
                 <engine:Button name="ActualQuitButton" style="width: 30%; height: 15%; align-self: center; background-image: url(&quot;project://database/Assets/Art/UI/are_u_sure_yes.png?fileID=2800000&amp;guid=febb6b1a47143224da43a620fbc81e2b&amp;type=3#are_u_sure_yes&quot;);" />
                 <engine:Button name="Cancel" style="width: 30%; height: 15%; align-self: center; background-image: url(&quot;project://database/Assets/Art/UI/are_u_sure_no.png?fileID=2800000&amp;guid=0244810f12c47424ea2ec92c95446529&amp;type=3#are_u_sure_no&quot;);" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+    <engine:VisualElement name="PowerUpChoice" style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; flex-direction: row; background-image: none; background-color: rgba(55, 55, 55, 0.72); -unity-background-image-tint-color: rgb(255, 255, 255); -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; -unity-slice-scale: 1px; -unity-background-scale-mode: stretch-to-fill; display: flex;">
+        <engine:VisualElement name="VisualElement" style="flex-grow: 0; width: 40%; justify-content: center; align-items: center; flex-shrink: 0;">
+            <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 95%; justify-content: flex-start; flex-direction: column-reverse;">
+                <engine:VisualElement name="CaptainPortrait" style="flex-grow: 0; flex-shrink: 0; width: 95%; height: 90%; align-self: center; background-image: url(&quot;project://database/Assets/Art/UI/background_settings%20-%20Copy.png?fileID=2800000&amp;guid=ac027caadb0ec6847846909b45351720&amp;type=3#background_settings - Copy&quot;); justify-content: center; display: flex; background-size: contain;">
+                    <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; width: 90%; height: 90%; align-self: center; background-image: url(&quot;project://database/Assets/Art/Pirates/marine_man.png?fileID=2800000&amp;guid=aa93667c778fa6c4cbb50ec52d08c76f&amp;type=3#marine_man&quot;); background-size: contain;" />
+                </engine:VisualElement>
+                <engine:VisualElement name="CaptainPortrait" style="flex-grow: 0; flex-shrink: 0; width: 95%; height: 90%; align-self: center; background-image: url(&quot;project://database/Assets/Art/UI/background_settings%20-%20Copy.png?fileID=2800000&amp;guid=ac027caadb0ec6847846909b45351720&amp;type=3#background_settings - Copy&quot;); justify-content: center; display: none; background-size: contain;">
+                    <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; width: 90%; height: 90%; align-self: center; background-image: url(&quot;project://database/Assets/Art/Pirates/Marine_woman.png?fileID=2800000&amp;guid=36fbd341d2ccbce4092214d07c985e27&amp;type=3#Marine_woman&quot;); background-size: contain;" />
+                </engine:VisualElement>
+                <engine:VisualElement name="CaptainPortrait" style="flex-grow: 0; flex-shrink: 0; width: 95%; height: 90%; align-self: center; background-image: url(&quot;project://database/Assets/Art/UI/background_settings%20-%20Copy.png?fileID=2800000&amp;guid=ac027caadb0ec6847846909b45351720&amp;type=3#background_settings - Copy&quot;); justify-content: center; display: none; background-size: contain;">
+                    <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; width: 90%; height: 90%; align-self: center; background-image: url(&quot;project://database/Assets/Art/Pirates/marine_man.png?fileID=2800000&amp;guid=aa93667c778fa6c4cbb50ec52d08c76f&amp;type=3#marine_man&quot;); background-size: contain;" />
+                </engine:VisualElement>
+                <engine:VisualElement name="CaptainPortrait" style="flex-grow: 0; flex-shrink: 0; width: 95%; height: 90%; align-self: center; background-image: url(&quot;project://database/Assets/Art/UI/background_settings%20-%20Copy.png?fileID=2800000&amp;guid=ac027caadb0ec6847846909b45351720&amp;type=3#background_settings - Copy&quot;); justify-content: center; display: none; background-size: contain;">
+                    <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; width: 90%; height: 90%; align-self: center; background-image: url(&quot;project://database/Assets/Art/Pirates/marine_man.png?fileID=2800000&amp;guid=aa93667c778fa6c4cbb50ec52d08c76f&amp;type=3#marine_man&quot;); background-size: contain;" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement style="flex-grow: 0; flex-direction: row; flex-shrink: 0; height: 5%; margin-bottom: 1%; width: 100%; justify-content: space-evenly;">
+                <engine:Button text="Previous" name="PreviousPowerButton" />
+                <engine:Button text="Next" name="NextPowerButton" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement name="PowerUpBox" style="flex-grow: 1; width: 60%;">
+            <engine:Button text="Select this power" name="SelectPowerUp" style="width: 60%; align-self: center; height: 10%;" />
+            <engine:VisualElement name="PowerUp" style="flex-grow: 1; display: none;">
+                <engine:VisualElement style="flex-grow: 1; justify-content: center; background-image: url(&quot;project://database/Assets/Art/UI/Illustration239_7.png?fileID=2800000&amp;guid=5ac17fea366b562409bf33449e2a4669&amp;type=3#Illustration239_7&quot;); -unity-slice-left: -1063; -unity-slice-top: -1063; -unity-slice-right: -1063; -unity-slice-bottom: -1063; align-items: center; align-content: center; height: 45%;">
+                    <engine:VisualElement style="flex-grow: 0; background-size: 100% 100%; width: 80%; height: 80%; align-self: center; flex-shrink: 0;" />
+                </engine:VisualElement>
+                <engine:VisualElement style="flex-grow: 1; justify-content: flex-end; background-image: url(&quot;project://database/Assets/Art/UI/Illustration239_7.png?fileID=2800000&amp;guid=5ac17fea366b562409bf33449e2a4669&amp;type=3#Illustration239_7&quot;); background-size: 100% 100%; height: 45%;">
+                    <engine:VisualElement name="VisualElement" style="flex-grow: 0; background-size: 100% 100%; width: 80%; height: 80%; align-self: center; flex-shrink: 0; align-content: center;">
+                        <engine:Label text="Mist: When you activate this powerup, by clicking on the character portrait during the level, you will get a placable mistbank of three by three (3x3) square of mist that covers a total of nine (9) tiles for the duration of three (3) turns. During these turns, the enemy will not be able to shoot in this area, keeping any ships safe from shots." style="flex-wrap: nowrap; -unity-text-align: upper-left; white-space: normal;" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement name="PowerUp" style="flex-grow: 1; display: none;">
+                <engine:VisualElement style="flex-grow: 1; justify-content: center; background-image: url(&quot;project://database/Assets/Art/UI/Illustration239_7.png?fileID=2800000&amp;guid=5ac17fea366b562409bf33449e2a4669&amp;type=3#Illustration239_7&quot;); -unity-slice-left: -1063; -unity-slice-top: -1063; -unity-slice-right: -1063; -unity-slice-bottom: -1063; height: 45%;" />
+                <engine:VisualElement style="flex-grow: 1; justify-content: flex-end; background-image: url(&quot;project://database/Assets/Art/UI/Illustration239_7.png?fileID=2800000&amp;guid=5ac17fea366b562409bf33449e2a4669&amp;type=3#Illustration239_7&quot;); background-size: 100% 100%; height: 45%;">
+                    <engine:VisualElement name="VisualElement" style="flex-grow: 0; background-size: 100% 100%; width: 80%; height: 80%; align-self: center; flex-shrink: 0; align-content: center;">
+                        <engine:Label text="Coin: When you click the captaint&apos;s portrait during the battle, a coin will be flipped onto the battlefield. When the coin lands, depending on which side, it causes a garanteed hit on either one of your ships or on one of the enemy&apos;s ships. This will be an automatic shot, that does not end your turn." style="white-space: normal;" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement name="PowerUp" style="flex-grow: 1; display: none;">
+                <engine:VisualElement style="flex-grow: 1; justify-content: center; background-image: url(&quot;project://database/Assets/Art/UI/Illustration239_7.png?fileID=2800000&amp;guid=5ac17fea366b562409bf33449e2a4669&amp;type=3#Illustration239_7&quot;); -unity-slice-left: -1063; -unity-slice-top: -1063; -unity-slice-right: -1063; -unity-slice-bottom: -1063; height: 45%;" />
+                <engine:VisualElement style="flex-grow: 1; justify-content: flex-end; background-image: url(&quot;project://database/Assets/Art/UI/Illustration239_7.png?fileID=2800000&amp;guid=5ac17fea366b562409bf33449e2a4669&amp;type=3#Illustration239_7&quot;); background-size: 100% 100%; height: 45%;">
+                    <engine:VisualElement name="VisualElement" style="flex-grow: 0; background-size: 100% 100%; width: 80%; height: 80%; align-self: center; flex-shrink: 0; align-content: center;">
+                        <engine:Label text="Plus Attack: When you click on the captain&apos;s portrait during battle, you will be able to place a plus-formed shot on any tile. When you have selected your target tile, the shot wil then instead of shooting only one tile, shoot the four (4) adjacent tiles connected to it on all sides. When you hit with at least one (1) ship part, you can continue firing." style="flex-wrap: nowrap; white-space: normal;" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement name="PowerUp" style="flex-grow: 1; display: flex;">
+                <engine:VisualElement style="flex-grow: 1; justify-content: center; background-image: url(&quot;project://database/Assets/Art/UI/Illustration239_7.png?fileID=2800000&amp;guid=5ac17fea366b562409bf33449e2a4669&amp;type=3#Illustration239_7&quot;); -unity-slice-left: -1063; -unity-slice-top: -1063; -unity-slice-right: -1063; -unity-slice-bottom: -1063; height: 45%;" />
+                <engine:VisualElement style="flex-grow: 1; justify-content: flex-end; background-image: url(&quot;project://database/Assets/Art/UI/Illustration239_7.png?fileID=2800000&amp;guid=5ac17fea366b562409bf33449e2a4669&amp;type=3#Illustration239_7&quot;); background-size: 100% 100%; height: 45%;">
+                    <engine:VisualElement name="VisualElement" style="flex-grow: 0; background-size: 100% 100%; width: 80%; height: 80%; align-self: center; flex-shrink: 0; align-content: center;">
+                        <engine:Label text="Dutchman: When you select this Captain, you will be able to place an aditional ship." name="Label" style="white-space: normal;" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
             </engine:VisualElement>
         </engine:VisualElement>
     </engine:VisualElement>

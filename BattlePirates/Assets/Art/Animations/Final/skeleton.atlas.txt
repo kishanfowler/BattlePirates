@@ -1,0 +1,122 @@
+
+skeleton.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Flash_1
+  rotate: false
+  xy: 2, 603
+  size: 893, 867
+  orig: 893, 867
+  offset: 0, 0
+  index: -1
+Flash_7
+  rotate: false
+  xy: 2, 603
+  size: 893, 867
+  orig: 893, 867
+  offset: 0, 0
+  index: -1
+Flash_2
+  rotate: false
+  xy: 897, 487
+  size: 893, 867
+  orig: 893, 867
+  offset: 0, 0
+  index: -1
+dust_cloud
+  rotate: true
+  xy: 350, 1522
+  size: 268, 270
+  orig: 447, 434
+  offset: 75, 131
+  index: -1
+impact
+  rotate: false
+  xy: 622, 1472
+  size: 321, 318
+  orig: 447, 434
+  offset: 59, 57
+  index: -1
+shadow
+  rotate: false
+  xy: 1287, 1356
+  size: 447, 434
+  orig: 447, 434
+  offset: 0, 0
+  index: -1
+shiney
+  rotate: false
+  xy: 945, 1450
+  size: 340, 340
+  orig: 447, 434
+  offset: 52, 47
+  index: -1
+zoom_lines
+  rotate: false
+  xy: 2, 1668
+  size: 346, 122
+  orig: 447, 434
+  offset: 64, 124
+  index: -1
+
+skeleton2.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Flash_3
+  rotate: false
+  xy: 2, 923
+  size: 893, 867
+  orig: 893, 867
+  offset: 0, 0
+  index: -1
+Flash_4
+  rotate: false
+  xy: 897, 923
+  size: 893, 867
+  orig: 893, 867
+  offset: 0, 0
+  index: -1
+Flash_5
+  rotate: false
+  xy: 2, 54
+  size: 893, 867
+  orig: 893, 867
+  offset: 0, 0
+  index: -1
+Flash_6
+  rotate: false
+  xy: 897, 54
+  size: 893, 867
+  orig: 893, 867
+  offset: 0, 0
+  index: -1
+
+skeleton3.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Coin
+  rotate: false
+  xy: 2, 2
+  size: 1865, 1865
+  orig: 1865, 1865
+  offset: 0, 0
+  index: -1
+
+skeleton4.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Official_coin
+  rotate: false
+  xy: 2, 2
+  size: 1865, 1865
+  orig: 1865, 1865
+  offset: 0, 0
+  index: -1

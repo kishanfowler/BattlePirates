@@ -14,29 +14,43 @@ public class PlacementManager : MonoBehaviour
     private int _unoccupiedTiles = 0;
     private Vector3 _oldPosition;
     private GameObject _SelectedObject;
+    private bool _mistPlaced = false;
+    private bool _shipCanPlace = false;
     public List<Vector2> tilesToOccupy;
 
     private void Awake()
     {
         _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _ship = gameObject.GetComponent<ShipBase>();
+        if (_gameManager.GameState == GameStates.PreparationPhase)
+        {
+            _shipCanPlace = true;
+        }
     }
 
     private void OnMouseDown()
     {
-        if (_oldTiles.Count > 0)
+        if (_shipCanPlace || !_mistPlaced)
         {
-            for (int i = 0; i < _oldTiles.Count; i++)
+            if (_oldTiles.Count > 0)
             {
-                _oldTiles[i].OnDeoccupy();
+                for (int i = 0; i < _oldTiles.Count; i++)
+                {
+                    _oldTiles[i].OnDeoccupy();
+                }
             }
-        }
 
-        _oldPosition = gameObject.transform.position;
+            _oldPosition = gameObject.transform.position;
+        }
     }
 
     private void Update()
     {
+        if (_gameManager.GameState != GameStates.PreparationPhase)
+        {
+            _shipCanPlace = false;
+        }
         // Als je de linkermuisknop indrukt
         if (Input.GetMouseButtonDown(0))
         {
@@ -68,18 +82,29 @@ public class PlacementManager : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 9));
+        if (_shipCanPlace || !_mistPlaced)
+        {
+            transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 9));
+        }
     }
 
     private void OnMouseUp()
     {
-        if (_ship.OccupiedTileLocations != null && _occupiedTileList != null)
+            
+        if (_SelectedObject != _ship && !_mistPlaced)
         {
-            _occupiedTileList.Clear();
-            _ship.OccupiedTileLocations.Clear();
+            PlaceMist();
+        }
+        if(_shipCanPlace)
+        {
+            if (_ship.OccupiedTileLocations != null && _occupiedTileList != null)
+            {
+                _occupiedTileList.Clear();
+                _ship.OccupiedTileLocations.Clear();
+            }
+            TryPlaceShip();
         }
         _SelectedObject = null;
-        TryPlaceShip();
     }
 
     public void TryPlaceShip()
@@ -184,6 +209,10 @@ public class PlacementManager : MonoBehaviour
         return true;
     }
 
+    private void PlaceMist()
+    {
+        _mistPlaced = true;
+    }
 
 }
     
