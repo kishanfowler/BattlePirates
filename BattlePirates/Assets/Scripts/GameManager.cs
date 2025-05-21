@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     public bool TimerHasReset = false;
     public AttackManager.SpecialAttacks ChosenPowerUp;
     public bool PowerUpChosen = false;
+    public int Turns;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -117,6 +119,7 @@ public class GameManager : MonoBehaviour
     {
         _timer = TimerTime * 60;
         TimerHasReset = true;
+        Turns++;
     }
 
     public static int BetterClamp(int Amount, int Min, int Max)
