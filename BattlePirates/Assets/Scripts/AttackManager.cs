@@ -1,24 +1,26 @@
-using System;
 using Spine.Unity;
 using System.Collections;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class AttackManager : MonoBehaviour
 {
     private GameManager _gameManager;
     private GridManager _gridManager;
     private ShipManager _shipManager;
+    private AIManager _aiManager;
     private GameStates _gameState;
     public bool CanPlayerSpecialAttack = true;
-    private bool _plusAttack = false;
+    private bool _canPlayerSpecialAttack = true;
+    private bool _plusAttack = true;
     private bool _hasClicked = false;
     public GameObject MistPrefab;
     public GameObject PlusIndicator;
-    private bool _canAISpecialAttack = true;
-
+    public GameObject DutchManPrefab;
+    public SkeletonAnimation _SkeletonAnimation;
+    public AnimationReferenceAsset HeadsAnimation;
+    public AnimationReferenceAsset TailsAnimation;
+    public GameObject CoinAnimationObject;
 
     public enum SpecialAttacks
     {
@@ -34,7 +36,7 @@ public class AttackManager : MonoBehaviour
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
         _shipManager = GameObject.Find("ShipManager").GetComponent<ShipManager>();
-
+        _aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
     }
 
     private void FixedUpdate()
@@ -59,9 +61,6 @@ public class AttackManager : MonoBehaviour
 
     void Attack()
     {
-        // //position * 1.05 because of the orthographic projection, otherwise the last row and line of the grid get skipped.
-        // Tile tile = _gridManager.GetTileAtPosition(Camera.main.ScreenToWorldPoint(new Vector3((Input.mousePosition.x + Input.mousePosition.x) /1.95f, (Input.mousePosition.y+Input.mousePosition.y)/1.9f, -1)));
-        // _gameState = _gameManager.GameState;
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10f; // afstand tot camera bij orthografisch
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -82,23 +81,29 @@ public class AttackManager : MonoBehaviour
 
     public void DoSpecialAttack(SpecialAttacks attackType)
     {
-        if (_gameManager.GameState == GameStates.PlayerTurn && CanPlayerSpecialAttack)
+        if (_gameManager.GameState == GameStates.PlayerTurn && _canPlayerSpecialAttack)
         {
             switch (attackType)
             {
                 case SpecialAttacks.Mist:
                     Instantiate(MistPrefab, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -2), Quaternion.identity);
-                    CanPlayerSpecialAttack = false;
+                    _canPlayerSpecialAttack = false;
                     break;
                 case SpecialAttacks.Coin:
-                    //animatie stuffs
-                    if (UnityEngine.Random.Range(0, 1) == 0)
+                    var RandomNumber = UnityEngine.Random.Range(0, 1);
+                    // If the coin is Tails, hit a player ship
+                    if (RandomNumber == 0)
                     {
+                        CoinAnimationObject.SetActive(true);
+                        _SkeletonAnimation.state.SetAnimation(0, TailsAnimation, false);
                         int randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
                         while (!_shipManager._ships[randomShip].IsPlayerShip)
                         {
                             randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
-                            break;
+                            if (_shipManager._ships[randomShip].IsPlayerShip)
+                            {
+                                break;
+                            }
                         }
                         if (_shipManager._ships[randomShip].IsPlayerShip)
                         {
@@ -106,35 +111,49 @@ public class AttackManager : MonoBehaviour
                             while (tile.CanBeHit == false)
                             {
                                 tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
-                                break;
+                                if(tile.CanBeHit)
+                                {
+                                    break;
+                                }
                             }
                             tile.OnHit();
                         }
                     }
+                    // If the coin is Heads, hit an enemy ship
                     else
                     {
-                        int randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
-                        while (_shipManager._ships[randomShip].IsPlayerShip)
+                        CoinAnimationObject.SetActive(true);
+                        _SkeletonAnimation.state.SetAnimation(0, HeadsAnimation, false);
+                        int randomShip = UnityEngine.Random.Range(0, _aiManager.AIShipsToPlace.Count);
+                        while (_aiManager.AIShipsToPlace[randomShip].IsPlayerShip)
                         {
-                            randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
-                            break;
+                            randomShip = UnityEngine.Random.Range(0, _aiManager.AIShipsToPlace.Count);
+                            if (!_aiManager.AIShipsToPlace[randomShip].IsPlayerShip)
+                            {
+                                break;
+                            }
                         }
-                        if (!_shipManager._ships[randomShip].IsPlayerShip)
+                        if (!_aiManager.AIShipsToPlace[randomShip].IsPlayerShip)
                         {
-                            Tile tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                            Tile tile = _aiManager.AIShipsToPlace[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, _aiManager.AIShipsToPlace[randomShip].ShipLength)].GetTile();
                             while (tile.CanBeHit == false)
                             {
-                                tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                                tile = _aiManager.AIShipsToPlace[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, _aiManager.AIShipsToPlace[randomShip].ShipLength)].GetTile();
                                 break;
                             }
                             tile.OnHit();
                         }
                     }
-                    CanPlayerSpecialAttack = false;
+                    _canPlayerSpecialAttack = false;
                     break;
                 case SpecialAttacks.Plus:
                     PlusIndicator = Instantiate(PlusIndicator, new Vector3(0, 0, 10), Quaternion.identity);
                     _plusAttack = true;
+                    break;
+                case SpecialAttacks.Dutchman:
+                    var ship = Instantiate(DutchManPrefab, new Vector3(-8, 6, -1), quaternion.identity);
+                    ship.GetComponent<ShipBase>().IsPlayerShip = true;
+                    _canPlayerSpecialAttack = false;
                     break;
             }
         }
@@ -166,7 +185,7 @@ public class AttackManager : MonoBehaviour
             }
 
             _plusAttack = false;
-            CanPlayerSpecialAttack = false;
+            _canPlayerSpecialAttack = false;
         }
     }
 }
