@@ -4,6 +4,7 @@ using System.Collections;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AttackManager : MonoBehaviour
 {
@@ -11,15 +12,12 @@ public class AttackManager : MonoBehaviour
     private GridManager _gridManager;
     private ShipManager _shipManager;
     private GameStates _gameState;
-    private bool _canPlayerSpecialAttack = true;
-    private bool _plusAttack = true;
+    public bool CanPlayerSpecialAttack = true;
+    private bool _plusAttack = false;
     private bool _hasClicked = false;
     public GameObject MistPrefab;
     public GameObject PlusIndicator;
-    public GameObject DutchManPrefab;
     private bool _canAISpecialAttack = true;
-    private bool _canPlayerSpecialAttack = true;
-    private bool _plusAttack = true;
 
 
     public enum SpecialAttacks
@@ -35,7 +33,7 @@ public class AttackManager : MonoBehaviour
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
-        _shipManager = GameObject.Find("GridManager").GetComponent<ShipManager>();
+        _shipManager = GameObject.Find("ShipManager").GetComponent<ShipManager>();
 
     }
 
@@ -82,15 +80,15 @@ public class AttackManager : MonoBehaviour
         }
     }
 
-    public void SpecialAttack(SpecialAttacks attackType)
+    public void DoSpecialAttack(SpecialAttacks attackType)
     {
-        if (_gameManager.GameState == GameStates.PlayerTurn && _canPlayerSpecialAttack)
+        if (_gameManager.GameState == GameStates.PlayerTurn && CanPlayerSpecialAttack)
         {
             switch (attackType)
             {
                 case SpecialAttacks.Mist:
                     Instantiate(MistPrefab, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -2), Quaternion.identity);
-                    _canPlayerSpecialAttack = false;
+                    CanPlayerSpecialAttack = false;
                     break;
                 case SpecialAttacks.Coin:
                     //animatie stuffs
@@ -132,16 +130,11 @@ public class AttackManager : MonoBehaviour
                             tile.OnHit();
                         }
                     }
-                    _canPlayerSpecialAttack = false;
+                    CanPlayerSpecialAttack = false;
                     break;
                 case SpecialAttacks.Plus:
                     PlusIndicator = Instantiate(PlusIndicator, new Vector3(0, 0, 10), Quaternion.identity);
                     _plusAttack = true;
-                    break;
-                case SpecialAttacks.Dutchman:
-                    var ship = Instantiate(DutchManPrefab, new Vector3(-8, 6, -1), quaternion.identity);
-                    ship.GetComponent<ShipBase>().IsPlayerShip = true;
-                    _canPlayerSpecialAttack = false;
                     break;
             }
         }
@@ -173,7 +166,7 @@ public class AttackManager : MonoBehaviour
             }
 
             _plusAttack = false;
-            _canPlayerSpecialAttack = false;
+            CanPlayerSpecialAttack = false;
         }
     }
 }

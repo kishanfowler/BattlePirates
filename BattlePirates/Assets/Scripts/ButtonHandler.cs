@@ -35,7 +35,11 @@ public class ButtonHandler : MonoBehaviour
         {
             _attackManager = GameObject.Find("AttackManager").GetComponent<AttackManager>();
         }
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        if (GameObject.Find("GameManager")!= null)
+        {
+            _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        }
         var root = uiDocument.rootVisualElement;
         _ButtonActions = new Dictionary<string, Action>
         {
@@ -133,9 +137,9 @@ public class ButtonHandler : MonoBehaviour
             return;
         }
 
-        var powerUp = GetCurrentPowerup();
+        var powerUp = _gameManager.ChosenPowerUp;
         Debug.Log("⚡ Activating powerup: " + powerUp);
-        _attackManager.SpecialAttack(powerUp);
+        _attackManager.DoSpecialAttack(powerUp);
     }
 
     void ToggleNextPowerUp()

@@ -1085,8 +1085,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 893375672600196148, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
       propertyPath: TimerTime
-      value: 60
+      value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 893375672600196148, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
+      propertyPath: DutchManPrefab
+      value: 
+      objectReference: {fileID: 6177699777948466291, guid: cdb4e325027dc1d49b8e4c18855a01bd, type: 3}
     - target: {fileID: 4706500568000942851, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
       propertyPath: m_Name
       value: GameManager

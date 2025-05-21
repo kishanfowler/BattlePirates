@@ -275,7 +275,7 @@ PrefabInstance:
     - target: {fileID: 5152142089230753075, guid: 6c0fac5133728944396c3cf0ea3f2fb4, type: 3}
       propertyPath: MistPrefab
       value: 
-      objectReference: {fileID: 8533203790737865262, guid: f4f817b06b3d3b34fad1e60f2885b7ea, type: 3}
+      objectReference: {fileID: 401680110777432976, guid: a141a61b36f734947a4b50bd3b8b32c5, type: 3}
     - target: {fileID: 5152142089230753075, guid: 6c0fac5133728944396c3cf0ea3f2fb4, type: 3}
       propertyPath: PlusIndicator
       value: 

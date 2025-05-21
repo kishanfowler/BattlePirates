@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,6 +24,8 @@ public class GameManager : MonoBehaviour
     public AttackManager.SpecialAttacks ChosenPowerUp;
     public bool PowerUpChosen = false;
     public int Turns;
+    public GameObject DutchManPrefab;
+    private bool _ghostShipSpawned;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -88,9 +92,9 @@ public class GameManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "PlanningPhase2")
         {
-            if (PowerUpChosen == true)
+            if (PowerUpChosen && ChosenPowerUp == AttackManager.SpecialAttacks.Dutchman && !_ghostShipSpawned)
             {
-                
+                SpawnGhostShip();
             }
         }
         if (DoOnce)
@@ -99,6 +103,15 @@ public class GameManager : MonoBehaviour
             {
                 DoOnce=false;
                 ChangeToAttackPhase();
+            }
+        }
+
+        if (SceneManager.GetActiveScene().name == "PlayingPhase2")
+        {
+            if (PowerUpChosen && ChosenPowerUp == AttackManager.SpecialAttacks.Dutchman)
+            {
+                var _attackManager = GameObject.Find("AttackManager").GetComponent<AttackManager>();
+                _attackManager.CanPlayerSpecialAttack = false;
             }
         }
     }
@@ -111,8 +124,16 @@ public class GameManager : MonoBehaviour
         {
             ShipList[i].gameObject.GetComponent<PlacementManager>().CheckForOccupy(ShipList[i], _AIGridManager);
         }
+        
         GameState = GameStates.PlayerTurn;
         CanPlayerAttack = true;
+    }
+
+    void SpawnGhostShip()
+    {
+        var ship = Instantiate(DutchManPrefab, new Vector3(-8, 6, -1), quaternion.identity);
+        ship.GetComponent<ShipBase>().IsPlayerShip = true;
+        _ghostShipSpawned = true;
     }
 
     private void ResetTimer() 
