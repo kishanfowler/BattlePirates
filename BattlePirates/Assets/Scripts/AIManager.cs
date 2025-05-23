@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Spine.Unity;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -39,7 +40,10 @@ public class AIManager : MonoBehaviour
     public ShipBase DutchmanPrefab;
     [SerializeField] private int RandomTurn;
     private bool _hasIndicator = false;
-
+    public SkeletonAnimation _SkeletonAnimation;
+    public AnimationReferenceAsset HeadsAnimation;
+    public AnimationReferenceAsset TailsAnimation;
+    public GameObject CoinAnimationObject;
     private enum SpecialAttacks
     {
         Coin,
@@ -245,48 +249,61 @@ public class AIManager : MonoBehaviour
             switch (attackType)
             {
                 case SpecialAttacks.Coin:
-                    if (Random.Range(0,1) == 0)
+                    var RandomNumber = UnityEngine.Random.Range(0, 1);
+                    // If the coin is Tails, hit a player ship
+                    if (RandomNumber == 0)
                     {
-                        int randomShip = Random.Range(0, _shipManager._ships.Count);
+                        CoinAnimationObject.SetActive(true);
+                        _SkeletonAnimation.state.SetAnimation(0, TailsAnimation, false);
+                        int randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
                         while (!_shipManager._ships[randomShip].IsPlayerShip)
                         {
-                            randomShip = Random.Range(0, _shipManager._ships.Count);
-                            break;
+                            randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
+                            if (_shipManager._ships[randomShip].IsPlayerShip)
+                            {
+                                break;
+                            }
                         }
-
                         if (_shipManager._ships[randomShip].IsPlayerShip)
                         {
-                            Tile tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[
-                                Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                            Tile tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
                             while (tile.CanBeHit == false)
                             {
-                                tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[
-                                    Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                                tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                                if(tile.CanBeHit)
+                                {
+                                    break;
+                                }
                             }
                             tile.OnHit();
                         }
                     }
+                    // If the coin is Heads, hit an enemy ship
                     else
                     {
-                        int randomShip = Random.Range(0, _shipManager._ships.Count);
-                        while (_shipManager._ships[randomShip].IsPlayerShip)
+                        CoinAnimationObject.SetActive(true);
+                        _SkeletonAnimation.state.SetAnimation(0, HeadsAnimation, false);
+                        int randomShip = UnityEngine.Random.Range(0, AIShipsToPlace.Count);
+                        while (AIShipsToPlace[randomShip].IsPlayerShip)
                         {
-                            randomShip = Random.Range(0, _shipManager._ships.Count);
-                            break;
+                            randomShip = UnityEngine.Random.Range(0, AIShipsToPlace.Count);
+                            if (!AIShipsToPlace[randomShip].IsPlayerShip)
+                            {
+                                break;
+                            }
                         }
-                        if (!_shipManager._ships[randomShip].IsPlayerShip)
+                        if (!AIShipsToPlace[randomShip].IsPlayerShip)
                         {
-                            Tile tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                            Tile tile = AIShipsToPlace[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, AIShipsToPlace[randomShip].ShipLength)].GetTile();
                             while (tile.CanBeHit == false)
                             {
-                                tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                                tile = AIShipsToPlace[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, AIShipsToPlace[randomShip].ShipLength)].GetTile();
                                 break;
                             }
                             tile.OnHit();
                         }
                     }
 
-                    _canSpecialAttack = false;
                     break;
                 case SpecialAttacks.Plus:
                     int index = Random.Range(0, _shootableTargets.Count);

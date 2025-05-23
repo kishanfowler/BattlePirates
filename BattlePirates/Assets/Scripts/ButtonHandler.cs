@@ -262,7 +262,7 @@ public class ButtonHandler : MonoBehaviour
 
     public void ShowVictoryScreen()
     {
-        GameObject.Find("AttackSystem").gameObject.GetComponent<AttackManager>().enabled = false;
+        GameObject.Find("AttackManager").gameObject.GetComponent<AttackManager>().enabled = false;
         _VictoryScreen.style.display = DisplayStyle.Flex;
     }
     private void Help()

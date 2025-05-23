@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
                 ResetTimer();
             }
             _timer--;
-            TimerText.text = "00:" + (_timer / 60).ToString();
+            if (TimerText != null) TimerText.text = "00:" + (_timer / 60).ToString();
             if (_timer <= 0)
             {
                 GameState = GameStates.AITurn;
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
                 ResetTimer();
             }
             _timer--;
-            TimerText.text = "00:" + (_timer / 60).ToString();
+            if (TimerText != null) TimerText.text = "00:" + (_timer / 60).ToString();
             if (_timer <= 0)
             {
                 GameState = GameStates.PlayerTurn;

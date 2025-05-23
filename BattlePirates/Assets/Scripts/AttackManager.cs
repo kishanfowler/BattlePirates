@@ -2,6 +2,7 @@ using Spine.Unity;
 using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AttackManager : MonoBehaviour
 {
@@ -11,8 +12,7 @@ public class AttackManager : MonoBehaviour
     private AIManager _aiManager;
     private GameStates _gameState;
     public bool CanPlayerSpecialAttack = true;
-    private bool _canPlayerSpecialAttack = true;
-    private bool _plusAttack = true;
+    private bool _plusAttack = false;
     private bool _hasClicked = false;
     public GameObject MistPrefab;
     public GameObject PlusIndicator;
@@ -81,13 +81,13 @@ public class AttackManager : MonoBehaviour
 
     public void DoSpecialAttack(SpecialAttacks attackType)
     {
-        if (_gameManager.GameState == GameStates.PlayerTurn && _canPlayerSpecialAttack)
+        if (_gameManager.GameState == GameStates.PlayerTurn && CanPlayerSpecialAttack)
         {
             switch (attackType)
             {
                 case SpecialAttacks.Mist:
                     Instantiate(MistPrefab, new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -2), Quaternion.identity);
-                    _canPlayerSpecialAttack = false;
+                    CanPlayerSpecialAttack = false;
                     break;
                 case SpecialAttacks.Coin:
                     var RandomNumber = UnityEngine.Random.Range(0, 1);
@@ -144,7 +144,7 @@ public class AttackManager : MonoBehaviour
                             tile.OnHit();
                         }
                     }
-                    _canPlayerSpecialAttack = false;
+                    CanPlayerSpecialAttack = false;
                     break;
                 case SpecialAttacks.Plus:
                     PlusIndicator = Instantiate(PlusIndicator, new Vector3(0, 0, 10), Quaternion.identity);
@@ -153,7 +153,7 @@ public class AttackManager : MonoBehaviour
                 case SpecialAttacks.Dutchman:
                     var ship = Instantiate(DutchManPrefab, new Vector3(-8, 6, -1), quaternion.identity);
                     ship.GetComponent<ShipBase>().IsPlayerShip = true;
-                    _canPlayerSpecialAttack = false;
+                    CanPlayerSpecialAttack = false;
                     break;
             }
         }
@@ -185,7 +185,7 @@ public class AttackManager : MonoBehaviour
             }
 
             _plusAttack = false;
-            _canPlayerSpecialAttack = false;
+            CanPlayerSpecialAttack = false;
         }
     }
 }

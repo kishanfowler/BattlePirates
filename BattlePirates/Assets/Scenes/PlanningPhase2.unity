@@ -1085,7 +1085,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 893375672600196148, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
       propertyPath: TimerTime
-      value: 5
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 893375672600196148, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
       propertyPath: DutchManPrefab
