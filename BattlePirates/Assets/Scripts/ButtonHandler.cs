@@ -21,12 +21,25 @@ public class ButtonHandler : MonoBehaviour
     private Button _ActualForfeitButton;
     private VisualElement _VictoryScreen;
     private AIManager _aiManager;
+    private Button _powerUpButton;
     private List<VisualElement> _captainPortraits;
     private List<VisualElement> _powerUpElements;
     private int _currentCaptainIndex;
-    private int _currentPowerUpIndex;
-    void Start()
+    private int _currentPowerUpIndex = 0;
+    private List<AttackManager.SpecialAttacks> _powerUps;
+    private GameManager _gameManager;
+    private AttackManager _attackManager;
+    void Awake()
     {
+        if (GameObject.Find("AttackManager") != null)
+        {
+            _attackManager = GameObject.Find("AttackManager").GetComponent<AttackManager>();
+        }
+
+        if (GameObject.Find("GameManager")!= null)
+        {
+            _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        }
         var root = uiDocument.rootVisualElement;
         _ButtonActions = new Dictionary<string, Action>
         {
@@ -47,8 +60,9 @@ public class ButtonHandler : MonoBehaviour
             { "SelectPowerUp", SelectPowerUp},
             { "PreviousPowerButton", PreviousPowerUp},
             { "NextPowerButton", NextPowerUp},
+            { "ActivatePowerUpButton", DoPowerUp},
         };
-        
+        var portraitElement = root.Q<VisualElement>("CaptainPortrait");
         _ConfirmationScreen = root.Q<VisualElement>("ConfirmationScreen");
         _ConfirmationScreenForfeit = root.Q<VisualElement>("ConfirmationScreenForfeit");
         _SettingsPanel = root.Q<VisualElement>("SettingsPanel");
@@ -56,21 +70,43 @@ public class ButtonHandler : MonoBehaviour
         _HelpScreen = root.Q<VisualElement>("HelpScreen");
         _SplashScreen = root.Q<VisualElement>("SplashScreen");
         _VictoryScreen = root.Q<VisualElement>("VictoryScreen");
+        _powerUps = new List<AttackManager.SpecialAttacks>
+        {
+            AttackManager.SpecialAttacks.Mist,
+            AttackManager.SpecialAttacks.Coin,
+            AttackManager.SpecialAttacks.Plus,
+            AttackManager.SpecialAttacks.Dutchman
+        };
+        var gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        var selectedPower = gameManager.ChosenPowerUp.ToString();
         if (SceneManager.GetActiveScene().name == "PlanningPhase2")
         {
             _captainPortraits = root.Query<VisualElement>(name: "CaptainPortrait").ToList();
             _powerUpElements = root.Query<VisualElement>(name: "PowerUp").ToList();
-            foreach (var el in _captainPortraits)
+            for (int i = 0; i < _captainPortraits.Count; i++)
             {
-                el.style.display = DisplayStyle.None;
+                _captainPortraits[i].style.display = i == 0 ? DisplayStyle.Flex : DisplayStyle.None;
             }
-            _captainPortraits[0].style.display = DisplayStyle.Flex;
-            foreach (var el in _powerUpElements)
+            for (int i = 0; i < _powerUpElements.Count; i++)
             {
-                el.style.display = DisplayStyle.None;
+                _powerUpElements[i].style.display = i == 0 ? DisplayStyle.Flex : DisplayStyle.None;
             }
-            _powerUpElements[0].style.display = DisplayStyle.Flex;
+            _gameManager.ChosenPowerUp = _powerUps[_currentPowerUpIndex];
         }
+
+        if (SceneManager.GetActiveScene().name == "PlayingPhase2")
+        {
+            Texture2D portraitTexture = Resources.Load<Texture2D>("CaptainPortraits/" + selectedPower);
+            if (portraitTexture == null)
+            {
+                Debug.LogError($"❌ Kon geen portrait vinden voor power-up {selectedPower} in Resources/CaptainPortraits/");
+                return;
+            }
+
+            // Zet de afbeelding op de VisualElement background
+            portraitElement.style.backgroundImage = new StyleBackground(portraitTexture);
+        }
+        
         foreach (var kvp in _ButtonActions)
         {
             Button button = root.Q<Button>(kvp.Key);
@@ -97,14 +133,30 @@ public class ButtonHandler : MonoBehaviour
             {
                 _SettingsPanel.style.display = DisplayStyle.None;
             }
-            else
-            {
-                Debug.Log($"Button met naam '{kvp.Key}' niet gevonden!");
-            }
+            // else
+            // {
+            //     Debug.Log($"Button met naam '{kvp.Key}' niet gevonden!");
+            // }
         }
 
         root.RegisterCallback<ClickEvent>(evt => SplashScreen() );
     }
+
+    private void DoPowerUp()
+    {
+        Debug.Log("DoPowerUp() gestart...");
+
+        if (_attackManager == null)
+        {
+            Debug.LogError("⚠️ _attackManager is NULL in DoPowerUp!");
+            return;
+        }
+
+        var powerUp = _gameManager.ChosenPowerUp;
+        Debug.Log("⚡ Activating powerup: " + powerUp);
+        _attackManager.DoSpecialAttack(powerUp);
+    }
+
     void ToggleNextPowerUp()
     {
         if (_powerUpElements.Count == 0) return;
@@ -115,6 +167,19 @@ public class ButtonHandler : MonoBehaviour
         _currentCaptainIndex = (_currentCaptainIndex + 1) % _captainPortraits.Count;
         _powerUpElements[_currentPowerUpIndex].style.display = DisplayStyle.Flex;
         _captainPortraits[_currentCaptainIndex].style.display = DisplayStyle.Flex;
+        _gameManager.ChosenPowerUp = _powerUps[_currentPowerUpIndex];
+        Debug.Log("Start met powerup:" + GetCurrentPowerup());
+    }
+
+    private AttackManager.SpecialAttacks GetCurrentPowerup()
+    {
+        if (_powerUps == null || _powerUps.Count == 0)
+        {
+            Debug.LogError("PowerUps lijst is niet geïnitialiseerd!");
+            return AttackManager.SpecialAttacks.Mist; // fallback waarde
+        }
+
+        return _powerUps[_currentPowerUpIndex];
     }
 
     void TogglePreviousPowerUp()
@@ -127,6 +192,8 @@ public class ButtonHandler : MonoBehaviour
         _currentCaptainIndex = (_currentCaptainIndex - 1 + _captainPortraits.Count) % _captainPortraits.Count;
         _powerUpElements[_currentPowerUpIndex].style.display = DisplayStyle.Flex;
         _captainPortraits[_currentCaptainIndex].style.display = DisplayStyle.Flex;
+        _gameManager.ChosenPowerUp = _powerUps[_currentPowerUpIndex];
+        Debug.Log("Start met powerup:" + GetCurrentPowerup());
     }
 
     private void NextPowerUp()
@@ -141,6 +208,7 @@ public class ButtonHandler : MonoBehaviour
 
     private void SelectPowerUp()
     {
+        _gameManager.PowerUpChosen = true;
         _PowerUpPanel.style.display = DisplayStyle.None;
     }
 
@@ -209,7 +277,7 @@ public class ButtonHandler : MonoBehaviour
 
     public void ShowVictoryScreen()
     {
-        GameObject.Find("AttackSystem").gameObject.GetComponent<AttackManager>().enabled = false;
+        GameObject.Find("AttackManager").gameObject.GetComponent<AttackManager>().enabled = false;
         _VictoryScreen.style.display = DisplayStyle.Flex;
     }
     private void Help()

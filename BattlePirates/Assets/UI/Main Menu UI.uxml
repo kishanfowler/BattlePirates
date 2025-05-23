@@ -9,7 +9,7 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="SplashScreen" enabled="true" style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; background-size: 100% 100%; align-items: auto; display: flex; background-image: url(&quot;project://database/Assets/Art/background_placeholder.png?fileID=2800000&amp;guid=16a68e5ec36f24e4c89569b97e1f086e&amp;type=3#background_placeholder&quot;);">
-        <ui:VisualElement style="flex-grow: 0; width: 100%; height: 100%; align-self: center; align-content: center; justify-content: center; display: flex;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 0; width: 100%; height: 100%; align-self: center; align-content: center; justify-content: center; display: flex;">
             <ui:Label parse-escape-sequences="false" style="background-image: url(&quot;project://database/Assets/Art/UI/title.png?fileID=2800000&amp;guid=fe1190e30f3dcb34e8e5fb628d59f943&amp;type=3#title&quot;); width: 50%; height: 50%; align-self: center; margin-bottom: 0; margin-top: 0; background-size: contain;" />
             <ui:VisualElement style="flex-grow: 0; flex-direction: row; align-items: center; justify-content: center; align-self: stretch; align-content: center; flex-shrink: 0; height: 7%;">
                 <ui:VisualElement style="flex-grow: 0; background-image: none; background-size: contain; height: 100%; width: 3%; align-self: center; align-items: center; justify-content: center; align-content: stretch; flex-shrink: 0;">

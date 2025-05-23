@@ -240,6 +240,10 @@ MonoBehaviour:
   StandardShotIndicator: {fileID: 1158352578}
   DutchmanPrefab: {fileID: 4696336507693562106, guid: 9cd15c57c8aeb724ab4122675ca1fcc2, type: 3}
   RandomTurn: 0
+  _SkeletonAnimation: {fileID: 1365538357}
+  HeadsAnimation: {fileID: 11400000, guid: 9c071627879f44a4f987eaf5018f7bd1, type: 2}
+  TailsAnimation: {fileID: 11400000, guid: 64321c4d64bdb51429067040b11464ea, type: 2}
+  CoinAnimationObject: {fileID: 1365538356}
 --- !u!4 &459954808
 Transform:
   m_ObjectHideFlags: 0

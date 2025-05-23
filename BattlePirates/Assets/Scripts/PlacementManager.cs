@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class PlacementManager : MonoBehaviour
     private bool _mistPlaced = false;
     private bool _shipCanPlace = false;
     public List<Vector2> tilesToOccupy;
+    private bool _actionDone;
 
     private void Awake()
     {
@@ -63,19 +65,29 @@ public class PlacementManager : MonoBehaviour
             }
         }
 
-        // Als muis wordt vastgehouden en E wordt ingedrukt
-        if (Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.E))
+        if (Input.GetMouseButton(0) && Input.GetKeyUp(KeyCode.E) && !_actionDone)
         {
-            if (_SelectedObject != null)
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+            if (hit.collider != null && hit.collider.gameObject == this.gameObject)
             {
-                _SelectedObject.transform.Rotate(0, 0, -90, Space.World);
+                transform.Rotate(0, 0, -90, Space.World);
+                _actionDone = true;
+                StartCoroutine(ResetAction());
             }
         }
-        if (Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.Q))
+
+        if (Input.GetMouseButton(0) && Input.GetKeyUp(KeyCode.Q) && !_actionDone)
         {
-            if (_SelectedObject != null)
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+            if (hit.collider != null && hit.collider.gameObject == this.gameObject)
             {
-                _SelectedObject.transform.Rotate(0, 0, 90, Space.World);
+                transform.Rotate(0, 0, 90, Space.World);
+                _actionDone = true;
+                StartCoroutine(ResetAction());
             }
         }
     }
@@ -213,6 +225,10 @@ public class PlacementManager : MonoBehaviour
     {
         _mistPlaced = true;
     }
-
+    private IEnumerator ResetAction()
+    {
+        yield return new WaitForEndOfFrame(); // of eventueel `yield return null;`
+        _actionDone = false;
+    }
 }
     

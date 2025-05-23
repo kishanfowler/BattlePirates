@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,8 +21,12 @@ public class GameManager : MonoBehaviour
     private bool DoOnce = false;
     private GridManager _AIGridManager;
     public bool TimerHasReset = false;
+    public AttackManager.SpecialAttacks ChosenPowerUp;
+    public bool PowerUpChosen = false;
     public int Turns;
-
+    public GameObject DutchManPrefab;
+    private bool _ghostShipSpawned;
+    public List<GameObject> CaptainPortraits;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -49,9 +55,10 @@ public class GameManager : MonoBehaviour
             _AIGridManager = GameObject.Find("AIGridManager").GetComponent<GridManager>();
             TimerText = GameObject.Find("TimerText").GetComponent<Text>();
             DoOnce = true;
+            
         }
     }
-
+    
     private void FixedUpdate()
     {
         if (GameState == GameStates.PlayerTurn)
@@ -61,7 +68,7 @@ public class GameManager : MonoBehaviour
                 ResetTimer();
             }
             _timer--;
-            TimerText.text = "00:" + (_timer / 60).ToString();
+            if (TimerText != null) TimerText.text = "00:" + (_timer / 60).ToString();
             if (_timer <= 0)
             {
                 GameState = GameStates.AITurn;
@@ -76,7 +83,7 @@ public class GameManager : MonoBehaviour
                 ResetTimer();
             }
             _timer--;
-            TimerText.text = "00:" + (_timer / 60).ToString();
+            if (TimerText != null) TimerText.text = "00:" + (_timer / 60).ToString();
             if (_timer <= 0)
             {
                 GameState = GameStates.PlayerTurn;
@@ -84,6 +91,13 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (SceneManager.GetActiveScene().name == "PlanningPhase2")
+        {
+            if (PowerUpChosen && ChosenPowerUp == AttackManager.SpecialAttacks.Dutchman && !_ghostShipSpawned)
+            {
+                SpawnGhostShip();
+            }
+        }
         if (DoOnce)
         {
             if(_gridManager.GridGenDone)
@@ -92,7 +106,18 @@ public class GameManager : MonoBehaviour
                 ChangeToAttackPhase();
             }
         }
+
+        if (SceneManager.GetActiveScene().name == "PlayingPhase2")
+        {
+            if (PowerUpChosen && ChosenPowerUp == AttackManager.SpecialAttacks.Dutchman)
+            {
+                var _attackManager = GameObject.Find("AttackManager").GetComponent<AttackManager>();
+                _attackManager.CanPlayerSpecialAttack = false;
+            }
+        }
     }
+
+    
 
     void ChangeToAttackPhase()
     {
@@ -100,8 +125,16 @@ public class GameManager : MonoBehaviour
         {
             ShipList[i].gameObject.GetComponent<PlacementManager>().CheckForOccupy(ShipList[i], _AIGridManager);
         }
+        
         GameState = GameStates.PlayerTurn;
         CanPlayerAttack = true;
+    }
+
+    void SpawnGhostShip()
+    {
+        var ship = Instantiate(DutchManPrefab, new Vector3(-8, 6, -1), quaternion.identity);
+        ship.GetComponent<ShipBase>().IsPlayerShip = true;
+        _ghostShipSpawned = true;
     }
 
     private void ResetTimer() 
@@ -126,8 +159,6 @@ public class GameManager : MonoBehaviour
         return Amount;
     }
 }
-
-
 
 
 public enum GameStates
