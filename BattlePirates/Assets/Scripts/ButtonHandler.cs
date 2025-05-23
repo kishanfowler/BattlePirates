@@ -29,6 +29,7 @@ public class ButtonHandler : MonoBehaviour
     private List<AttackManager.SpecialAttacks> _powerUps;
     private GameManager _gameManager;
     private AttackManager _attackManager;
+    private string _selectedPower;
     void Awake()
     {
         if (GameObject.Find("AttackManager") != null)
@@ -77,10 +78,9 @@ public class ButtonHandler : MonoBehaviour
             AttackManager.SpecialAttacks.Plus,
             AttackManager.SpecialAttacks.Dutchman
         };
-        var gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        var selectedPower = gameManager.ChosenPowerUp.ToString();
         if (SceneManager.GetActiveScene().name == "PlanningPhase2")
         {
+            
             _captainPortraits = root.Query<VisualElement>(name: "CaptainPortrait").ToList();
             _powerUpElements = root.Query<VisualElement>(name: "PowerUp").ToList();
             for (int i = 0; i < _captainPortraits.Count; i++)
@@ -96,10 +96,12 @@ public class ButtonHandler : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "PlayingPhase2")
         {
-            Texture2D portraitTexture = Resources.Load<Texture2D>("CaptainPortraits/" + selectedPower);
+            var gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            _selectedPower = gameManager.ChosenPowerUp.ToString();
+            Texture2D portraitTexture = Resources.Load<Texture2D>("CaptainPortraits/" + _selectedPower);
             if (portraitTexture == null)
             {
-                Debug.LogError($"❌ Kon geen portrait vinden voor power-up {selectedPower} in Resources/CaptainPortraits/");
+                Debug.LogError($"❌ Kon geen portrait vinden voor power-up {_selectedPower} in Resources/CaptainPortraits/");
                 return;
             }
 
