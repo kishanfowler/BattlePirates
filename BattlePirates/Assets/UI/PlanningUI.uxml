@@ -81,10 +81,10 @@
             </engine:VisualElement>
         </engine:VisualElement>
     </engine:VisualElement>
-    <engine:VisualElement name="HelpScreen" style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Art/UI/background_place_holder_.png?fileID=2800000&amp;guid=e2c9f08d3d48c6a459505f2270ac2d14&amp;type=3#background_place_holder_&quot;); display: none;">
+    <engine:VisualElement name="HelpScreen" style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Art/help.png?fileID=2800000&amp;guid=9f527af466fbb7240bf8110aeb190e06&amp;type=3#help&quot;); display: none;">
         <engine:Button text="Button" name="CloseHelpButton" style="background-image: url(&quot;project://database/Assets/Art/UI/help_button.png?fileID=2800000&amp;guid=e8b0433c67af47f4d8ae28586ed9b9e9&amp;type=3#help_button&quot;); color: rgba(27, 27, 27, 0); width: 50px; height: 50px; align-items: auto; background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-left: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
         <engine:VisualElement name="HelpText" style="flex-grow: 0; width: 100%; height: 100%;">
-            <engine:TextField placeholder-text="Here you can place your ships on any tiles of your choice by clicking and dragging. You can also turn the ships to your liking. Once you are done placing your ships, you can press the continue button to start playing against your opponent." multiline="true" style="height: 209px;" />
+            <engine:TextField placeholder-text="Here you can place your ships on any tiles of your choice by clicking and dragging. You can also turn the ships to your liking by pressing the Q and E buttons while holding a ship. Once you are done placing your ships, you can press the continue button to start playing against your opponent." multiline="true" style="height: 209px; width: 80%; align-self: center; -unity-background-image-tint-color: rgba(255, 255, 255, 0); background-color: rgba(0, 0, 0, 0);" />
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

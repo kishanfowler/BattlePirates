@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public int Turns;
     public GameObject DutchManPrefab;
     private bool _ghostShipSpawned;
-
+    public List<GameObject> CaptainPortraits;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -55,9 +55,10 @@ public class GameManager : MonoBehaviour
             _AIGridManager = GameObject.Find("AIGridManager").GetComponent<GridManager>();
             TimerText = GameObject.Find("TimerText").GetComponent<Text>();
             DoOnce = true;
+            
         }
     }
-
+    
     private void FixedUpdate()
     {
         if (GameState == GameStates.PlayerTurn)

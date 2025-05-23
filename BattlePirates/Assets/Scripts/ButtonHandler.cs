@@ -62,7 +62,7 @@ public class ButtonHandler : MonoBehaviour
             { "NextPowerButton", NextPowerUp},
             { "ActivatePowerUpButton", DoPowerUp},
         };
-        
+        var portraitElement = root.Q<VisualElement>("CaptainPortrait");
         _ConfirmationScreen = root.Q<VisualElement>("ConfirmationScreen");
         _ConfirmationScreenForfeit = root.Q<VisualElement>("ConfirmationScreenForfeit");
         _SettingsPanel = root.Q<VisualElement>("SettingsPanel");
@@ -77,6 +77,8 @@ public class ButtonHandler : MonoBehaviour
             AttackManager.SpecialAttacks.Plus,
             AttackManager.SpecialAttacks.Dutchman
         };
+        var gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        var selectedPower = gameManager.ChosenPowerUp.ToString();
         if (SceneManager.GetActiveScene().name == "PlanningPhase2")
         {
             _captainPortraits = root.Query<VisualElement>(name: "CaptainPortrait").ToList();
@@ -90,6 +92,19 @@ public class ButtonHandler : MonoBehaviour
                 _powerUpElements[i].style.display = i == 0 ? DisplayStyle.Flex : DisplayStyle.None;
             }
             _gameManager.ChosenPowerUp = _powerUps[_currentPowerUpIndex];
+        }
+
+        if (SceneManager.GetActiveScene().name == "PlayingPhase2")
+        {
+            Texture2D portraitTexture = Resources.Load<Texture2D>("CaptainPortraits/" + selectedPower);
+            if (portraitTexture == null)
+            {
+                Debug.LogError($"❌ Kon geen portrait vinden voor power-up {selectedPower} in Resources/CaptainPortraits/");
+                return;
+            }
+
+            // Zet de afbeelding op de VisualElement background
+            portraitElement.style.backgroundImage = new StyleBackground(portraitTexture);
         }
         
         foreach (var kvp in _ButtonActions)
