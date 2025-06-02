@@ -62,7 +62,6 @@ public class AIManager : MonoBehaviour
         _buttonHandler = UIPlaying.GetComponent<ButtonHandler>();
         _shipManager = FindFirstObjectByType<ShipManager>(); // Consider dependency injection here too
         _gameManager = GameManager.GameManagerInstance;
-
         if (_gameManager == null)
         {
             Debug.LogError("GameManager instance not found.");
@@ -171,11 +170,16 @@ public class AIManager : MonoBehaviour
                 _timeWaiting = 0;
             }
         }
-
+        
         if (_gameManager.GameState == GameStates.PlayerTurn && _gridManager.AreAllAIShipTilesHit())
         {
             _buttonHandler.ShowVictoryScreen();
             RemoveShips();
+        }
+        
+        if (_gameManager.GameState == GameStates.AITurn && _gridManager.AreAllPlayerShipTilesHit(GetAllPlayerOccupiedTiles().ToArray()))
+        {
+            _buttonHandler.ShowDefeatScreen();
         }
     }
     private IEnumerator ExecuteAIShotRoutine()
@@ -185,22 +189,26 @@ public class AIManager : MonoBehaviour
             Debug.LogWarning("No more targets to shoot.");
             yield break;
         }
-
+        
         int index = Random.Range(0, _shootableTargets.Count);
         Vector2 shot = _shootableTargets[index];
         _shootableTargets.RemoveAt(index);
         _targetTile = _aiGridManager.GetTileAtPosition(shot);
-
-        if (!_hasIndicator)
+        if (!_targetTile.IsHit)
         {
-            var indicator = Instantiate(StandardShotIndicator, new Vector3(_targetTile.transform.position.x, _targetTile.transform.position.y, -1.5f), quaternion.identity);
-            _hasIndicator = true;
-            Destroy(indicator, WaitTime);
+            if (!_hasIndicator)
+            {
+                var indicator = Instantiate(StandardShotIndicator,
+                    new Vector3(_targetTile.transform.position.x, _targetTile.transform.position.y, -1.5f),
+                    quaternion.identity);
+                _hasIndicator = true;
+                Destroy(indicator, WaitTime);
+            }
+
+            yield return new WaitForSeconds(WaitTime);
+            HandleShot();
+            _hasIndicator = false;
         }
-    
-        yield return new WaitForSeconds(WaitTime);
-        HandleShot();
-        _hasIndicator = false;
     }
 
     private void HandleShot()
@@ -208,7 +216,12 @@ public class AIManager : MonoBehaviour
         if (_targetTile != null)
         {
             _targetTile.OnHit();
-            _targetTile = null;
+            if (_targetTile.IsOccupied)
+            {
+                _targetTile = null;
+                _hasIndicator = false;
+                StartCoroutine(ExecuteAIShotRoutine());
+            }
         }
         else
         {
@@ -254,7 +267,7 @@ public class AIManager : MonoBehaviour
         bool isHeads = Random.Range(0, 2) == 1;
         SkeletonAnimation.state.SetAnimation(0, isHeads ? HeadsAnimation : TailsAnimation, false);
 
-        var shipList = isHeads ? _aiShipsToPlace : _shipManager._ships.FindAll(s => s.IsPlayerShip);
+        var shipList = isHeads ? _aiShipsToPlace : _shipManager.Ships.FindAll(s => s.IsPlayerShip);
         if (shipList.Count == 0) yield break;
 
         ShipBase ship = shipList[Random.Range(0, shipList.Count)];
@@ -287,6 +300,27 @@ public class AIManager : MonoBehaviour
             Tile tile = _aiGridManager.GetTileAtPosition(centerPos + dir);
             tile?.OnHit();
         }
+    }
+    public List<Tile> GetAllPlayerOccupiedTiles()
+    {
+        List<Tile> playerTiles = new();
+
+        foreach (var ship in _shipManager.Ships)
+        {
+            if (!ship.IsPlayerShip) continue;
+
+            ShipPlacer[] placers = ship.GetComponentsInChildren<ShipPlacer>();
+            foreach (var placer in placers)
+            {
+                Tile tile = placer.GetTile();
+                if (tile != null && tile.IsOccupied)
+                {
+                    playerTiles.Add(tile);
+                }
+            }
+        }
+
+        return playerTiles;
     }
     
 }

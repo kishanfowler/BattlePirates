@@ -20,6 +20,7 @@ public class ButtonHandler : MonoBehaviour
     private VisualElement _ConfirmationScreenForfeit;
     private Button _ActualForfeitButton;
     private VisualElement _VictoryScreen;
+    public VisualElement _DefeatScreen;
     private AIManager _aiManager;
     private Button _powerUpButton;
     private List<VisualElement> _captainPortraits;
@@ -71,6 +72,7 @@ public class ButtonHandler : MonoBehaviour
         _HelpScreen = root.Q<VisualElement>("HelpScreen");
         _SplashScreen = root.Q<VisualElement>("SplashScreen");
         _VictoryScreen = root.Q<VisualElement>("VictoryScreen");
+        _DefeatScreen = root.Q<VisualElement>("DefeatScreen");
         _powerUps = new List<AttackManager.SpecialAttacks>
         {
             AttackManager.SpecialAttacks.Mist,
@@ -126,6 +128,11 @@ public class ButtonHandler : MonoBehaviour
             {
                 _VictoryScreen.style.display = DisplayStyle.None;
             }
+
+            if (_DefeatScreen != null)
+            {
+                _DefeatScreen.style.display = DisplayStyle.None;
+            }
             if (button != null)
             {
                 string buttonName = kvp.Key;
@@ -143,6 +150,8 @@ public class ButtonHandler : MonoBehaviour
 
         root.RegisterCallback<ClickEvent>(evt => SplashScreen() );
     }
+
+    
 
     private void DoPowerUp()
     {
@@ -281,6 +290,12 @@ public class ButtonHandler : MonoBehaviour
     {
         GameObject.Find("AttackManager").gameObject.GetComponent<AttackManager>().enabled = false;
         _VictoryScreen.style.display = DisplayStyle.Flex;
+    }
+
+    public void ShowDefeatScreen()
+    {
+        GameObject.Find("AttackManager").gameObject.GetComponent<AttackManager>().enabled = false;
+        _DefeatScreen.style.display = DisplayStyle.Flex;
     }
     private void Help()
     {

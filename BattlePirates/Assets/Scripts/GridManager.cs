@@ -92,4 +92,17 @@ public class GridManager : MonoBehaviour
 
         return true;
     }
+
+    public bool AreAllPlayerShipTilesHit(Tile[] Tilelist)
+    {
+        foreach (var tile in Tilelist)
+        {
+            if (tile.IsOccupied && !tile.IsHit)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    
 }

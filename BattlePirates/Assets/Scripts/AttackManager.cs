@@ -96,21 +96,21 @@ public class AttackManager : MonoBehaviour
                     {
                         CoinAnimationObject.SetActive(true);
                         _SkeletonAnimation.state.SetAnimation(0, TailsAnimation, false);
-                        int randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
-                        while (!_shipManager._ships[randomShip].IsPlayerShip)
+                        int randomShip = UnityEngine.Random.Range(0, _shipManager.Ships.Count);
+                        while (!_shipManager.Ships[randomShip].IsPlayerShip)
                         {
-                            randomShip = UnityEngine.Random.Range(0, _shipManager._ships.Count);
-                            if (_shipManager._ships[randomShip].IsPlayerShip)
+                            randomShip = UnityEngine.Random.Range(0, _shipManager.Ships.Count);
+                            if (_shipManager.Ships[randomShip].IsPlayerShip)
                             {
                                 break;
                             }
                         }
-                        if (_shipManager._ships[randomShip].IsPlayerShip)
+                        if (_shipManager.Ships[randomShip].IsPlayerShip)
                         {
-                            Tile tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                            Tile tile = _shipManager.Ships[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, _shipManager.Ships[randomShip].ShipLength)].GetTile();
                             while (tile.CanBeHit == false)
                             {
-                                tile = _shipManager._ships[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, _shipManager._ships[randomShip].ShipLength)].GetTile();
+                                tile = _shipManager.Ships[randomShip].GetComponentsInChildren<ShipPlacer>()[UnityEngine.Random.Range(0, _shipManager.Ships[randomShip].ShipLength)].GetTile();
                                 if(tile.CanBeHit)
                                 {
                                     break;

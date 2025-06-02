@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         
         if (ShipList.Count <= 0)
         {
-            ShipList = _shipManager._ships;
+            ShipList = _shipManager.Ships;
         }
         if(scene.name == "PlayingPhase2")
         {
