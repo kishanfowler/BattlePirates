@@ -224,26 +224,24 @@ MonoBehaviour:
   GridPositions: {fileID: 1989245823}
   AIShootingGrid: {fileID: 591641320}
   UIPlaying: {fileID: 460398466}
+  GameManager: {fileID: 0}
   ShipPrefabs:
   - {fileID: 5892430735984906873, guid: 1ddf5bbf8e0d013479e416dab821f3a7, type: 3}
   - {fileID: 7662655176840426533, guid: 963aa4364a49cbc4b9f2c6a7bc1b3d4b, type: 3}
   - {fileID: 4696336507693562106, guid: 064ec848e9d44364ba43531c19a84e4d, type: 3}
   - {fileID: 238047051152723021, guid: 78e7942c1292d5d4e8528e3e54006b59, type: 3}
   - {fileID: 7751907812490936290, guid: 3d48fe272e221cc46b7ea76b1f701149, type: 3}
-  AIShipsToPlace: []
-  WaitTime: 1
-  TurnsPlayed: 0
-  MinimumTurnsBeforeSpecial: 5
-  MaximumTurnsBeforeSpecial: 15
-  ChosenSpecialAttack: 0
+  DutchmanPrefab: {fileID: 4696336507693562106, guid: 9cd15c57c8aeb724ab4122675ca1fcc2, type: 3}
   PlusIndicator: {fileID: 879976686}
   StandardShotIndicator: {fileID: 1158352578}
-  DutchmanPrefab: {fileID: 4696336507693562106, guid: 9cd15c57c8aeb724ab4122675ca1fcc2, type: 3}
-  RandomTurn: 0
-  _SkeletonAnimation: {fileID: 1365538357}
+  WaitTime: 1
+  MinimumTurnsBeforeSpecial: 5
+  MaximumTurnsBeforeSpecial: 15
+  SkeletonAnimation: {fileID: 1365538357}
   HeadsAnimation: {fileID: 11400000, guid: 9c071627879f44a4f987eaf5018f7bd1, type: 2}
   TailsAnimation: {fileID: 11400000, guid: 64321c4d64bdb51429067040b11464ea, type: 2}
   CoinAnimationObject: {fileID: 1365538356}
+  ChosenSpecialAttack: 0
 --- !u!4 &459954808
 Transform:
   m_ObjectHideFlags: 0
