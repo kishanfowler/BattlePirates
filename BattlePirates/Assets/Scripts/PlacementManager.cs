@@ -6,11 +6,9 @@ using UnityEngine;
 public class PlacementManager : MonoBehaviour
 {
     private GameManager _gameManager;
-    private GameStates _gameState;
     private GridManager _gridManager;
     private List<Tile> _oldTiles = new();
     private List<Tile> _placementTiles = new();
-    private List<Vector2> _occupiedTileList;
     private ShipBase _ship;
     private int _unoccupiedTiles = 0;
     private Vector3 _oldPosition;
@@ -22,8 +20,8 @@ public class PlacementManager : MonoBehaviour
 
     private void Awake()
     {
-        _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _gridManager = FindObjectOfType<GridManager>();
+        _gameManager = GameManager.GameManagerInstance;
         _ship = gameObject.GetComponent<ShipBase>();
         if (_gameManager.GameState == GameStates.PreparationPhase)
         {
@@ -102,16 +100,15 @@ public class PlacementManager : MonoBehaviour
 
     private void OnMouseUp()
     {
-            
+
         if (_SelectedObject != _ship && !_mistPlaced)
         {
             PlaceMist();
         }
         if(_shipCanPlace)
         {
-            if (_ship.OccupiedTileLocations != null && _occupiedTileList != null)
+            if (_ship.OccupiedTileLocations != null)
             {
-                _occupiedTileList.Clear();
                 _ship.OccupiedTileLocations.Clear();
             }
             TryPlaceShip();
@@ -126,15 +123,14 @@ public class PlacementManager : MonoBehaviour
             if (gameObject.GetComponentsInChildren<ShipPlacer>()[i].GetTile())
             {
                 _placementTiles.Add(gameObject.GetComponentsInChildren<ShipPlacer>()[i].GetTile());
-                _ship.OccupiedTileLocations.Add(_placementTiles[i].GridPosition);
+                _ship.OccupiedTileLocations.Add(_placementTiles[i].TileMiddle);
             }
             else
             {
                 break;
             }
         }
-        _occupiedTileList = _ship.OccupiedTileLocations;
-        if(_occupiedTileList.Count == _ship.ShipLength)
+        if(_ship.OccupiedTileLocations.Count == _ship.ShipLength)
         {
             PlaceShip();
         }
@@ -146,16 +142,22 @@ public class PlacementManager : MonoBehaviour
 
     public void PlaceShip()
     {
+        Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        var tile = _gridManager.GetTileAtWorldPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        if (tile)
+        {
+            _ship.transform.position = tile.TileMiddle;
+        }
         if (_ship.OccupiedTileLocations != null)
         {
             for (int i = 0; i < _ship.OccupiedTileLocations.Count; i++)
             {
-                transform.position = new Vector3(_ship.OccupiedTileLocations[i].x,_ship.OccupiedTileLocations[i].y,-1);
+                transform.position = new Vector3(tile.TileMiddle.x, tile.TileMiddle.y, - 1);
             }
-            for (int i = 0; i < _occupiedTileList.Count; i++)
+            for (int i = 0; i < _ship.OccupiedTileLocations.Count; i++)
             {
-                _gridManager.GetTileAtPosition(_occupiedTileList[i]).OnOccupy();
-                _oldTiles.Add(_gridManager.GetTileAtPosition(_occupiedTileList[i]));
+                _gridManager.GetTileAtWorldPosition(_ship.OccupiedTileLocations[i]).OnOccupy();
+                _oldTiles.Add(_gridManager.GetTileAtWorldPosition(_ship.OccupiedTileLocations[i]));
             }
             _unoccupiedTiles = 0;
         }

@@ -64,7 +64,7 @@ public class AttackManager : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10f; // afstand tot camera bij orthografisch
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        Tile tile = _gridManager.GetTileAtPosition(worldPos);
+        Tile tile = _gridManager.GetTileAtWorldPosition(worldPos);
         _gameState = _gameManager.GameState;
         if (!tile) return;
         if (_gameState == GameStates.PlayerTurn && _gameManager.CanPlayerAttack && tile.CanBeHit)
@@ -161,7 +161,7 @@ public class AttackManager : MonoBehaviour
 
     private void HandlePlusAttack(Vector3 IndicatorPosition)
     {
-        Tile centerTile = _gridManager.GetTileAtPosition(IndicatorPosition);
+        Tile centerTile = _gridManager.GetTileAtWorldPosition(IndicatorPosition);
         if (centerTile != null)
         {
             centerTile.OnHit();
@@ -177,7 +177,7 @@ public class AttackManager : MonoBehaviour
             foreach (Vector2 dir in directions)
             {
                 Vector2 neighborPos = (Vector2)centerTile.transform.position + dir;
-                Tile neighborTile = _gridManager.GetTileAtPosition(neighborPos);
+                Tile neighborTile = _gridManager.GetTileAtWorldPosition(neighborPos);
                 if (neighborTile != null)
                 {
                     neighborTile.OnHit();
