@@ -6,13 +6,10 @@ using UnityEngine;
 public class PlacementManager : MonoBehaviour
 {
     private GameManager _gameManager;
-    private GameStates _gameState;
     private GridManager _gridManager;
     private List<Tile> _oldTiles = new();
     private List<Tile> _placementTiles = new();
-    private List<Vector2> _occupiedTileList;
     private ShipBase _ship;
-    private int _unoccupiedTiles = 0;
     private Vector3 _oldPosition;
     private GameObject _SelectedObject;
     private bool _mistPlaced = false;
@@ -20,10 +17,10 @@ public class PlacementManager : MonoBehaviour
     public List<Vector2> tilesToOccupy;
     private bool _actionDone;
 
-    private void Awake()
+    private void Start()
     {
-        _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _gridManager = FindObjectOfType<GridManager>();
+        _gameManager = GameManager.GameManagerInstance;
         _ship = gameObject.GetComponent<ShipBase>();
         if (_gameManager.GameState == GameStates.PreparationPhase)
         {
@@ -42,7 +39,6 @@ public class PlacementManager : MonoBehaviour
                     _oldTiles[i].OnDeoccupy();
                 }
             }
-
             _oldPosition = gameObject.transform.position;
         }
     }
@@ -64,7 +60,7 @@ public class PlacementManager : MonoBehaviour
                 _SelectedObject = hit.collider.gameObject;
             }
         }
-
+        // Draaien van het schip met de klok mee
         if (Input.GetMouseButton(0) && Input.GetKeyUp(KeyCode.E) && !_actionDone)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -77,7 +73,7 @@ public class PlacementManager : MonoBehaviour
                 StartCoroutine(ResetAction());
             }
         }
-
+        // Draaien van het schip tegen de klok in
         if (Input.GetMouseButton(0) && Input.GetKeyUp(KeyCode.Q) && !_actionDone)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -102,23 +98,22 @@ public class PlacementManager : MonoBehaviour
 
     private void OnMouseUp()
     {
-            
+
         if (_SelectedObject != _ship && !_mistPlaced)
         {
             PlaceMist();
         }
         if(_shipCanPlace)
         {
-            if (_ship.OccupiedTileLocations != null && _occupiedTileList != null)
+            if (_ship.OccupiedTileLocations != null)
             {
-                _occupiedTileList.Clear();
                 _ship.OccupiedTileLocations.Clear();
             }
             TryPlaceShip();
         }
         _SelectedObject = null;
     }
-
+    // Kijk of het schip een valid plaats heeft
     public void TryPlaceShip()
     {
         for (int i = 0; i < gameObject.GetComponentsInChildren<ShipPlacer>().Length; i++)
@@ -126,15 +121,14 @@ public class PlacementManager : MonoBehaviour
             if (gameObject.GetComponentsInChildren<ShipPlacer>()[i].GetTile())
             {
                 _placementTiles.Add(gameObject.GetComponentsInChildren<ShipPlacer>()[i].GetTile());
-                _ship.OccupiedTileLocations.Add(_placementTiles[i].GridPosition);
+                _ship.OccupiedTileLocations.Add(_placementTiles[i].TileMiddle);
             }
             else
             {
                 break;
             }
         }
-        _occupiedTileList = _ship.OccupiedTileLocations;
-        if(_occupiedTileList.Count == _ship.ShipLength)
+        if(_ship.OccupiedTileLocations.Count == _ship.ShipLength)
         {
             PlaceShip();
         }
@@ -143,56 +137,36 @@ public class PlacementManager : MonoBehaviour
             _ship.transform.position = _oldPosition;
         }
     }
-
+    // Plaatsing van het schip
     public void PlaceShip()
     {
+        Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        var tile = _gridManager.GetTileAtWorldPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        if (tile)
+        {
+            _ship.transform.position = tile.TileMiddle;
+        }
         if (_ship.OccupiedTileLocations != null)
         {
             for (int i = 0; i < _ship.OccupiedTileLocations.Count; i++)
             {
-                transform.position = new Vector3(_ship.OccupiedTileLocations[i].x,_ship.OccupiedTileLocations[i].y,-1);
+                transform.position = new Vector3(tile.TileMiddle.x, tile.TileMiddle.y, - 1);
             }
-            for (int i = 0; i < _occupiedTileList.Count; i++)
+            for (int i = 0; i < _ship.OccupiedTileLocations.Count; i++)
             {
-                _gridManager.GetTileAtPosition(_occupiedTileList[i]).OnOccupy();
-                _oldTiles.Add(_gridManager.GetTileAtPosition(_occupiedTileList[i]));
-            }
-            _unoccupiedTiles = 0;
-        }
-        else
-        {
-            for (int i = 0; i < _placementTiles.Count; i++)
-            {
-                if(_placementTiles[i].IsOccupied == false)
-                {
-                    _unoccupiedTiles++;
-                }
-            }
-            if (_unoccupiedTiles == _placementTiles.Count)
-            {
-                transform.position = new Vector3(_placementTiles[GameManager.BetterClamp((_ship.ShipLength - 1), 1, 3)].transform.position.x, _placementTiles[GameManager.BetterClamp(_ship.ShipLength - 1, 1, 3)].transform.position.y, -1);
-                for (int i = 0; i < _placementTiles.Count; i++)
-                {
-                    _placementTiles[i].OnOccupy();
-                }
-                _oldTiles = _placementTiles;
-                _unoccupiedTiles = 0;
-            }
-            else
-            {
-                gameObject.transform.position = _oldPosition;
+                _gridManager.GetTileAtWorldPosition(_ship.OccupiedTileLocations[i]).OnOccupy();
+                _oldTiles.Add(_gridManager.GetTileAtWorldPosition(_ship.OccupiedTileLocations[i]));
             }
         }
         _placementTiles.Clear();
     }
-
+    // kijk of niet al de tile occupied is
     public bool CheckForOccupy(ShipBase Ship, GridManager gridManager)
     {
-        var tilePositions = gridManager.GetAllTilePositions();
+        List<Vector2> tilePositions = gridManager.GetAllTilePositions();
         Vector2 direction = Ship.IsHorizontal? Vector2.right: Vector2.up;
-        var position = Ship.transform.position;
-        var shipStartPos = new Vector2(position.x, position.y);
-        bool overlap = false;
+        Vector3 position = Ship.transform.position;
+        Vector2 shipStartPos = new Vector2(position.x, position.y);
         tilesToOccupy = new List<Vector2>();
 
 
@@ -220,14 +194,15 @@ public class PlacementManager : MonoBehaviour
         }
         return true;
     }
-
+    // plaatst de mist
     private void PlaceMist()
     {
         _mistPlaced = true;
     }
+    // Reset voor de DoOnce
     private IEnumerator ResetAction()
     {
-        yield return new WaitForEndOfFrame(); // of eventueel `yield return null;`
+        yield return new WaitForEndOfFrame();
         _actionDone = false;
     }
 }

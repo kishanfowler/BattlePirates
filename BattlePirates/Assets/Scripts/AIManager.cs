@@ -189,7 +189,7 @@ public class AIManager : MonoBehaviour
         int index = Random.Range(0, _shootableTargets.Count);
         Vector2 shot = _shootableTargets[index];
         _shootableTargets.RemoveAt(index);
-        _targetTile = _aiGridManager.GetTileAtPosition(shot);
+        _targetTile = _aiGridManager.GetTileAtWorldPosition(shot);
 
         if (!_hasIndicator)
         {
@@ -275,7 +275,7 @@ public class AIManager : MonoBehaviour
         Vector2 centerPos = _shootableTargets[index];
         _shootableTargets.RemoveAt(index);
 
-        _targetTile = _aiGridManager.GetTileAtPosition(centerPos);
+        _targetTile = _aiGridManager.GetTileAtWorldPosition(centerPos);
 
         var indicator = Instantiate(PlusIndicator, new Vector3(centerPos.x, centerPos.y, -1.5f), Quaternion.identity);
         Destroy(indicator, WaitTime);
@@ -284,7 +284,7 @@ public class AIManager : MonoBehaviour
         Vector2[] directions = { Vector2.zero, Vector2.right, Vector2.left, Vector2.up, Vector2.down };
         foreach (var dir in directions)
         {
-            Tile tile = _aiGridManager.GetTileAtPosition(centerPos + dir);
+            Tile tile = _aiGridManager.GetTileAtWorldPosition(centerPos + dir);
             tile?.OnHit();
         }
     }
