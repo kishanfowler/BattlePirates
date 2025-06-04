@@ -31,8 +31,8 @@ public class AttackManager : MonoBehaviour
     void Start()
     {
         _gameManager = GameManager.GameManagerInstance;
-        _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
-        _shipManager = ShipManager.ShipManagerInstance;
+        _gridManager = _gameManager.GridManager;
+        _shipManager = _gameManager.ShipManager;
         _aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
     }
 
@@ -69,7 +69,7 @@ public class AttackManager : MonoBehaviour
             tile.OnHit();
             if (!tile.IsOccupied)
             {
-                _gameManager.GameState = GameStates.AITurn;
+                _gameManager.SetGameState(GameStates.AITurn);
                 _gameManager.CanPlayerAttack = false;
                 _gameManager.TimerHasReset = false;
             }

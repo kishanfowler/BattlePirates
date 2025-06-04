@@ -133,7 +133,7 @@ public class AIManager : MonoBehaviour
             ship.GetComponent<SpriteRenderer>().enabled = false;
         }
 
-        _gameManager.GameState = GameStates.PlayerTurn;
+        _gameManager.SetGameState(GameStates.PlayerTurn);
     }
 
     private void RotateShipRandomly(ShipBase Ship)
@@ -165,7 +165,7 @@ public class AIManager : MonoBehaviour
                 }
 
                 _turnsPlayed++;
-                _gameManager.GameState = GameStates.PlayerTurn;
+                _gameManager.SetGameState(GameStates.PlayerTurn);
                 _gameManager.CanPlayerAttack = true;
                 _gameManager.TimerHasReset = false;
                 _timeWaiting = 0;
