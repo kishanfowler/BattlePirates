@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Spine.Unity;
 using Unity.Mathematics;
 using UnityEngine;
@@ -40,7 +41,11 @@ public class AIManager : MonoBehaviour
     private List<ShipBase> _aiShipsToPlace = new();
     private List<Vector2> _shootableTargets = new();
     private Tile _targetTile;
-
+    private Queue<Vector2> _targetPriorityQueue = new();
+    private Vector2 _shot;
+    private Vector2 _huntOrigin;
+    private Vector2 _huntDirection;
+    
     private int _shotsAvailable;
     private int _turnsPlayed;
     private int _randomTurn;
@@ -50,6 +55,8 @@ public class AIManager : MonoBehaviour
     private bool _specialAttackChosen;
     private bool _plusAttack = true;
     private float _timeWaiting;
+    private bool _isHunting = false;
+    private bool _reverseHuntDirectionTried = false;
 
     private enum SpecialAttacks { Coin, Plus, Dutchman, Mist }
     [SerializeField] private SpecialAttacks ChosenSpecialAttack;
@@ -189,11 +196,17 @@ public class AIManager : MonoBehaviour
             Debug.LogWarning("No more targets to shoot.");
             yield break;
         }
-        
-        int index = Random.Range(0, _shootableTargets.Count);
-        Vector2 shot = _shootableTargets[index];
-        _shootableTargets.RemoveAt(index);
-        _targetTile = _aiGridManager.GetTileAtPosition(shot);
+        if (_targetPriorityQueue.Count > 0)
+        {
+            _shot = _targetPriorityQueue.Dequeue();
+        }
+        else
+        {
+            int index = Random.Range(0, _shootableTargets.Count);
+            _shot = _shootableTargets[index];
+            _shootableTargets.RemoveAt(index);
+        }
+        _targetTile = _aiGridManager.GetTileAtPosition(_shot);
         if (!_targetTile.IsHit)
         {
             if (!_hasIndicator)
@@ -218,14 +231,41 @@ public class AIManager : MonoBehaviour
             _targetTile.OnHit();
             if (_targetTile.IsOccupied)
             {
-                _targetTile = null;
-                _hasIndicator = false;
-                StartCoroutine(ExecuteAIShotRoutine());
+                _isHunting = true;
+                _huntOrigin = _targetTile.GridPosition;
+                Vector2[] directions = { Vector2.zero, Vector2.right, Vector2.left, Vector2.up, Vector2.down };
+                _huntDirection = directions[Random.Range(0, directions.Length)];
+                _reverseHuntDirectionTried = false;
+                var nextTarget = _huntOrigin + _huntDirection;
+                
+                if (_shootableTargets.Contains(nextTarget))
+                {
+                    _targetPriorityQueue.Enqueue(nextTarget);
+                    _hasIndicator = false;
+                    StartCoroutine(ExecuteAIShotRoutine());
+                }
             }
-        }
-        else
-        {
-            StartCoroutine(ExecuteAIShotRoutine());
+            else
+            {
+                if (_isHunting && !_reverseHuntDirectionTried)
+                {
+                    _huntDirection = -_huntDirection;
+                    _reverseHuntDirectionTried = true;
+
+                    var nextTarget = _huntOrigin + _huntDirection;
+                    if (_shootableTargets.Contains(nextTarget))
+                    {
+                        _targetPriorityQueue.Enqueue(nextTarget);
+                        _hasIndicator = false;
+                        StartCoroutine(ExecuteAIShotRoutine());
+                    }
+                }
+
+                _isHunting = false;
+                _huntDirection = Vector2.zero;
+                _huntOrigin = Vector2.zero;
+                _reverseHuntDirectionTried = false;
+            }
         }
     }
 
