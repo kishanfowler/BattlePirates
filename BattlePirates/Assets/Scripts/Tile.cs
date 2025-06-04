@@ -7,6 +7,7 @@ public class Tile : MonoBehaviour
     public bool CanBeHit;
     public bool IsHit;
     public Vector2 GridPosition { get; private set; }
+    public Vector2 TileMiddle { get; private set; }
     [SerializeField] private GameObject Highlight;
     [SerializeField] private Sprite HitSprite;
     private SpriteRenderer _spriteRenderer;
@@ -14,6 +15,7 @@ public class Tile : MonoBehaviour
     public void Init(Vector2 Position)
     {
         GridPosition = Position;
+        TileMiddle = gameObject.transform.position;
     }
     private void Start()
     {
