@@ -1,8 +1,6 @@
 using Spine.Unity;
-using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class AttackManager : MonoBehaviour
 {
@@ -11,9 +9,8 @@ public class AttackManager : MonoBehaviour
     private ShipManager _shipManager;
     private AIManager _aiManager;
     private GameStates _gameState;
-    public bool CanPlayerSpecialAttack = true;
     private bool _plusAttack = false;
-    private bool _hasClicked = false;
+    public bool CanPlayerSpecialAttack = true;
     public GameObject MistPrefab;
     public GameObject PlusIndicator;
     public GameObject DutchManPrefab;
@@ -33,9 +30,9 @@ public class AttackManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
-        _shipManager = GameObject.Find("ShipManager").GetComponent<ShipManager>();
+        _gameManager = GameManager.GameManagerInstance;
+        _gridManager = _gameManager.GridManager;
+        _shipManager = _gameManager.ShipManager;
         _aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
     }
 
@@ -72,7 +69,7 @@ public class AttackManager : MonoBehaviour
             tile.OnHit();
             if (!tile.IsOccupied)
             {
-                _gameManager.GameState = GameStates.AITurn;
+                _gameManager.SetGameState(GameStates.AITurn);
                 _gameManager.CanPlayerAttack = false;
                 _gameManager.TimerHasReset = false;
             }

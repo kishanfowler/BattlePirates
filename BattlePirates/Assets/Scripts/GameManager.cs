@@ -1,31 +1,28 @@
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-    public bool CanPlayerAttack;
-    public GameStates GameState;
-    public static GameManager GameManagerInstance;
-    private GridManager _gridManager;
-    public List<ShipBase> ShipList;
-    private ShipManager _shipManager;
+    [SerializeField] private GameObject DutchManPrefab;
     [SerializeField] private int TimerTime;
+    private List<ShipBase> _shipList;
     private int _timer;
-    private Text TimerText;
-    private bool DoOnce = false;
-    private GridManager _AIGridManager;
+    private Text _timerText;
+    private bool _doOnce = false;
+    private bool _ghostShipSpawned;
     public bool TimerHasReset = false;
     public AttackManager.SpecialAttacks ChosenPowerUp;
     public bool PowerUpChosen = false;
     public int Turns;
-    public GameObject DutchManPrefab;
-    private bool _ghostShipSpawned;
+    public bool CanPlayerAttack;
+    public GridManager GridManager;
+    public GridManager AIGridManager;
+    public ShipManager ShipManager;
+    public GameStates GameState {get; private set;}
+    public static GameManager GameManagerInstance;
     public List<GameObject> CaptainPortraits;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -39,22 +36,24 @@ public class GameManager : MonoBehaviour
         GameState = GameStates.PreparationPhase;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
-        _shipManager = GameObject.Find("ShipManager").GetComponent<ShipManager>();
+        ShipManager = ShipManager.ShipManagerInstance;
+        GridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         
-        if (ShipList.Count <= 0)
+        if (_shipList.Count <= 0)
         {
-            ShipList = _shipManager.Ships;
+            _shipList = ShipManager._ships;
         }
         if(scene.name == "PlayingPhase2")
         {
-            _gridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
-            _AIGridManager = GameObject.Find("AIGridManager").GetComponent<GridManager>();
-            TimerText = GameObject.Find("TimerText").GetComponent<Text>();
-            DoOnce = true;
+            // Dit is een andere scene maar hij heeft wel dezelfe naam
+            GridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
+            AIGridManager = GameObject.Find("AIGridManager").GetComponent<GridManager>();
+            _timerText = GameObject.Find("TimerText").GetComponent<Text>();
+            _doOnce = true;
             
         }
     }
@@ -68,7 +67,7 @@ public class GameManager : MonoBehaviour
                 ResetTimer();
             }
             _timer--;
-            if (TimerText != null) TimerText.text = "00:" + (_timer / 60).ToString();
+            if (_timerText != null) _timerText.text = "00:" + (_timer / 60).ToString();
             if (_timer <= 0)
             {
                 GameState = GameStates.AITurn;
@@ -83,7 +82,7 @@ public class GameManager : MonoBehaviour
                 ResetTimer();
             }
             _timer--;
-            if (TimerText != null) TimerText.text = "00:" + (_timer / 60).ToString();
+            if (_timerText != null) _timerText.text = "00:" + (_timer / 60).ToString();
             if (_timer <= 0)
             {
                 GameState = GameStates.PlayerTurn;
@@ -98,11 +97,11 @@ public class GameManager : MonoBehaviour
                 SpawnGhostShip();
             }
         }
-        if (DoOnce)
+        if (_doOnce)
         {
-            if(_gridManager.GridGenDone)
+            if(GridManager.GridGenDone)
             {
-                DoOnce=false;
+                _doOnce=false;
                 ChangeToAttackPhase();
             }
         }
@@ -121,9 +120,9 @@ public class GameManager : MonoBehaviour
 
     void ChangeToAttackPhase()
     {
-        for (int i = 0; i < ShipList.Count; i++)
+        for (int i = 0; i < _shipList.Count; i++)
         {
-            ShipList[i].gameObject.GetComponent<PlacementManager>().CheckForOccupy(ShipList[i], _AIGridManager);
+            _shipList[i].gameObject.GetComponent<PlacementManager>().CheckForOccupy(_shipList[i], AIGridManager);
         }
         
         GameState = GameStates.PlayerTurn;
@@ -157,6 +156,11 @@ public class GameManager : MonoBehaviour
         }
 
         return Amount;
+    }
+
+    public void SetGameState(GameStates Gamestate)
+    {
+        GameState = Gamestate;
     }
 }
 

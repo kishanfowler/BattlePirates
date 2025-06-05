@@ -198,7 +198,7 @@ public class PlacementManager : MonoBehaviour
     {
         _mistPlaced = true;
     }
-    // Reset voor de DoOnce
+    // Reset voor de _doOnce
     private IEnumerator ResetAction()
     {
         yield return new WaitForEndOfFrame();
