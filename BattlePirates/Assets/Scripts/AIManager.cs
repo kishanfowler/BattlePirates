@@ -286,7 +286,7 @@ public class AIManager : MonoBehaviour
 
         // Beurt beëindigen
         _turnsPlayed++;
-        _gameManager.GameState = GameStates.PlayerTurn;
+        _gameManager.SetGameState(GameStates.PlayerTurn); 
         _gameManager.CanPlayerAttack = true;
         _gameManager.TimerHasReset = false;
         _timeWaiting = 0;
@@ -377,7 +377,7 @@ public class AIManager : MonoBehaviour
         bool isHeads = Random.Range(0, 2) == 1;
         SkeletonAnimation.state.SetAnimation(0, isHeads ? HeadsAnimation : TailsAnimation, false);
 
-        var shipList = isHeads ? _aiShipsToPlace : _shipManager.Ships.FindAll(s => s.IsPlayerShip);
+        var shipList = isHeads ? _aiShipsToPlace : _shipManager._ships.FindAll(s => s.IsPlayerShip);
         if (shipList.Count == 0) yield break;
 
         ShipBase ship = shipList[Random.Range(0, shipList.Count)];
@@ -415,7 +415,7 @@ public class AIManager : MonoBehaviour
     {
         List<Tile> playerTiles = new();
 
-        foreach (var ship in _shipManager.Ships)
+        foreach (var ship in _shipManager._ships)
         {
             if (!ship.IsPlayerShip) continue;
 
