@@ -166,7 +166,7 @@ public class PlacementManager : MonoBehaviour
         List<Vector2> tilePositions = gridManager.GetAllTilePositions();
         Vector2 direction = Ship.IsHorizontal? Vector2.right: Vector2.up;
         Vector3 position = Ship.transform.position;
-        Vector2 shipStartPos = new Vector2(position.x, position.y);
+        Vector2 shipStartPos = new Vector2((position * direction).x - direction.x, (position * direction).y - direction.y);
         tilesToOccupy = new List<Vector2>();
 
 
