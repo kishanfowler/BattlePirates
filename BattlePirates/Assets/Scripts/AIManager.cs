@@ -45,6 +45,7 @@ public class AIManager : MonoBehaviour
     private Vector2 _shot;
     private Vector2 _huntOrigin;
     private Vector2 _huntDirection;
+    private Vector2 _shotDirection = Vector2.zero;
     
     private int _shotsAvailable;
     private int _turnsPlayed;
@@ -183,9 +184,10 @@ public class AIManager : MonoBehaviour
         {
             _buttonHandler.ShowVictoryScreen();
             RemoveShips();
+            gameObject.GetComponent<AIManager>().enabled = false;
         }
         
-        if (_gameManager.GameState == GameStates.AITurn && _gridManager.AreAllPlayerShipTilesHit(GetAllPlayerOccupiedTiles().ToArray()))
+        if (_gameManager.GameState == GameStates.PlayerTurn && _gridManager.AreAllPlayerShipTilesHit(GetAllPlayerOccupiedTiles().ToArray()))
         {
             _buttonHandler.ShowDefeatScreen();
         }
@@ -229,23 +231,60 @@ public class AIManager : MonoBehaviour
 
         if (chosenTile.IsOccupied)
         {
-            // Voeg omliggende tiles toe aan prioriteitswachtrij
-            Vector2[] directions = { Vector2.right, Vector2.left, Vector2.up, Vector2.down };
-            foreach (var dir in directions)
-            {
-                Vector2 neighbor = shotPos + dir;
-                if (_shootableTargets.Contains(neighbor) && !_targetPriorityQueue.Contains(neighbor))
-                {
-                    _targetPriorityQueue.Enqueue(neighbor);
-                }
-            }
+            Vector2 currentPos = shotPos;
 
-            // Direct nog een keer schieten
-            StartCoroutine(ExecuteAIShotRoutine());
-            yield break;
+            // Kies één geldige richting als dit het eerste occupied-hit-schot is van deze beurt
+            if (_shotDirection == Vector2.zero)
+            {
+                List<Vector2> directions = new List<Vector2> { Vector2.right, Vector2.left, Vector2.up, Vector2.down };
+                directions = directions.OrderBy(_ => Random.value).ToList();
+
+                foreach (var dir in directions)
+                {
+                    Vector2 nextPos = currentPos + dir;
+                    Tile nextTile = _aiGridManager.GetTileAtWorldPosition(nextPos);
+
+                    // Alleen geldig als de tile bestaat, nog niet geraakt is en nog in targets zit
+                    if (nextTile != null && !nextTile.IsHit && _shootableTargets.Contains(nextPos))
+                    {
+                        _shotDirection = dir; // Sla gekozen richting op voor deze beurt
+                        _targetPriorityQueue.Enqueue(nextPos);
+                        StartCoroutine(ExecuteAIShotRoutine());
+                        yield break;
+                    }
+                    if (nextTile != null && nextTile.IsHit)
+                    {
+                        StartCoroutine(ExecuteAIShotRoutine());
+                        yield break;
+                    }
+                }
+
+                // Geen enkele richting geldig → eindig beurt
+            }
+            else
+            {
+                // Volgende tile in reeds gekozen richting
+                Vector2 nextPos = currentPos + _shotDirection;
+                Tile nextTile = _aiGridManager.GetTileAtWorldPosition(nextPos);
+
+                if (nextTile != null && !nextTile.IsHit && _shootableTargets.Contains(nextPos))
+                {
+                    _targetPriorityQueue.Enqueue(nextPos);
+                    StartCoroutine(ExecuteAIShotRoutine());
+                    yield break;
+                }
+
+                // Richting doodgelopen → reset voor volgende beurt
+                _shotDirection = Vector2.zero;
+            }
+        }
+        else
+        {
+            // Miss → reset richting
+            _shotDirection = Vector2.zero;
         }
 
-        // Beurt eindigen
+        // Beurt beëindigen
         _turnsPlayed++;
         _gameManager.GameState = GameStates.PlayerTurn;
         _gameManager.CanPlayerAttack = true;
