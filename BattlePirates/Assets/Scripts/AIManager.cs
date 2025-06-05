@@ -57,11 +57,12 @@ public class AIManager : MonoBehaviour
     private float _timeWaiting;
     private bool _isHunting = false;
     private bool _reverseHuntDirectionTried = false;
+    private bool _waitingForShot;
 
     private enum SpecialAttacks { Coin, Plus, Dutchman, Mist }
     [SerializeField] private SpecialAttacks ChosenSpecialAttack;
 
-    
+
     private void Awake()
     {
         _gridManager = GridPositions.GetComponent<GridManager>();
@@ -196,40 +197,63 @@ public class AIManager : MonoBehaviour
             Debug.LogWarning("No more targets to shoot.");
             yield break;
         }
+
+        Vector2 shotPos;
+
         if (_targetPriorityQueue.Count > 0)
-
-        int index = Random.Range(0, _shootableTargets.Count);
-        Vector2 shot = _shootableTargets[index];
-        _shootableTargets.RemoveAt(index);
-        _targetTile = _aiGridManager.GetTileAtWorldPosition(shot);
-
-        if (!_hasIndicator)
         {
-            _shot = _targetPriorityQueue.Dequeue();
+            shotPos = _targetPriorityQueue.Dequeue();
         }
         else
         {
             int index = Random.Range(0, _shootableTargets.Count);
-            _shot = _shootableTargets[index];
+            shotPos = _shootableTargets[index];
             _shootableTargets.RemoveAt(index);
         }
-        _targetTile = _aiGridManager.GetTileAtPosition(_shot);
-        if (!_targetTile.IsHit)
+
+        Tile chosenTile = _aiGridManager.GetTileAtWorldPosition(shotPos);
+
+        if (chosenTile == null || chosenTile.IsHit)
         {
-            if (!_hasIndicator)
+            yield break;
+        }
+
+        var indicator = Instantiate(StandardShotIndicator,
+            new Vector3(chosenTile.transform.position.x, chosenTile.transform.position.y, -1.5f),
+            Quaternion.identity);
+        Destroy(indicator, WaitTime);
+
+        yield return new WaitForSeconds(WaitTime);
+
+        chosenTile.OnHit();
+
+        if (chosenTile.IsOccupied)
+        {
+            // Voeg omliggende tiles toe aan prioriteitswachtrij
+            Vector2[] directions = { Vector2.right, Vector2.left, Vector2.up, Vector2.down };
+            foreach (var dir in directions)
             {
-                var indicator = Instantiate(StandardShotIndicator,
-                    new Vector3(_targetTile.transform.position.x, _targetTile.transform.position.y, -1.5f),
-                    quaternion.identity);
-                _hasIndicator = true;
-                Destroy(indicator, WaitTime);
+                Vector2 neighbor = shotPos + dir;
+                if (_shootableTargets.Contains(neighbor) && !_targetPriorityQueue.Contains(neighbor))
+                {
+                    _targetPriorityQueue.Enqueue(neighbor);
+                }
             }
 
-            yield return new WaitForSeconds(WaitTime);
-            HandleShot();
-            _hasIndicator = false;
+            // Direct nog een keer schieten
+            StartCoroutine(ExecuteAIShotRoutine());
+            yield break;
         }
+
+        // Beurt eindigen
+        _turnsPlayed++;
+        _gameManager.GameState = GameStates.PlayerTurn;
+        _gameManager.CanPlayerAttack = true;
+        _gameManager.TimerHasReset = false;
+        _timeWaiting = 0;
     }
+
+
 
     private void HandleShot()
     {
