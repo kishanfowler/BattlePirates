@@ -150,10 +150,6 @@ public class PlacementManager : MonoBehaviour
         {
             for (int i = 0; i < _ship.OccupiedTileLocations.Count; i++)
             {
-                transform.position = new Vector3(tile.TileMiddle.x, tile.TileMiddle.y, - 1);
-            }
-            for (int i = 0; i < _ship.OccupiedTileLocations.Count; i++)
-            {
                 _gridManager.GetTileAtWorldPosition(_ship.OccupiedTileLocations[i]).OnOccupy();
                 _oldTiles.Add(_gridManager.GetTileAtWorldPosition(_ship.OccupiedTileLocations[i]));
             }
@@ -166,7 +162,7 @@ public class PlacementManager : MonoBehaviour
         List<Vector2> tilePositions = gridManager.GetAllTilePositions();
         Vector2 direction = Ship.IsHorizontal? Vector2.right: Vector2.up;
         Vector3 position = Ship.transform.position;
-        Vector2 shipStartPos = new Vector2((position * direction).x - direction.x, (position * direction).y - direction.y);
+        Vector2 shipStartPos = new Vector2(((position.x * Mathf.Max(direction.x,1)) - (direction.x * GameManager.BetterClamp(Mathf.CeilToInt(Ship.ShipLength / 2), 1, 2))), ((position.y * Mathf.Max(direction.x, 1)) - (direction.y * GameManager.BetterClamp(Mathf.CeilToInt(Ship.ShipLength / 2), 1, 2))));
         tilesToOccupy = new List<Vector2>();
 
 
