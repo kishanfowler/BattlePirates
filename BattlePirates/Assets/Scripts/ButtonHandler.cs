@@ -20,6 +20,8 @@ public class ButtonHandler : MonoBehaviour
     private VisualElement _ConfirmationScreenForfeit;
     private Button _ActualForfeitButton;
     private VisualElement _VictoryScreen;
+    private VisualElement _PortraitElement;
+    public VisualElement _DefeatScreen;
     private AIManager _aiManager;
     private Button _powerUpButton;
     private List<VisualElement> _captainPortraits;
@@ -63,7 +65,7 @@ public class ButtonHandler : MonoBehaviour
             { "NextPowerButton", NextPowerUp},
             { "ActivatePowerUpButton", DoPowerUp},
         };
-        var portraitElement = root.Q<VisualElement>("CaptainPortrait");
+        _PortraitElement = root.Q<VisualElement>("CaptainPortrait");
         _ConfirmationScreen = root.Q<VisualElement>("ConfirmationScreen");
         _ConfirmationScreenForfeit = root.Q<VisualElement>("ConfirmationScreenForfeit");
         _SettingsPanel = root.Q<VisualElement>("SettingsPanel");
@@ -71,6 +73,7 @@ public class ButtonHandler : MonoBehaviour
         _HelpScreen = root.Q<VisualElement>("HelpScreen");
         _SplashScreen = root.Q<VisualElement>("SplashScreen");
         _VictoryScreen = root.Q<VisualElement>("VictoryScreen");
+        _DefeatScreen = root.Q<VisualElement>("DefeatScreen");
         _powerUps = new List<AttackManager.SpecialAttacks>
         {
             AttackManager.SpecialAttacks.Mist,
@@ -106,7 +109,7 @@ public class ButtonHandler : MonoBehaviour
             }
 
             // Zet de afbeelding op de VisualElement background
-            portraitElement.style.backgroundImage = new StyleBackground(portraitTexture);
+            _PortraitElement.style.backgroundImage = new StyleBackground(portraitTexture);
         }
         
         foreach (var kvp in _ButtonActions)
@@ -126,6 +129,11 @@ public class ButtonHandler : MonoBehaviour
             {
                 _VictoryScreen.style.display = DisplayStyle.None;
             }
+
+            if (_DefeatScreen != null)
+            {
+                _DefeatScreen.style.display = DisplayStyle.None;
+            }
             if (button != null)
             {
                 string buttonName = kvp.Key;
@@ -144,6 +152,8 @@ public class ButtonHandler : MonoBehaviour
         root.RegisterCallback<ClickEvent>(evt => SplashScreen() );
     }
 
+    
+
     private void DoPowerUp()
     {
         Debug.Log("DoPowerUp() gestart...");
@@ -155,7 +165,6 @@ public class ButtonHandler : MonoBehaviour
         }
 
         var powerUp = _gameManager.ChosenPowerUp;
-        Debug.Log("⚡ Activating powerup: " + powerUp);
         _attackManager.DoSpecialAttack(powerUp);
     }
 
@@ -170,7 +179,6 @@ public class ButtonHandler : MonoBehaviour
         _powerUpElements[_currentPowerUpIndex].style.display = DisplayStyle.Flex;
         _captainPortraits[_currentCaptainIndex].style.display = DisplayStyle.Flex;
         _gameManager.ChosenPowerUp = _powerUps[_currentPowerUpIndex];
-        Debug.Log("Start met powerup:" + GetCurrentPowerup());
     }
 
     private AttackManager.SpecialAttacks GetCurrentPowerup()
@@ -281,6 +289,12 @@ public class ButtonHandler : MonoBehaviour
     {
         GameObject.Find("AttackManager").gameObject.GetComponent<AttackManager>().enabled = false;
         _VictoryScreen.style.display = DisplayStyle.Flex;
+    }
+
+    public void ShowDefeatScreen()
+    {
+        GameObject.Find("AttackManager").gameObject.GetComponent<AttackManager>().enabled = false;
+        _DefeatScreen.style.display = DisplayStyle.Flex;
     }
     private void Help()
     {

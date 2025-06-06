@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Spine.Unity;
 using Unity.Mathematics;
 using UnityEngine;
@@ -40,7 +41,12 @@ public class AIManager : MonoBehaviour
     private List<ShipBase> _aiShipsToPlace = new();
     private List<Vector2> _shootableTargets = new();
     private Tile _targetTile;
-
+    private Queue<Vector2> _targetPriorityQueue = new();
+    private Vector2 _shot;
+    private Vector2 _huntOrigin;
+    private Vector2 _huntDirection;
+    private Vector2 _shotDirection = Vector2.zero;
+    
     private int _shotsAvailable;
     private int _turnsPlayed;
     private int _randomTurn;
@@ -50,11 +56,14 @@ public class AIManager : MonoBehaviour
     private bool _specialAttackChosen;
     private bool _plusAttack = true;
     private float _timeWaiting;
+    private bool _isHunting = false;
+    private bool _reverseHuntDirectionTried = false;
+    private bool _waitingForShot;
 
     private enum SpecialAttacks { Coin, Plus, Dutchman, Mist }
     [SerializeField] private SpecialAttacks ChosenSpecialAttack;
 
-    
+
     private void Awake()
     {
         _gridManager = GridPositions.GetComponent<GridManager>();
@@ -62,7 +71,6 @@ public class AIManager : MonoBehaviour
         _buttonHandler = UIPlaying.GetComponent<ButtonHandler>();
         _shipManager = FindFirstObjectByType<ShipManager>(); // Consider dependency injection here too
         _gameManager = GameManager.GameManagerInstance;
-
         if (_gameManager == null)
         {
             Debug.LogError("GameManager instance not found.");
@@ -171,11 +179,17 @@ public class AIManager : MonoBehaviour
                 _timeWaiting = 0;
             }
         }
-
+        
         if (_gameManager.GameState == GameStates.PlayerTurn && _gridManager.AreAllAIShipTilesHit())
         {
             _buttonHandler.ShowVictoryScreen();
             RemoveShips();
+            gameObject.GetComponent<AIManager>().enabled = false;
+        }
+        
+        if (_gameManager.GameState == GameStates.PlayerTurn && _gridManager.AreAllPlayerShipTilesHit(GetAllPlayerOccupiedTiles().ToArray()))
+        {
+            _buttonHandler.ShowDefeatScreen();
         }
     }
     private IEnumerator ExecuteAIShotRoutine()
@@ -186,33 +200,142 @@ public class AIManager : MonoBehaviour
             yield break;
         }
 
-        int index = Random.Range(0, _shootableTargets.Count);
-        Vector2 shot = _shootableTargets[index];
-        _shootableTargets.RemoveAt(index);
-        _targetTile = _aiGridManager.GetTileAtWorldPosition(shot);
+        Vector2 shotPos;
 
-        if (!_hasIndicator)
+        if (_targetPriorityQueue.Count > 0)
         {
-            var indicator = Instantiate(StandardShotIndicator, new Vector3(_targetTile.transform.position.x, _targetTile.transform.position.y, -1.5f), quaternion.identity);
-            _hasIndicator = true;
-            Destroy(indicator, WaitTime);
+            shotPos = _targetPriorityQueue.Dequeue();
         }
-    
+        else
+        {
+            int index = Random.Range(0, _shootableTargets.Count);
+            shotPos = _shootableTargets[index];
+            _shootableTargets.RemoveAt(index);
+        }
+
+        Tile chosenTile = _aiGridManager.GetTileAtWorldPosition(shotPos);
+
+        if (chosenTile == null || chosenTile.IsHit)
+        {
+            yield break;
+        }
+
+        var indicator = Instantiate(StandardShotIndicator,
+            new Vector3(chosenTile.transform.position.x, chosenTile.transform.position.y, -1.5f),
+            Quaternion.identity);
+        Destroy(indicator, WaitTime);
+
         yield return new WaitForSeconds(WaitTime);
-        HandleShot();
-        _hasIndicator = false;
+
+        chosenTile.OnHit();
+
+        if (chosenTile.IsOccupied)
+        {
+            Vector2 currentPos = shotPos;
+
+            // Kies één geldige richting als dit het eerste occupied-hit-schot is van deze beurt
+            if (_shotDirection == Vector2.zero)
+            {
+                List<Vector2> directions = new List<Vector2> { Vector2.right, Vector2.left, Vector2.up, Vector2.down };
+                directions = directions.OrderBy(_ => Random.value).ToList();
+
+                foreach (var dir in directions)
+                {
+                    Vector2 nextPos = currentPos + dir;
+                    Tile nextTile = _aiGridManager.GetTileAtWorldPosition(nextPos);
+
+                    // Alleen geldig als de tile bestaat, nog niet geraakt is en nog in targets zit
+                    if (nextTile != null && !nextTile.IsHit && _shootableTargets.Contains(nextPos))
+                    {
+                        _shotDirection = dir; // Sla gekozen richting op voor deze beurt
+                        _targetPriorityQueue.Enqueue(nextPos);
+                        StartCoroutine(ExecuteAIShotRoutine());
+                        yield break;
+                    }
+                    if (nextTile != null && nextTile.IsHit)
+                    {
+                        StartCoroutine(ExecuteAIShotRoutine());
+                        yield break;
+                    }
+                }
+
+                // Geen enkele richting geldig → eindig beurt
+            }
+            else
+            {
+                // Volgende tile in reeds gekozen richting
+                Vector2 nextPos = currentPos + _shotDirection;
+                Tile nextTile = _aiGridManager.GetTileAtWorldPosition(nextPos);
+
+                if (nextTile != null && !nextTile.IsHit && _shootableTargets.Contains(nextPos))
+                {
+                    _targetPriorityQueue.Enqueue(nextPos);
+                    StartCoroutine(ExecuteAIShotRoutine());
+                    yield break;
+                }
+
+                // Richting doodgelopen → reset voor volgende beurt
+                _shotDirection = Vector2.zero;
+            }
+        }
+        else
+        {
+            // Miss → reset richting
+            _shotDirection = Vector2.zero;
+        }
+
+        // Beurt beëindigen
+        _turnsPlayed++;
+        _gameManager.SetGameState(GameStates.PlayerTurn); 
+        _gameManager.CanPlayerAttack = true;
+        _gameManager.TimerHasReset = false;
+        _timeWaiting = 0;
     }
+
+
 
     private void HandleShot()
     {
         if (_targetTile != null)
         {
             _targetTile.OnHit();
-            _targetTile = null;
-        }
-        else
-        {
-            StartCoroutine(ExecuteAIShotRoutine());
+            if (_targetTile.IsOccupied)
+            {
+                _isHunting = true;
+                _huntOrigin = _targetTile.GridPosition;
+                Vector2[] directions = { Vector2.zero, Vector2.right, Vector2.left, Vector2.up, Vector2.down };
+                _huntDirection = directions[Random.Range(0, directions.Length)];
+                _reverseHuntDirectionTried = false;
+                var nextTarget = _huntOrigin + _huntDirection;
+                
+                if (_shootableTargets.Contains(nextTarget))
+                {
+                    _targetPriorityQueue.Enqueue(nextTarget);
+                    _hasIndicator = false;
+                    StartCoroutine(ExecuteAIShotRoutine());
+                }
+            }
+            else
+            {
+                if (_isHunting && !_reverseHuntDirectionTried)
+                {
+                    _huntDirection = -_huntDirection;
+                    _reverseHuntDirectionTried = true;
+
+                    var nextTarget = _huntOrigin + _huntDirection;
+                    if (_shootableTargets.Contains(nextTarget))
+                    {
+                        _targetPriorityQueue.Enqueue(nextTarget);
+                        _hasIndicator = false;
+                        StartCoroutine(ExecuteAIShotRoutine());
+                    }
+                }
+
+                _isHunting = false;
+                _huntDirection = Vector2.zero;
+                _huntOrigin = Vector2.zero;
+                _reverseHuntDirectionTried = false;
+            }
         }
     }
 
@@ -287,6 +410,27 @@ public class AIManager : MonoBehaviour
             Tile tile = _aiGridManager.GetTileAtWorldPosition(centerPos + dir);
             tile?.OnHit();
         }
+    }
+    public List<Tile> GetAllPlayerOccupiedTiles()
+    {
+        List<Tile> playerTiles = new();
+
+        foreach (var ship in _shipManager._ships)
+        {
+            if (!ship.IsPlayerShip) continue;
+
+            ShipPlacer[] placers = ship.GetComponentsInChildren<ShipPlacer>();
+            foreach (var placer in placers)
+            {
+                Tile tile = placer.GetTile();
+                if (tile != null && tile.IsOccupied)
+                {
+                    playerTiles.Add(tile);
+                }
+            }
+        }
+
+        return playerTiles;
     }
     
 }
