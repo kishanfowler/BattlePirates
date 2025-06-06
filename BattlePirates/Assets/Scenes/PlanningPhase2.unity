@@ -401,6 +401,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3eb682095f89a643a4219973d6c26ab, type: 3}
+--- !u!114 &378131844 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4731286965725286060, guid: b3eb682095f89a643a4219973d6c26ab, type: 3}
+  m_PrefabInstance: {fileID: 378131843}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d40ff91f81b0514594cea94905e603e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &435798533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1088,6 +1099,18 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 893375672600196148, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
+      propertyPath: GridManager
+      value: 
+      objectReference: {fileID: 5674461756513230063}
+    - target: {fileID: 893375672600196148, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
+      propertyPath: ShipManager
+      value: 
+      objectReference: {fileID: 378131844}
+    - target: {fileID: 893375672600196148, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
+      propertyPath: AIGridManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 893375672600196148, guid: 5e1f9ee91bfc70244997525d41bca13f, type: 3}
       propertyPath: DutchManPrefab
       value: 
       objectReference: {fileID: 6177699777948466291, guid: cdb4e325027dc1d49b8e4c18855a01bd, type: 3}
@@ -1209,6 +1232,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54f527a9c907de14dbf8a1a00ca421c4, type: 3}
+--- !u!114 &5674461756513230063 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6971134434123039428, guid: 54f527a9c907de14dbf8a1a00ca421c4, type: 3}
+  m_PrefabInstance: {fileID: 5674461756513230062}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95534a47d2be403468fd8c2973db834a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
