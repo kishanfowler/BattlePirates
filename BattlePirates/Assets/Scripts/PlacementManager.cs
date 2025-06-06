@@ -140,7 +140,6 @@ public class PlacementManager : MonoBehaviour
     // Plaatsing van het schip
     public void PlaceShip()
     {
-        Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         var tile = _gridManager.GetTileAtWorldPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         if (tile)
         {
