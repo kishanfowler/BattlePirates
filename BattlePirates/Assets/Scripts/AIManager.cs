@@ -179,7 +179,7 @@ public class AIManager : MonoBehaviour
                 _timeWaiting = 0;
             }
         }
-        
+
         if (_gameManager.GameState == GameStates.PlayerTurn && _gridManager.AreAllAIShipTilesHit())
         {
             _buttonHandler.ShowVictoryScreen();

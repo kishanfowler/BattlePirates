@@ -37,5 +37,22 @@ public class ShipBase : MonoBehaviour
                 }
             }
         }
+        else if(!IsPlayerShip && !ShipDestroyed && _gameManager.GameState != GameStates.PreparationPhase)
+        {
+            int j = 0;
+            for (int i = 0; i < OccupiedTileLocations.Count; i++)
+            {
+                if (_gameManager.GridManager.GetTileAtWorldPosition(OccupiedTileLocations[i]).IsHit)
+                {
+                    j++;
+                }
+                if (j == OccupiedTileLocations.Count)
+                {
+                    j = 0;
+                    ShipDestroyed = true;
+                    gameObject.GetComponent<SpriteRenderer>().enabled = true;
+                }
+            }
+        }
     }
 }
