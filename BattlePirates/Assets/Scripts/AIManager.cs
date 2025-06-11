@@ -70,19 +70,14 @@ public class AIManager : MonoBehaviour
         _aiGridManager = AIShootingGrid.GetComponent<GridManager>();
         _buttonHandler = UIPlaying.GetComponent<ButtonHandler>();
         _shipManager = FindFirstObjectByType<ShipManager>(); // Consider dependency injection here too
+        
+    }
+    private void Start()
+    {
         _gameManager = GameManager.GameManagerInstance;
         if (_gameManager == null)
         {
             Debug.LogError("GameManager instance not found.");
-            enabled = false;
-            return;
-        }
-    }
-    private void Start()
-    {
-        if (_gameManager == null)
-        {
-            Debug.LogError("GameManager reference not set.");
             enabled = false;
             return;
         }

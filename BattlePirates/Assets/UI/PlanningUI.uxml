@@ -81,6 +81,12 @@
             </engine:VisualElement>
         </engine:VisualElement>
     </engine:VisualElement>
+    <engine:VisualElement name="TurnExplanation" style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; background-image: none; display: flex;">
+        <engine:VisualElement name="HelpText" style="flex-grow: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Art/TurnExplanation5.png?fileID=2800000&amp;guid=51dd78f6fca6869448201a613ebc2096&amp;type=3#TurnExplanation5&quot;); background-size: contain; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgba(0, 0, 0, 0); -unity-background-scale-mode: scale-to-fit; visibility: visible;" />
+        <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; width: 60%; height: 10%; align-self: center;">
+            <engine:Button name="CloseExplanation" style="width: 100%; align-self: center; height: 100%; background-image: url(&quot;project://database/Assets/Art/UI/Screenshot%202025-05-22%20152908.png?fileID=2800000&amp;guid=5ee98de0559668c47a5a993c3ea97e12&amp;type=3#Screenshot 2025-05-22 152908&quot;); background-size: contain; background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+        </engine:VisualElement>
+    </engine:VisualElement>
     <engine:VisualElement name="HelpScreen" style="flex-grow: 0; flex-shrink: 0; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/Art/help.png?fileID=2800000&amp;guid=9f527af466fbb7240bf8110aeb190e06&amp;type=3#help&quot;); display: none;">
         <engine:Button text="Button" name="CloseHelpButton" style="background-image: url(&quot;project://database/Assets/Art/UI/help_button.png?fileID=2800000&amp;guid=e8b0433c67af47f4d8ae28586ed9b9e9&amp;type=3#help_button&quot;); color: rgba(27, 27, 27, 0); width: 50px; height: 50px; align-items: auto; background-color: rgba(188, 188, 188, 0); margin-top: 30px; margin-left: 30px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
         <engine:VisualElement name="HelpText" style="flex-grow: 0; width: 100%; height: 100%;">

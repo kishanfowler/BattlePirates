@@ -224,7 +224,6 @@ MonoBehaviour:
   GridPositions: {fileID: 1989245823}
   AIShootingGrid: {fileID: 591641320}
   UIPlaying: {fileID: 460398466}
-  GameManager: {fileID: 0}
   ShipPrefabs:
   - {fileID: 5892430735984906873, guid: 1ddf5bbf8e0d013479e416dab821f3a7, type: 3}
   - {fileID: 7662655176840426533, guid: 963aa4364a49cbc4b9f2c6a7bc1b3d4b, type: 3}
@@ -679,6 +678,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI-Playing
       objectReference: {fileID: 0}
+    - target: {fileID: 5325773140049534147, guid: 441a82db17ef65f468547e03677a3d64, type: 3}
+      propertyPath: UIDocument
+      value: 
+      objectReference: {fileID: 1247554846}
     - target: {fileID: 7579501024840154497, guid: 441a82db17ef65f468547e03677a3d64, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -724,6 +727,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 441a82db17ef65f468547e03677a3d64, type: 3}
+--- !u!114 &1247554846 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3576047110379895334, guid: 441a82db17ef65f468547e03677a3d64, type: 3}
+  m_PrefabInstance: {fileID: 1247554845}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460398466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1365538356 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6502243358548705082, guid: ae31a78bfa96fc742b44bcd4fdd0719d, type: 3}

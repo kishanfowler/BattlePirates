@@ -3,25 +3,27 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class ButtonHandler : MonoBehaviour
 {
-    public UIDocument uiDocument;
-    private Dictionary<string, Action> _ButtonActions;
-    private VisualElement _Help;
-    private VisualElement _HelpScreen;
-    private VisualElement _SettingsPanel;
-    private VisualElement _PowerUpPanel;
-    private Button _SettingsButton;
-    private VisualElement _SplashScreen;
-    private VisualElement _ConfirmationScreen;
-    private Button _ActualQuitButton;
-    private Button _CancelButton;
-    private VisualElement _ConfirmationScreenForfeit;
-    private Button _ActualForfeitButton;
-    private VisualElement _VictoryScreen;
-    private VisualElement _PortraitElement;
-    public VisualElement _DefeatScreen;
+    public UIDocument UIDocument;
+    private Dictionary<string, Action> _buttonActions;
+    private VisualElement _help;
+    private VisualElement _helpScreen;
+    private VisualElement _settingsPanel;
+    private VisualElement _powerUpPanel;
+    private Button _settingsButton;
+    private VisualElement _splashScreen;
+    private VisualElement _turnExplanationScreen;
+    private VisualElement _confirmationScreen;
+    private Button _actualQuitButton;
+    private Button _cancelButton;
+    private VisualElement _confirmationScreenForfeit;
+    private Button _actualForfeitButton;
+    private VisualElement _victoryScreen;
+    private VisualElement _portraitElement;
+    private VisualElement _defeatScreen;
     private AIManager _aiManager;
     private Button _powerUpButton;
     private List<VisualElement> _captainPortraits;
@@ -43,8 +45,8 @@ public class ButtonHandler : MonoBehaviour
         {
             _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         }
-        var root = uiDocument.rootVisualElement;
-        _ButtonActions = new Dictionary<string, Action>
+        var root = UIDocument.rootVisualElement;
+        _buttonActions = new Dictionary<string, Action>
         {
             { "Play", Play },
             { "SettingsButton", ToggleSettings },
@@ -56,6 +58,7 @@ public class ButtonHandler : MonoBehaviour
             { "Again", Again},
             { "MainMenu", MainMenu},
             { "SplashScreen", SplashScreen},
+            { "CloseExplanation", TurnExplanation},
             { "ActualQuitButton", ActualQuit},
             { "Cancel", Cancel},
             { "CancelForfeit", CancelForfeit},
@@ -65,15 +68,16 @@ public class ButtonHandler : MonoBehaviour
             { "NextPowerButton", NextPowerUp},
             { "ActivatePowerUpButton", DoPowerUp},
         };
-        _PortraitElement = root.Q<VisualElement>("CaptainPortrait");
-        _ConfirmationScreen = root.Q<VisualElement>("ConfirmationScreen");
-        _ConfirmationScreenForfeit = root.Q<VisualElement>("ConfirmationScreenForfeit");
-        _SettingsPanel = root.Q<VisualElement>("SettingsPanel");
-        _PowerUpPanel = root.Q<VisualElement>("PowerUpChoice");
-        _HelpScreen = root.Q<VisualElement>("HelpScreen");
-        _SplashScreen = root.Q<VisualElement>("SplashScreen");
-        _VictoryScreen = root.Q<VisualElement>("VictoryScreen");
-        _DefeatScreen = root.Q<VisualElement>("DefeatScreen");
+        _portraitElement = root.Q<VisualElement>("CaptainPortrait");
+        _confirmationScreen = root.Q<VisualElement>("ConfirmationScreen");
+        _confirmationScreenForfeit = root.Q<VisualElement>("ConfirmationScreenForfeit");
+        _settingsPanel = root.Q<VisualElement>("SettingsPanel");
+        _powerUpPanel = root.Q<VisualElement>("PowerUpChoice");
+        _helpScreen = root.Q<VisualElement>("HelpScreen");
+        _splashScreen = root.Q<VisualElement>("SplashScreen");
+        _turnExplanationScreen = root.Q<VisualElement>("TurnExplanation");
+        _victoryScreen = root.Q<VisualElement>("VictoryScreen");
+        _defeatScreen = root.Q<VisualElement>("DefeatScreen");
         _powerUps = new List<AttackManager.SpecialAttacks>
         {
             AttackManager.SpecialAttacks.Mist,
@@ -109,39 +113,39 @@ public class ButtonHandler : MonoBehaviour
             }
 
             // Zet de afbeelding op de VisualElement background
-            _PortraitElement.style.backgroundImage = new StyleBackground(portraitTexture);
+            _portraitElement.style.backgroundImage = new StyleBackground(portraitTexture);
         }
         
-        foreach (var kvp in _ButtonActions)
+        foreach (var kvp in _buttonActions)
         {
             Button button = root.Q<Button>(kvp.Key);
-            if (_ActualForfeitButton != null)
+            if (_actualForfeitButton != null)
             {
-                _ConfirmationScreenForfeit.style.display = DisplayStyle.None;
+                _confirmationScreenForfeit.style.display = DisplayStyle.None;
             }
-            if (_HelpScreen != null)
+            if (_helpScreen != null)
             {
-                _ConfirmationScreen.style.display = DisplayStyle.None;
-                _HelpScreen.style.display = DisplayStyle.None;
-            }
-
-            if (_VictoryScreen != null)
-            {
-                _VictoryScreen.style.display = DisplayStyle.None;
+                _confirmationScreen.style.display = DisplayStyle.None;
+                _helpScreen.style.display = DisplayStyle.None;
             }
 
-            if (_DefeatScreen != null)
+            if (_victoryScreen != null)
             {
-                _DefeatScreen.style.display = DisplayStyle.None;
+                _victoryScreen.style.display = DisplayStyle.None;
+            }
+
+            if (_defeatScreen != null)
+            {
+                _defeatScreen.style.display = DisplayStyle.None;
             }
             if (button != null)
             {
                 string buttonName = kvp.Key;
                 button.clicked += () => OnButtonClicked(buttonName);
             }
-            if (_SettingsPanel != null)
+            if (_settingsPanel != null)
             {
-                _SettingsPanel.style.display = DisplayStyle.None;
+                _settingsPanel.style.display = DisplayStyle.None;
             }
             // else
             // {
@@ -219,12 +223,12 @@ public class ButtonHandler : MonoBehaviour
     private void SelectPowerUp()
     {
         _gameManager.PowerUpChosen = true;
-        _PowerUpPanel.style.display = DisplayStyle.None;
+        _powerUpPanel.style.display = DisplayStyle.None;
     }
 
     private void CancelForfeit()
     {
-        _ConfirmationScreenForfeit.style.display = DisplayStyle.None;
+        _confirmationScreenForfeit.style.display = DisplayStyle.None;
     }
 
     private void ActualForfeit()
@@ -241,7 +245,7 @@ public class ButtonHandler : MonoBehaviour
 
     private void Cancel()
     {
-        _ConfirmationScreen.style.display = DisplayStyle.None;
+        _confirmationScreen.style.display = DisplayStyle.None;
     }
 
     private void ActualQuit()
@@ -255,15 +259,21 @@ public class ButtonHandler : MonoBehaviour
 
     private void SplashScreen()
     {
-        if (_SplashScreen != null)
+        if (_splashScreen != null)
         {
-            _SplashScreen.style.display = DisplayStyle.None;
+            _splashScreen.style.display = DisplayStyle.None;
+        }
+    }private void TurnExplanation()
+    {
+        if (_turnExplanationScreen != null)
+        {
+            _turnExplanationScreen.style.display = DisplayStyle.None;
         }
     }
 
     private void OnButtonClicked(string buttonName)
     {
-        if (_ButtonActions.TryGetValue(buttonName, out var action))
+        if (_buttonActions.TryGetValue(buttonName, out var action))
         {
             action.Invoke();
         }
@@ -282,36 +292,36 @@ public class ButtonHandler : MonoBehaviour
 
     private void Forfeit()
     {
-        _ConfirmationScreenForfeit.style.display = DisplayStyle.Flex;
+        _confirmationScreenForfeit.style.display = DisplayStyle.Flex;
     }
 
     public void ShowVictoryScreen()
     {
         GameObject.Find("AttackManager").gameObject.GetComponent<AttackManager>().enabled = false;
-        _VictoryScreen.style.display = DisplayStyle.Flex;
+        _victoryScreen.style.display = DisplayStyle.Flex;
     }
 
     public void ShowDefeatScreen()
     {
         GameObject.Find("AttackManager").gameObject.GetComponent<AttackManager>().enabled = false;
-        _DefeatScreen.style.display = DisplayStyle.Flex;
+        _defeatScreen.style.display = DisplayStyle.Flex;
     }
     private void Help()
     {
         Debug.Log("Help Button clicked. Opening Help Box");
-        if (_HelpScreen.style.display == DisplayStyle.None)
-            _HelpScreen.style.display = DisplayStyle.Flex;
+        if (_helpScreen.style.display == DisplayStyle.None)
+            _helpScreen.style.display = DisplayStyle.Flex;
     }
 
     private void CloseHelp()
     {
-        _HelpScreen.style.display = DisplayStyle.None;
+        _helpScreen.style.display = DisplayStyle.None;
     }
     private void QuitGame()
     {
-        if (_ConfirmationScreen.style.display == DisplayStyle.None)
+        if (_confirmationScreen.style.display == DisplayStyle.None)
         {
-            _ConfirmationScreen.style.display = DisplayStyle.Flex;
+            _confirmationScreen.style.display = DisplayStyle.Flex;
         }
     }
     private void Play()
@@ -330,24 +340,24 @@ public class ButtonHandler : MonoBehaviour
     }
     private void ToggleSettings()
     {
-        if (_SettingsPanel == null)
+        if (_settingsPanel == null)
         {
             Debug.LogError("SettingsPanel niet Beschikbaar");
             return;
         }
     
-        if (_SettingsPanel.style.display == DisplayStyle.None)
+        if (_settingsPanel.style.display == DisplayStyle.None)
         {
-            _SettingsPanel.style.display = DisplayStyle.Flex;
+            _settingsPanel.style.display = DisplayStyle.Flex;
         }
         else
         {
-            _SettingsPanel.style.display = DisplayStyle.None;
+            _settingsPanel.style.display = DisplayStyle.None;
         }
     }
 
     private void CloseSettings()
     {
-        _SettingsPanel.style.display = DisplayStyle.None;
+        _settingsPanel.style.display = DisplayStyle.None;
     }
 }

@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        _shipList = new List<ShipBase>();
         _timer = TimerTime * 60;
         if (GameManagerInstance != null)
         {
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
             // Dit is in een andere scene maar hij heeft wel dezelfe naam
             GridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
             AIGridManager = GameObject.Find("AIGridManager").GetComponent<GridManager>();
+            ShipManager = GameObject.Find("ShipManager").GetComponent<ShipManager>();
             _timerText = GameObject.Find("TimerText").GetComponent<Text>();
             _doOnce = true;
             if (_shipList.Count <= 0)
