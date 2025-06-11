@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject DutchManPrefab;
     [SerializeField] private int TimerTime;
-    private List<ShipBase> _shipList;
+    private List<ShipBase> _shipList = new();
     private int _timer;
     private Text _timerText;
     private bool _doOnce = false;
@@ -37,26 +37,32 @@ public class GameManager : MonoBehaviour
         GameState = GameStates.PreparationPhase;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
-        ShipManager = ShipManager.ShipManagerInstance;
         GridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
+    }
+
+    private void Start()
+    {
+        ShipManager = ShipManager.ShipManagerInstance;
+        if (_shipList.Count <= 0)
+        {
+            _shipList = ShipManager._ships;
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        ShipManager = GameObject.Find("ShipManager").GetComponent<ShipManager>();
-        if (_shipList != null || _shipList.Count <= 0)
-        {
-            _shipList = ShipManager._ships;
-        }
         if(scene.name == "PlayingPhase2")
         {
-            // Dit is een andere scene maar hij heeft wel dezelfe naam
+            // Dit is in een andere scene maar hij heeft wel dezelfe naam
             GridManager = GameObject.Find("GridManager").GetComponent<GridManager>();
             AIGridManager = GameObject.Find("AIGridManager").GetComponent<GridManager>();
             ShipManager = GameObject.Find("ShipManager").GetComponent<ShipManager>();
             _timerText = GameObject.Find("TimerText").GetComponent<Text>();
             _doOnce = true;
-            
+            if (_shipList.Count <= 0)
+            {
+                _shipList = ShipManager._ships;
+            }
         }
     }
     
