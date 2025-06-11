@@ -143,14 +143,10 @@ public class PlacementManager : MonoBehaviour
         var tile = _gridManager.GetTileAtWorldPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         if (tile)
         {
-            _ship.transform.position = tile.TileMiddle;
+            _ship.transform.position = new Vector3(tile.TileMiddle.x, tile.TileMiddle.y, -1);
         }
         if (_ship.OccupiedTileLocations != null)
         {
-            for (int i = 0; i < _ship.OccupiedTileLocations.Count; i++)
-            {
-                transform.position = new Vector3(tile.TileMiddle.x, tile.TileMiddle.y, - 1);
-            }
             for (int i = 0; i < _ship.OccupiedTileLocations.Count; i++)
             {
                 _gridManager.GetTileAtWorldPosition(_ship.OccupiedTileLocations[i]).OnOccupy();
@@ -165,7 +161,16 @@ public class PlacementManager : MonoBehaviour
         List<Vector2> tilePositions = gridManager.GetAllTilePositions();
         Vector2 direction = Ship.IsHorizontal? Vector2.right: Vector2.up;
         Vector3 position = Ship.transform.position;
-        Vector2 shipStartPos = new Vector2(position.x, position.y);
+        int ShipMidpoint;
+        if(Ship.ShipLength == 2)
+        {
+           ShipMidpoint = Mathf.FloorToInt((Ship.ShipLength - 1) / 2);
+        }
+        else
+        {
+            ShipMidpoint = Mathf.CeilToInt((Ship.ShipLength - 1) / 2);
+        }
+        Vector2 shipStartPos = new Vector2(((position.x * Mathf.Max(direction.x,1)) - (direction.x * GameManager.BetterClamp(ShipMidpoint, 0, 2))), ((position.y * Mathf.Max(direction.x, 1)) - (direction.y * GameManager.BetterClamp(ShipMidpoint, 0, 2))));
         tilesToOccupy = new List<Vector2>();
 
 
@@ -189,6 +194,7 @@ public class PlacementManager : MonoBehaviour
         }
         foreach (var pos in tilesToOccupy)
         {
+            Ship.OccupiedTileLocations.Add(pos);
             gridManager.SetTileOccupied(pos,true);
         }
         return true;
